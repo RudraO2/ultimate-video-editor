@@ -1,66 +1,50 @@
 # Handoff
 
-Updated 2026-10-30 (after O1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
+Updated 2026-10-30 (after M1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step M1 (Easy and Advanced modes)
+## Next task: step B1 (phase B starts: screen recording)
 
-M1 is one chat: it writes its own plan (lettered sub-steps M1a, M1b, … under a new "Plan of M1 (modes)" here), then does them all, saving an "M1 progress" note here after each.
+B1 is one chat: it writes phase B's numbered steps into `docs/PLAN.md` (if missing), then its own plan (lettered sub-steps B1a, B1b, … under a new "Plan of B1" here), then does them all, saving a "B1 progress" note here after each and committing and pushing to `main` after each.
 
 Paste this into a new chat:
 
 ```
 Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
 never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
-"Next task" and "Last chunk"; docs/PLAN.md "Phase Q" status lines (the ones naming Easy and
-Advanced modes) and "Order of work"; docs/research/atomcut-inspiration.md "OpenCode inside the app
-(step O1 research)". Search docs/HISTORY.md only when a detail is needed (O1 for the chat panel).
+"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B) and key decision 5 (OpenScreen
+is reused in Phase B). Search docs/HISTORY.md only when a detail is needed (M1 for the modes and
+chat; A4 for media import).
 
-Do ONE step only: M1, Easy and Advanced modes, whole, in this chat. Goal: the editor opens in an
-Easy mode for people who just want a video (the OpenCode chat front and centre, the preview, a
-simple timeline, export; the agent does the work, the person nudges it), and an Advanced mode with
-every panel as now (inspector, keyframes, curves, nodes, colour, mixer, all rail tabs). One switch,
-remembered across launches; both modes edit the same project through the same commands, so work
-moves freely between them. Research first: how AtomCut presents its simple and pro surfaces (study
-the live app over CDP if REA is up; else its bundled web-out), and what a first-time person needs to
-see. Decide which panels and controls each mode shows; match AtomCut's look. First write the lettered
-sub-steps (M1a, M1b, ...) under a new "Plan of M1 (modes)" in docs/HANDOFF.md, start at once and run
-through every sub-step without stopping (no plan mode, no waiting for approval). Owner's rule
-(2026-10-30): build everything first and test once at the end; usage is limited. After each
-sub-step: tests and type checks pass, then update the "M1 progress" note. Delegate bounded pieces to
-Sonnet subagents on separate files; the main chat verifies. Main-process changes and new files under
-skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user environment; dev
-does not rebuild the main process on edits). At the end, check both modes in the running app, with
-one short request to OpenCode in Easy mode; then follow the end-of-step rule at the top of
-docs/HANDOFF.md, update docs/PLAN.md and the Status in CLAUDE.md in one or two lines (details go to
-docs/HISTORY.md), and end your reply with the prompt for the next step (phase B, per docs/PLAN.md).
-Commit only when I ask; no AI attribution.
+Phase B (OpenScreen features) starts now. First, if docs/PLAN.md has no numbered phase B steps, write
+them there (B1, B2, … each one chat: recorder and capture helpers, cursor telemetry and auto-zoom as
+editable zoom keyframes, background/padding/rounded corners/shadow as layer properties, agent tools
+and skill). Then do ONE step only: B1, screen recording, whole, in this chat. Goal: record the screen
+(a display or a window, with system audio and the mic, optional webcam) from inside the editor, by
+hand and as an agent tool; the recording lands in the project as a clip (the file stays on disk, as
+every media file), with its cursor positions and clicks kept beside it for B2's auto-zoom. Research
+first: OpenScreen (MIT) on GitHub, its native capture helpers (Windows Graphics Capture), cursor
+telemetry and file layout; what Electron's desktopCapturer gives on Windows 11 with the Intel GPU
+only; keep OpenScreen's MIT notice for anything ported. It must work in both Easy and Advanced modes
+and from the chat ("record my screen for 20 seconds"). First write the lettered sub-steps (B1a, B1b,
+...) under a new "Plan of B1" in docs/HANDOFF.md, start at once and run through every sub-step
+without stopping (no plan mode, no waiting for approval). Owner's rule: build everything first and
+test once at the end; usage is limited. After each sub-step: tests and type checks pass, update the
+"B1 progress" note, commit and push to main (owner is the only author; no AI attribution). Delegate
+bounded pieces to Sonnet subagents on separate files; the main chat verifies. Main-process changes
+and new files under skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user
+environment). At the end, record a short clip in the running app by hand and once through OpenCode;
+then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in
+CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end your reply
+with the prompt for the next step (B2).
 ```
 
-### Plan of M1 (modes)
+## Last chunk: M1, Easy and Advanced modes, speaking to the chat (2026-10-30)
 
-Owner added on 2026-10-30: in both modes the chat edits the open project live by typing or **speaking in any language**, and "this" or "here" means what the person has selected and the playhead.
-
-- **M1a. Research and plan.** AtomCut has no simple or pro mode (bundled 4.9.0 web-out, chunk 5009). Instead it has a panel store: `left`, `inspector`, `timeline`, `mixer` shown or hidden per workspace (`default`, `flipbook`, `drawing`, `static`, chosen from the open frame) and remembered in localStorage; Focus mode (hides every panel); density `wide` or `compact` (panels as overlays); asking for the inspector shows it again and leaves Focus mode. Its chat is a cloud panel, not a layout. Notes go to the research doc.
-- **M1b. The mode.** `uiMode: 'easy' | 'advanced'` in the store, kept in localStorage (`uve.uiMode`), Easy on first launch; an Easy/Advanced switch at the top of the left rail; Main menu ▸ View has it too.
-- **M1c. Easy layout.** Chat (OpenCode) on the left at about 380 px, the preview, a simple timeline (timeline view only: no keyframes, curves, colour or nodes tabs, no mixer, no range buttons), Export on the right rail. Rail tabs: Chat, Media, Library. Undo and redo stay. Advanced is today's layout, unchanged.
-- **M1d. Where you are.** Each prompt carries a short editor context (open comp, size, length, playhead, selected layer with id, name, kind, times and text, mode) as a separate ACP text block. The transcript shows only what the person typed. `AGENTS.md` says that "this" and "here" mean the selection and the playhead.
-- **M1e. Speak to the chat.** A mic button in the composer: click to record, click again (or 30 s) to stop. Sarvam speech to text (`saaras:v3`, language detected) turns the speech into text, which is sent. Works in both modes.
-- **M1f. Finish.** Unit tests (context text, mode memory), one live check of both modes with one short request to OpenCode in Easy mode, docs (HISTORY, PLAN, CLAUDE.md status), then commit and push.
-
-### M1 progress
-
-- M1a done: plan written; repo pushed to `github.com/RudraO2/ultimate-video-editor` (private, `main`).
-- M1b and M1c done: `renderer/src/uiMode.ts` (`UiMode`, `MODE_TABS`, `readUiMode`, `tabForMode`, key `uve.uiMode`; tests in `uiMode.test.ts`); store `uiMode` and `setUiMode` (Easy forces the timeline view, closes plugin windows); rail `ModeSwitch` (Easy / Advanced) under the main menu, tabs per mode, a Chat tab (`ChatPanel`); right rail shows only Export in Easy; Main menu ▸ View ▸ Easy mode / Advanced mode; `App.tsx` remounts the panel groups per mode (Easy: chat 380 px, preview 70 %, no inspector, no bottom tabs); `Timeline simple` (timeline view only, no mixer, track toggles, record keys, range, close gaps or snapping buttons).
-- M1d and M1e done: `renderer/src/agent/chatContext.ts` (`editorContext(state)`: comp, size, fps, length, playhead, selected layer and its text, mode; tests in `chatContext.test.ts`); `opencode.prompt(text, context?)` (preload, main): the context goes as a leading ACP text part (≤ 4000 chars), never into the transcript; `AGENTS.md` bullet on "this" and "here"; `renderer/src/agent/micRecorder.ts` (MediaRecorder, 16 kHz mono, stops at 29 s, always releases the mic); ChatPanel mic button (Speak, Stop and send, Transcribing) → Sarvam STT (`saaras:v3`, language detected) → sent, or into the draft while busy. No Electron permission handler exists, so the mic is allowed by default.
-
-## Last chunk: O1, OpenCode as the only harness in the app (2026-10-30)
-
-- Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "S1 last chunk, O1 plan and progress"); files and names in `docs/HISTORY.md` ▸ O1; ACP facts in `docs/research/atomcut-inspiration.md` ▸ "OpenCode inside the app (step O1 research)".
-- Built: `main/opencode.ts` (finds or installs OpenCode 1.18.32, writes its own config folder and work folder with `AGENTS.md` and the skill, runs `opencode acp`, ACP client, permission questions relayed, Stop, model and effort, provider key with `safeStorage`), `shared/opencode.ts` (status, events, transcript reducer), preload `window.uve.opencode`, `components/ChatPanel.tsx` in the Agents tab (OpenCode / Other apps).
-- Permissions (owner's call): video work only, no questions: editor tools, read, search, web; file edits denied; shell runs media commands (`ffprobe`, `ffmpeg`, list, copy, move, mkdir) and asks for anything else.
-- Test: brief 01 (The Quiet Coast) made by OpenCode in the app on `opencode/glm-5.3-flash-free` (free, $0): 27 tool calls, none failed, own `view_frames`/`view_render` check, exported at −14 LUFS / −3.3 dBTP. In `~/Videos/UVE benchmarks/o1-opencode/` (`01-title-card-opencode.mp4`, `frames.png`).
-- Key: a new OpenCode Zen key saved by the owner in the panel (encrypted in `<user data>/opencode/key.bin`); OpenCode's own `auth.json` Zen key is expired.
-- Loose ends: chats are not kept across restarts (OpenCode can list and resume sessions: not wired); OpenCode is found on the machine, not bundled in a packaged build (no packaging config yet); the free GLM once claimed a tool result without calling the tool; the panel shows two titles (Agents, OpenCode); CDP `fill` does not reach React's textarea state (a real key press does); the OpenCode child is not killed if Electron is killed hard; the sound library has no composed music, so "music bed" briefs get an ambient loop.
+- Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "O1 last chunk, M1 plan and progress"); files and names in `docs/HISTORY.md` ▸ M1; AtomCut findings in `docs/research/atomcut-inspiration.md` ▸ "Easy and Advanced modes (step M1 research)".
+- Built: `uiMode.ts` and store `uiMode` (Easy on first launch, remembered in `uve.uiMode`), the Easy/Advanced switch in the left rail and Main menu ▸ View, the Easy layout (Chat, Media, Library tabs; chat 380 px; preview; `Timeline simple`; Export only on the right rail), `agent/chatContext.ts` (editor context sent ahead of every prompt, unseen in the transcript), `agent/micRecorder.ts` and the chat's mic button (Sarvam STT, any language).
+- Test: "इसे लाल कर दो" with a title selected turned it red in about 8 s and OpenCode answered in Hindi; the mic recorded, Sarvam transcribed and the chat sent it; Advanced showed the same project with every panel; the mode survived a reload.
+- Git (owner's rule from 2026-10-30): commit and push to `main` of `github.com/RudraO2/ultimate-video-editor` (private) after every sub-step, without asking; the owner is the only author.
+- Loose ends: the owner has not yet spoken a real sentence to it (only room sound was tested); no push-to-talk key; panel sizes per mode are not remembered; the Advanced Agents tab holds the same chat as Easy's Chat tab.
 
 ## Plan of Phase Q
 

@@ -278,6 +278,8 @@ Chunks, one chat each (plans per group are written in `docs/HANDOFF.md` as each 
 
 **O1 OpenCode done 2026-10-30:** OpenCode runs inside the app over ACP (`opencode acp`) with our MCP server and skill, in the Agents tab's chat (live messages, tool calls, questions, Stop, model and key), confined to video work; brief 01 made by it on Zen's free GLM. Claude Code and Codex stay outside, over MCP. Next: Easy and Advanced modes (M1), then phase B.
 
+**M1 modes done 2026-10-30:** Easy (chat, preview, simple timeline, Export) and Advanced (every panel), one switch remembered across launches; the chat carries where the person is (comp, playhead, selection) and takes speech in any language through Sarvam. Next: phase B.
+
 After phase Q: Sarvam (voice, timing from silences per scene take, localisation into Indian languages; the research notes have the timing findings; **an A/B test the owner judges by ear and eye:** our rebuild per language against Sarvam's Dubbing API on the same exported video, and a hybrid of the dubbed audio with our on-screen text and captions re-timed to it), OpenCode as the only harness inside the app (Claude Code and Codex keep driving over MCP from outside, to keep the owner's accounts safe), Easy and Advanced modes, then phase B.
 
 ### Later phases
