@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   FILLERS,
+  fitWordsToSpans,
   calibrateGate,
   compToMedia,
   endsClause,
@@ -378,5 +379,39 @@ describe('time mapping', () => {
   it('clips spans to the layer and drops those outside', () => {
     const spans = [{ startMs: 4000, endMs: 10000 }, { startMs: 0, endMs: 3000 }, { startMs: 4200, endMs: 4600 }]
     expect(spansToComp(layer, spans)).toEqual([{ startMs: 1000, endMs: 3000 }, { startMs: 1100, endMs: 1300 }])
+  })
+})
+
+describe('fitWordsToSpans', () => {
+  const w = (text: string, nearMs?: number) => ({ text, weight: 1, ...(nearMs !== undefined ? { nearMs } : {}) })
+  it('lays words over the stretches by length and prefers sentence ends', () => {
+    const words = [w('Hi'), w('there.'), w('This'), w('is'), w('a'), w('test.')]
+    const spans = [
+      { startMs: 0, endMs: 600 },
+      { startMs: 2000, endMs: 3200 },
+    ]
+    expect(fitWordsToSpans(words, spans)).toEqual([0, 0, 1, 1, 1, 1])
+  })
+
+  it('leaves a short noise stretch empty and follows the heard times', () => {
+    const words = [w('one', 1000), w('two.', 1300), w('three', 5000), w('four.', 5300)]
+    const spans = [
+      { startMs: 1000, endMs: 1600 },
+      { startMs: 3000, endMs: 3200 },
+      { startMs: 5000, endMs: 5600 },
+    ]
+    expect(fitWordsToSpans(words, spans)).toEqual([0, 0, 2, 2])
+  })
+})
+
+describe('planTighten retakes across sentence breaks', () => {
+  it('cuts the first try of a long run said again, even when the sentence breaks are wrong', () => {
+    const words = say(['so', 'and', 'the', 'editor', 'knows', 'what', 'you', 'said', 'and', 'and', 'the', 'editor', 'knows', 'what', 'you', 'said', 'and', 'where.'])
+    const r = planTighten({ words, durationMs: endOf(words) })
+    const retake = r.cuts.find((c) => c.kinds.includes('retake'))
+    expect(retake?.reason).toContain('retake: "and the editor knows what…"')
+    expect(retake?.startMs).toBeLessThanOrEqual(words[1]!.startMs)
+    expect(retake?.endMs).toBeLessThanOrEqual(words[9]!.startMs)
+    expect(retake?.endMs).toBeGreaterThanOrEqual(words[8]!.endMs)
   })
 })

@@ -408,6 +408,35 @@ export function planTighten(
   }
 
   if (retakes !== 'off') {
+    // A run of five or more words said again soon after (up to three words
+    // between, such as "sorry" or "uh"): the speaker started over, whatever the
+    // sentence breaks say.
+    for (let i = 0; i < words.length; ) {
+      let hit: { n: number; j: number } | null = null
+      for (let n = Math.min(30, Math.floor((words.length - i) / 2)); n >= 5 && !hit; n--) {
+        for (let between = 0; between <= 3 && !hit; between++) {
+          const j = i + n + between
+          if (j + n > words.length) continue
+          let same = true
+          for (let k = 0; k < n && same; k++) if (!norm[i + k] || norm[i + k] !== norm[j + k]) same = false
+          if (same && word(j).startMs - word(i + n - 1).endMs <= 4000) hit = { n, j }
+        }
+      }
+      if (!hit) {
+        i++
+        continue
+      }
+      const opening = words.slice(i, i + Math.min(hit.n, 5)).map((w) => w.text).join(' ')
+      if (retakes === 'flag') {
+        flags.push({ startMs: word(i).startMs, endMs: word(hit.j - 1).endMs, kind: 'possible-retake', reason: `possible retake: "${opening}…" said again at ${seconds(word(hit.j).startMs)} s` })
+      } else {
+        const prev = words[i - 1]
+        const lo = Math.min(word(i).startMs, Math.max(prev ? prev.endMs : -Infinity, word(i).startMs - pad / 2))
+        const hi = Math.min(word(hit.j).startMs, Math.max(word(hit.j - 1).endMs, word(hit.j).startMs - pad / 2))
+        add(lo, hi, 'retake', `retake: "${opening}…" said again at ${seconds(word(hit.j).startMs)} s`)
+      }
+      i = hit.j
+    }
     const sentences = sentencesOf(words)
     for (let s = 0; s < sentences.length; s++) {
       const S = sentences[s] as Sentence
@@ -494,6 +523,82 @@ export function planTighten(
   const removedMs = cuts.reduce((sum, c) => sum + (c.endMs - c.startMs), 0)
   const rounded = flags.map((f) => ({ ...f, startMs: round(f.startMs), endMs: round(f.endMs) }))
   return { cuts, flags: rounded, removedMs, keptMs: durationMs - removedMs, settings }
+}
+
+// ----------------------------------------------------------- word fitting
+
+/**
+ * Which stretch of heard speech each word belongs to. Speech to text gives
+ * words in order but loose times; the speech gate gives exact stretches of
+ * voice. Words are laid over the stretches in order so each stretch's length
+ * matches the words in it (by `weights`, e.g. syllables), a stretch may hold
+ * none (a breath, a cough), a stretch that ends on a sentence or a clause is
+ * preferred, and words stay near where speech to text heard them (`near`, ms;
+ * optional). A word's size is its heard length when every word has one
+ * (`heardMs`: the speaker's own pace, whatever the script it was written in),
+ * else its weight. Returns, per word, the index of its stretch.
+ */
+export function fitWordsToSpans(words: readonly { text: string; weight: number; nearMs?: number; heardMs?: number }[], spans: readonly Span[]): number[] {
+  const n = words.length
+  const m = spans.length
+  if (n === 0 || m === 0) return words.map(() => 0)
+  const heard = words.every((w) => w.heardMs !== undefined)
+  const size = (w: { weight: number; heardMs?: number }): number => (heard ? Math.max(80, w.heardMs as number) : Math.max(0.2, w.weight))
+  const total = words.reduce((sum, w) => sum + size(w), 0)
+  const speech = spans.reduce((sum, s) => sum + Math.max(1, s.endMs - s.startMs), 0)
+  const msPerWeight = speech / total
+  const prefix = [0]
+  for (const w of words) prefix.push((prefix.at(-1) as number) + size(w))
+  const groupCost = (i: number, j: number, s: number): number => {
+    // Words i..j-1 in stretch s.
+    const span = spans[s] as Span
+    const length = Math.max(1, span.endMs - span.startMs)
+    const expected = ((prefix[j] as number) - (prefix[i] as number)) * msPerWeight
+    const ratio = Math.log(length / expected)
+    let cost = ratio * ratio
+    const last = (words[j - 1] as { text: string }).text
+    if (endsSentence(last)) cost -= 0.6
+    else if (endsClause(last)) cost -= 0.3
+    const near = (words[i] as { nearMs?: number }).nearMs
+    // Loose: heard times are off exactly where a phrase straddles a pause.
+    if (near !== undefined) cost += (Math.max(0, Math.abs(span.startMs - near) - 4000) / 1000) * 0.3
+    return cost
+  }
+  const empty = (s: number): number => {
+    const length = (spans[s] as Span).endMs - (spans[s] as Span).startMs
+    return length < 350 ? 0.3 : 1 + length / 2000
+  }
+  // best[s][j]: the cheapest way to put the first j words in the first s stretches.
+  const best: number[][] = Array.from({ length: m + 1 }, () => new Array<number>(n + 1).fill(Number.POSITIVE_INFINITY))
+  const from: number[][] = Array.from({ length: m + 1 }, () => new Array<number>(n + 1).fill(-1))
+  ;(best[0] as number[])[0] = 0
+  for (let s = 1; s <= m; s++) {
+    const row = best[s] as number[]
+    const prev = best[s - 1] as number[]
+    const back = from[s] as number[]
+    for (let j = 0; j <= n; j++) {
+      let cost = (prev[j] as number) + empty(s - 1)
+      let pick = j
+      for (let i = 0; i < j; i++) {
+        if (!Number.isFinite(prev[i] as number)) continue
+        const c = (prev[i] as number) + groupCost(i, j, s - 1)
+        if (c < cost) {
+          cost = c
+          pick = i
+        }
+      }
+      row[j] = cost
+      back[j] = pick
+    }
+  }
+  const owner = new Array<number>(n).fill(0)
+  let j = n
+  for (let s = m; s >= 1; s--) {
+    const i = (from[s] as number[])[j] as number
+    for (let k = i; k < j; k++) owner[k] = s - 1
+    j = i
+  }
+  return owner
 }
 
 // ------------------------------------------------------------------ search

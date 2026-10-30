@@ -5,6 +5,7 @@ import {
   type Comp,
   defineCommand,
   findComp,
+  fitWordsToSpans,
   type FootageInfo,
   layerEnd,
   locateLayer,
@@ -23,6 +24,7 @@ import {
   TIGHTNESS,
   type Word,
 } from '@uve/core'
+import { alignWords, wordWeight } from '@uve/engine'
 import { z } from 'zod'
 import { sceneScores } from '../media/footageFrames'
 import { DECODE_RATE, decodeMono } from './voiceCommands'
@@ -74,12 +76,11 @@ function timingOf(layer: MediaLayer): MediaTiming {
 const round = (ms: number): number => Math.round(ms)
 
 /** Reads where the voice is and where the shots change (no words). */
-async function readFootage(media: MediaAsset, shots: boolean): Promise<FootageInfo> {
+async function readFootage(media: MediaAsset, shots: boolean, samples: Float32Array | null): Promise<FootageInfo> {
   const durationMs = media.durationMs ?? 0
   let gate: FootageInfo['gate'] = null
   let speech: Span[] = []
-  if (media.hasAudio !== false) {
-    const samples = await decodeMono(media.path)
+  if (samples) {
     const db = loudnessDb(samples, DECODE_RATE, FRAME_MS)
     const calibrated = calibrateGate(db)
     if ('gateDb' in calibrated) {
@@ -103,6 +104,29 @@ async function readFootage(media: MediaAsset, shots: boolean): Promise<FootageIn
     if (before?.description) shot.description = before.description
   }
   return { gate, speech, sceneThreshold, shots: cuts }
+}
+
+/**
+ * Word times fitted to the speech gate: speech to text hears the words but
+ * times them loosely (a phrase may straddle a pause), while the gate knows
+ * exactly where the voice is. Each stretch of voice gets the words that fit
+ * it, and they are aligned inside it.
+ */
+function retimeWords(samples: Float32Array, words: readonly Word[], spans: readonly Span[]): Word[] {
+  const owner = fitWordsToSpans(
+    words.map((w) => ({ text: w.text, weight: wordWeight(w.text), nearMs: w.startMs, heardMs: w.endMs - w.startMs })),
+    spans,
+  )
+  const out: Word[] = []
+  spans.forEach((span, s) => {
+    const group = words.filter((_, i) => owner[i] === s)
+    if (group.length === 0) return
+    const from = Math.floor((span.startMs / 1000) * DECODE_RATE)
+    const to = Math.min(samples.length, Math.ceil((span.endMs / 1000) * DECODE_RATE))
+    const timed = alignWords(samples.subarray(from, to), DECODE_RATE, group.map((w) => w.text))
+    timed.forEach((t, k) => out.push({ text: group[k]!.text, startMs: round(t.startMs + span.startMs), endMs: round(t.endMs + span.startMs) }))
+  })
+  return out
 }
 
 function round1(n: number): number {
@@ -188,16 +212,24 @@ export const mediaAnalyze = defineCommand({
     const call: Call = (name, value) => ctx.call(name, value)
     let { media, layer, comp } = footageOf(ctx.project, id)
     const notes: string[] = []
+    let samples: Float32Array | null = null
+    const sound = async () => (samples ??= await decodeMono(media.path))
     if (!media.footage || force) {
-      const footage = await readFootage(media, shots)
+      const footage = await readFootage(media, shots, media.hasAudio !== false ? await sound() : null)
       if (!footage.gate && media.hasAudio !== false) notes.push('Its quiet and loud parts are too close to tell speech from silence, so silence is left alone.')
       await must(call, 'media.footage', { mediaId: media.id, footage })
     }
     let costInr = 0
     if (words && media.hasAudio !== false && (force || needsWords(media))) {
       const heard = await call('media.transcribe', { id: media.id, ...(language ? { language } : {}), force: true, mode: 'verbatim' })
-      if (heard.ok) costInr = (heard.value as { costInr?: number }).costInr ?? 0
-      else notes.push(`No words: ${heard.error}${heard.hint ? ` ${heard.hint}` : ''} Pauses can still be cut from the speech gate.`)
+      if (heard.ok) {
+        costInr = (heard.value as { costInr?: number }).costInr ?? 0
+        const fresh = ctx.project.media.find((m) => m.id === media.id)
+        if (fresh?.speech && fresh.footage?.gate && fresh.footage.speech.length > 0) {
+          const words = retimeWords(await sound(), fresh.speech.words, fresh.footage.speech)
+          await must(call, 'media.speech', { mediaId: media.id, speech: { ...fresh.speech, words } })
+        }
+      } else notes.push(`No words: ${heard.error}${heard.hint ? ` ${heard.hint}` : ''} Pauses can still be cut from the speech gate.`)
     }
     media = ctx.project.media.find((m) => m.id === media.id) ?? media
     if (comp) comp = findComp(ctx.project, comp.id)
@@ -311,15 +343,15 @@ export const mediaRemovePauses = defineCommand({
       await must(call, 'timeline.markers', { compId: target.id, remove: 'cut' })
       await must(call, 'timeline.markers', { compId: target.id, remove: 'flag', ...(input.markers && flags.length > 0 ? { add: marks([], flags) } : {}) })
     }
-    // A frame that ended with its footage ends with it again.
+    // A frame whose footage reached (or ran past) its end ends with the footage again.
     const endAfter = contentEnd(target)
-    if (endBefore >= durationBefore - 50 && endAfter < durationBefore && endAfter > 0) {
+    if (endBefore >= durationBefore - 50 && Math.abs(endAfter - durationBefore) >= 1 && endAfter > 0) {
       await must(call, 'frame.update', { id: target.id, durationMs: Math.round(endAfter) })
     }
     return {
       compId: target.id,
       ...(input.variant ? { variantOf: comp.id } : {}),
-      layerId: targetLayer,
+      layerId: cut.pieces[0] ?? targetLayer,
       ...report,
       flags,
       removedMs: cut.removedMs,
