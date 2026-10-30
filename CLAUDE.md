@@ -47,7 +47,7 @@ Everything must also work by hand.
 - **O1 done (2026-10-30):** OpenCode inside app over ACP (`main/opencode.ts`, Agents tab ▸ OpenCode chat), own config folder, our MCP and skill, video-only permissions, key via `safeStorage`; default `opencode/glm-5.3-flash-free`; brief 01 made by it. Details in `docs/HISTORY.md` ▸ O1.
 - **M1 done (2026-10-30):** Easy (chat, preview, simple timeline, Export) and Advanced modes, switch remembered (`uve.uiMode`); chat sends editor context (selection, playhead) and takes speech in any language (Sarvam STT). Details in `docs/HISTORY.md` ▸ M1.
 - **F1 done (2026-10-30):** footage read once (`media_analyze`: Sarvam verbatim words fitted to a per-file speech gate, shots), `media_remove_pauses` (reasons, generous/balanced/tight, markers, `variant`), `media_search`, `timeline_place_broll`, `media_inspect`, Inspector ▸ Footage; format 19; skill 0.25.0. OpenCode cut a 79 s talking head to 59 s with B-roll in 101 s. Details in `docs/HISTORY.md` ▸ F1.
-- **Next: B1, screen recording** (phase B starts; prompt in `docs/HANDOFF.md` ▸ Next task).
+- **Next: H1, the hackathon** (owner, 2026-10-30: no new features before Ship Happens on 2026-10-31, track Culture Coded | Sarvam). OpenCode on Sarvam's API, Saaras v4, Bulbul v4 Flash, own-voice cloning, one rehearsed demo, the pitch. Prompt in `docs/HANDOFF.md` ▸ Next task. B1 deferred.
 - **Still to check by hand:** real Export save dialog (Ctrl+E, each format's filter, PNG sequence folder dialog) and "Show in folder"; project Save/Open dialogs and native close warning (CDP can't drive); adding server to Claude Code with `claude mcp add`.
 - **Git:** private repo `github.com/RudraO2/ultimate-video-editor`, branch `main` (first push 2026-10-30).
 

@@ -2,40 +2,58 @@
 
 Updated 2026-10-30 (after F1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step B1 (phase B starts: screen recording)
+## Next task: step H1 (hackathon: Sarvam everywhere, one purposeful demo, the pitch)
 
-B1 is one chat: it writes phase B's numbered steps into `docs/PLAN.md` (if missing), then its own plan (lettered sub-steps B1a, B1b, … under a new "Plan of B1" here), then does them all, saving a "B1 progress" note here after each and committing and pushing to `main` after each.
+Owner's call (2026-10-30): no new features before Ship Happens (2026-10-31). The track is "04. Culture Coded | Sarvam: Multilingual AI, voice tech, regional languages, accessibility, and technology built around culture and communities." B1 (screen recording) is deferred; its prompt is in `docs/handoff-archive.md` ▸ "B1 prompt (deferred)".
+
+Purpose (agreed): a voice-first video studio for people who speak but do not type English. They talk to it in their own language; it cuts their footage, captions it in their script and releases it in other Indian languages in their own voice. Hearing (Saaras), the agent's model (on Sarvam's API) and the voice (Bulbul, cloning) are all Sarvam.
+
+Checked live on 2026-10-30 (session scratchpad `f1/probe.py`):
+- `POST https://api.sarvam.ai/v2/chat/completions` serves `glm5.3-flash`, the model OpenCode already uses. It accepts `Authorization: Bearer <key>` and tool calls work. (`/v1` takes only `sarvam-105b`, which spent 400 reasoning tokens to answer "ready": too slow for the agent.)
+- `saaras:v4` speech to text works, including `mode: codemix` (Hinglish). Timestamps are still per phrase.
+- `bulbul:v4-flash` text to speech works (default speaker; 200+ persona voices per the docs).
+- Instant voice cloning (beta) works: `POST /voices/clone` (multipart: text, language_code, `ref_audio` up to 15 s and 10 MB, or a saved `voice_id` from `POST /voices/create`), answer `{audio_b64, audio_duration}`. It clones across languages. A 14-word Hindi line came back 2.7 s long: listen before relying on it.
+- Batch speech to text (up to 2 h, diarization up to 20 speakers, ₹0.59 a minute) was not tried.
 
 Paste this into a new chat:
 
 ```
 Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
 never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
-"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B) and key decision 5 (OpenScreen
-is reused in Phase B). Search docs/HISTORY.md only when a detail is needed (M1 for the modes and
-chat; A4 for media import).
+"Next task" and "Last chunk". Search docs/HISTORY.md only when a detail is needed (S1 for Sarvam,
+O1 for OpenCode, M1 for Easy mode and the chat, F1 for footage cutting).
 
-Phase B (OpenScreen features) starts now. First, if docs/PLAN.md has no numbered phase B steps, write
-them there (B1, B2, … each one chat: recorder and capture helpers, cursor telemetry and auto-zoom as
-editable zoom keyframes, background/padding/rounded corners/shadow as layer properties, agent tools
-and skill). Then do ONE step only: B1, screen recording, whole, in this chat. Goal: record the screen
-(a display or a window, with system audio and the mic, optional webcam) from inside the editor, by
-hand and as an agent tool; the recording lands in the project as a clip (the file stays on disk, as
-every media file), with its cursor positions and clicks kept beside it for B2's auto-zoom. Research
-first: OpenScreen (MIT) on GitHub, its native capture helpers (Windows Graphics Capture), cursor
-telemetry and file layout; what Electron's desktopCapturer gives on Windows 11 with the Intel GPU
-only; keep OpenScreen's MIT notice for anything ported. It must work in both Easy and Advanced modes
-and from the chat ("record my screen for 20 seconds"). First write the lettered sub-steps (B1a, B1b,
-...) under a new "Plan of B1" in docs/HANDOFF.md, start at once and run through every sub-step
-without stopping (no plan mode, no waiting for approval). Owner's rule: build everything first and
-test once at the end; usage is limited. After each sub-step: tests and type checks pass, update the
-"B1 progress" note, commit and push to main (owner is the only author; no AI attribution). Delegate
-bounded pieces to Sonnet subagents on separate files; the main chat verifies. Main-process changes
-and new files under skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user
-environment). At the end, record a short clip in the running app by hand and once through OpenCode;
-then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in
-CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end your reply
-with the prompt for the next step (B2).
+Do ONE step only: H1, the hackathon step, whole, in this chat. Ship Happens is on 2026-10-31,
+track "Culture Coded | Sarvam" (multilingual AI, voice tech, regional languages, accessibility,
+technology built around culture and communities). No features beyond these. Sub-steps:
+- H1a: OpenCode on Sarvam. A provider "Sarvam" in main/opencode.ts (OpenAI-compatible, base URL
+  https://api.sarvam.ai/v2, model glm5.3-flash, Bearer key from main/sarvam.ts, never sent to the
+  renderer). Default when a Sarvam key is set; OpenCode Zen stays as the fallback. Pick it in the
+  chat options. Show the spend in the Voice tab ledger if Sarvam reports usage.
+- H1b: Saaras v4 for speech to text (codemix mode for mixed speech in media_analyze and the chat
+  mic; verbatim stays for cutting) and Bulbul v4 Flash voices in voices_list and generate_speech
+  (speakers from the docs; v3 kept as a fallback).
+- H1c: your own voice. generate_speech {voice: "clone", reference} and comp_localize {ownVoice:
+  true}: a 10–15 s clean stretch of the speaker's own take (from media.footage speech spans) is the
+  reference; a consent line in the tool details and the Voice tab. Check the clone's length against
+  the text (the 2.7 s probe); split long lines under 1,000 characters.
+- H1d: the demo, rehearsed. The owner records a real 1–2 minute Hinglish talking head. Run in Easy
+  mode by voice in Hindi: cut (media_remove_pauses), captions in Devanagari, B-roll if given, a
+  music bed and the sound pass, then a Tamil (or Bengali) version in the owner's own voice. Fix
+  only bugs on this path. Polish the look so it reads as a real creator video (caption style, a
+  lower third, the bed). Run it 3 times; time each; record one clean run as the backup video.
+- H1e: the pitch. docs/pitch.md: a 3-minute talk track (one person and the problem in the first
+  20 seconds, the live demo, the numbers: seconds, ₹ per video, against Sarvam Dubbing from
+  docs/benchmarks/results.md ▸ S1, everything on Sarvam and Indian infrastructure, then why an
+  editor with assets beats video-as-code), likely judge questions with answers, and the run sheet.
+First write the lettered sub-steps under a new "Plan of H1" in docs/HANDOFF.md, then start at once
+and run through every sub-step without stopping (no plan mode). Ask the owner only for the recording
+in H1d. After each sub-step: tests and type checks pass, update the "H1 progress" note, commit and
+push to main (owner is the only author; no AI attribution). Delegate bounded pieces to Sonnet
+subagents on separate files; the main chat verifies. Main-process changes need a restart of
+pnpm dev (start it with SARVAM_API_KEY set from the user environment). Then follow the end-of-step
+rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in CLAUDE.md in one or two
+lines, commit and push, and end your reply with the prompt for the next step (B1, from the archive).
 ```
 
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
