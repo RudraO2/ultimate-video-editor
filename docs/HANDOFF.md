@@ -15,45 +15,27 @@ Checked live on 2026-10-30 (session scratchpad `f1/probe.py`):
 - Instant voice cloning (beta) works: `POST /voices/clone` (multipart: text, language_code, `ref_audio` up to 15 s and 10 MB, or a saved `voice_id` from `POST /voices/create`), answer `{audio_b64, audio_duration}`. It clones across languages. A 14-word Hindi line came back 2.7 s long: listen before relying on it.
 - Batch speech to text (up to 2 h, diarization up to 20 speakers, ₹0.59 a minute) was not tried.
 
-Paste this into a new chat:
+### H1 progress (2026-10-30, night)
+
+- H1a done, checked live: OpenCode's Sarvam provider (`sarvam/glm5.3-flash`, base `https://api.sarvam.ai/v2`, key in env `UVE_SARVAM_CHAT_KEY` only for OpenCode). It is the default when a Sarvam key is set and no model was picked before, and a new chat keeps the picked model. A Hindi request made a real edit in 9 s, and the footer reads "Sarvam (India)/GLM 5.3 Flash on Sarvam". The owner's saved model is now Sarvam's.
+- H1b done: Saaras v4 for all speech to text (codemix for the chat mic; verbatim for footage); `BULBUL_V4_FLASH_SPEAKERS` (224, taken from the API's own error message) and `v4SpeakerFor` (a narrator of the language); `voices_list` gives `v4Voices`.
+- H1c done, checked live: `generate_speech {voice: "clone", reference, referenceStartMs?}` and `comp_localize {ownVoice}`. The main process calls `POST /voices/clone` (≤ 1,000 characters, a 12 s reference picked from the take's richest speech window, cached, ₹2 per 1,000). A Hindi line in the cloned voice came back 6.8 s long; the 2.7 s probe was a shell encoding problem. Skill 0.26.0 has two lines (own voice, v4 voices).
+- H1e done: `docs/pitch.md` (one line, the 3-minute talk track, numbers, judge questions, run sheet).
+- H1d left for the owner at the venue: record the real Hinglish clip, rehearse three times, record the backup video. Not built: a consent line in the Voice tab (the tool details say it) and a by-hand "my voice" button.
+
+Paste this into a new chat (the morning of 2026-10-31):
 
 ```
-Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
-never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
-"Next task" and "Last chunk". Search docs/HISTORY.md only when a detail is needed (S1 for Sarvam,
-O1 for OpenCode, M1 for Easy mode and the chat, F1 for footage cutting).
-
-Do ONE step only: H1, the hackathon step, whole, in this chat. Ship Happens is on 2026-10-31,
-track "Culture Coded | Sarvam" (multilingual AI, voice tech, regional languages, accessibility,
-technology built around culture and communities). No features beyond these. Sub-steps:
-- H1a: OpenCode on Sarvam. A provider "Sarvam" in main/opencode.ts (OpenAI-compatible, base URL
-  https://api.sarvam.ai/v2, model glm5.3-flash, Bearer key from main/sarvam.ts, never sent to the
-  renderer). Default when a Sarvam key is set; OpenCode Zen stays as the fallback. Pick it in the
-  chat options. Show the spend in the Voice tab ledger if Sarvam reports usage.
-- H1b: Saaras v4 for speech to text (codemix mode for mixed speech in media_analyze and the chat
-  mic; verbatim stays for cutting) and Bulbul v4 Flash voices in voices_list and generate_speech
-  (speakers from the docs; v3 kept as a fallback).
-- H1c: your own voice. generate_speech {voice: "clone", reference} and comp_localize {ownVoice:
-  true}: a 10–15 s clean stretch of the speaker's own take (from media.footage speech spans) is the
-  reference; a consent line in the tool details and the Voice tab. Check the clone's length against
-  the text (the 2.7 s probe); split long lines under 1,000 characters.
-- H1d: the demo, rehearsed. The owner records a real 1–2 minute Hinglish talking head. Run in Easy
-  mode by voice in Hindi: cut (media_remove_pauses), captions in Devanagari, B-roll if given, a
-  music bed and the sound pass, then a Tamil (or Bengali) version in the owner's own voice. Fix
-  only bugs on this path. Polish the look so it reads as a real creator video (caption style, a
-  lower third, the bed). Run it 3 times; time each; record one clean run as the backup video.
-- H1e: the pitch. docs/pitch.md: a 3-minute talk track (one person and the problem in the first
-  20 seconds, the live demo, the numbers: seconds, ₹ per video, against Sarvam Dubbing from
-  docs/benchmarks/results.md ▸ S1, everything on Sarvam and Indian infrastructure, then why an
-  editor with assets beats video-as-code), likely judge questions with answers, and the run sheet.
-First write the lettered sub-steps under a new "Plan of H1" in docs/HANDOFF.md, then start at once
-and run through every sub-step without stopping (no plan mode). Ask the owner only for the recording
-in H1d. After each sub-step: tests and type checks pass, update the "H1 progress" note, commit and
-push to main (owner is the only author; no AI attribution). Delegate bounded pieces to Sonnet
-subagents on separate files; the main chat verifies. Main-process changes need a restart of
-pnpm dev (start it with SARVAM_API_KEY set from the user environment). Then follow the end-of-step
-rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in CLAUDE.md in one or two
-lines, commit and push, and end your reply with the prompt for the next step (B1, from the archive).
+Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY docs/HANDOFF.md
+"Next task" (with "H1 progress") and docs/pitch.md. H1a-c and H1e are done; do H1d only: the demo
+rehearsal. Start pnpm dev with SARVAM_API_KEY set from the user environment (and
+UVE_REMOTE_DEBUG_PORT=9222 so you can watch over CDP). The owner gives a real Hinglish talking-head
+clip. Run the pitch's demo in Easy mode exactly as docs/pitch.md says (mic, Hindi request: cut,
+Devanagari captions, a Tamil version in the owner's own voice), time each run, and fix only bugs on
+this path, small and safe (the hackathon is today). After each fix: tests and type checks pass,
+commit and push to main (owner is the only author). Put the real numbers into docs/pitch.md. Help
+the owner export the best run as the backup video. Then update "H1 progress", PLAN.md and the
+CLAUDE.md Status in one line each, commit and push.
 ```
 
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)

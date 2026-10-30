@@ -1,7 +1,7 @@
 ---
 name: uve
 description: How to design, animate and edit in Ultimate Video Editor through its MCP tools. Use for any request to make or change something in an Ultimate Video Editor project.
-version: 0.25.0
+version: 0.26.0
 ---
 
 # Working in Ultimate Video Editor
@@ -355,6 +355,8 @@ Voices come from Sarvam (Bulbul): Hindi, Bengali, Tamil, Telugu, Kannada, Malaya
 - **Words are timed for you.** Each take keeps its script and word times (`media.speech`): `media_transcribe {id, captions: true}` turns a placed take into a word-synced caption; the words also tell you when to land a beat (a pop on the key word, a cut at a phrase end).
 - **Another language:** `comp_localize {compId, language, keep: ["BrandName"]}` makes a copy of the comp that speaks it: text translated, each take spoken again, a take that runs long read up to 1.25× faster and then given room (everything after waits), captions re-timed. Run it once per language from the original. `text_translate` alone translates text layers.
 - **Scripts render themselves:** text in Devanagari, Bengali, Tamil, Telugu, Kannada, Malayalam, Gujarati, Gurmukhi or Odia falls back to the Noto family of its script, so any Latin display face keeps its Latin letters and the rest draws correctly. To set the whole line in one face, pick a Google family that has the script (`fonts_list {script: "devanagari"}` (or tamil, bengali…): Mukta, Hind, Baloo 2, Tiro Devanagari Hindi).
+- **In the speaker's own voice** ("in my voice", a dub of the user's own talking head): Sarvam's instant voice cloning, only for the user's own voice or one they have the right to use. `comp_localize {language, ownVoice: true}` re-speaks each audio take in its own speaker's voice. For a talking-head video: `media_analyze` it, `text_translate` each sentence, `generate_speech {lines, language, voice: "clone", reference: <the video layer>, place: {startMs}}` one line per sentence at that sentence's time, then mute the video (`layer_patch {id, ops: [{op: "set", path: "muted", value: true}]}`) and caption the new takes (`media_transcribe {id, captions: true}`). A cloned line is at most 1,000 characters.
+- **Newest voices:** `model: "bulbul:v4-flash"` (more natural, cheaper); its speakers are named name_language_style (`voices_list {language}` gives `v4Voices`); without one, a narrator of the language is picked.
 - `sarvam_usage` shows what this editor has spent; a failed call says when the key is missing or credits are used up: stop and tell the user.
 
 ## Sounds on motion (the sounds stack)
