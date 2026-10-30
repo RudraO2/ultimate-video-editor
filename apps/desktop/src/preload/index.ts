@@ -191,8 +191,8 @@ const api = {
     start: (): Promise<OpenCodeStatus> => ipcRenderer.invoke('opencode:start'),
     /** Starts a new chat (the transcript is cleared by a `reset` event). */
     newChat: (): Promise<OpenCodeStatus> => ipcRenderer.invoke('opencode:new-chat'),
-    /** Sends a request; resolves once it finished (a `turn-end` or `error` event tells the chat). */
-    prompt: (text: string): Promise<void> => ipcRenderer.invoke('opencode:prompt', text),
+    /** Sends a request; resolves once it finished (a `turn-end` or `error` event tells the chat). The editor's context goes ahead of it, unseen in the transcript. */
+    prompt: (text: string, context?: string): Promise<void> => ipcRenderer.invoke('opencode:prompt', text, context),
     /** Stops the running request. */
     cancel: (): Promise<void> => ipcRenderer.invoke('opencode:cancel'),
     /** Answers a permission question with one of its options, or null to refuse. */

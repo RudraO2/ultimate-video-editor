@@ -7,11 +7,16 @@ import {
   CircleCheck,
   CircleDot,
   LoaderCircle,
+  Mic,
+  MicOff,
   SlidersHorizontal,
   Square,
   SquarePen,
 } from 'lucide-react'
-import { Fragment, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Fragment, type ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { editorContext } from '../agent/chatContext'
+import { type MicRecording, startRecording } from '../agent/micRecorder'
+import { encodeWav } from '../agent/voiceCommands'
 import { type ChatItem, type OpenCodeStatus, toolLabel } from '../../../shared/opencode'
 import { useEditor } from '../store'
 
@@ -355,6 +360,82 @@ function Transcript({ items, onPick }: { items: ChatItem[]; onPick: (text: strin
   )
 }
 
+/** Sarvam's and the microphone's errors, without Electron's "Error invoking remote method" wrapper. */
+const plainError = (error: unknown): string => (error instanceof Error ? error.message : String(error)).replace(/^Error invoking remote method '[^']+': (Error: )?/, '')
+
+type MicState = 'idle' | 'recording' | 'transcribing'
+
+/**
+ * Speaking to the chat: record from the microphone, write it down with Sarvam
+ * (any language), then hand the words to `onText`. Problems show as a notice.
+ */
+function useMic(onText: (text: string) => void) {
+  const [state, setState] = useState<MicState>('idle')
+  const [seconds, setSeconds] = useState(0)
+  const recording = useRef<MicRecording | null>(null)
+  const latest = useRef(onText)
+  latest.current = onText
+
+  // A tab closed mid-recording must not leave the microphone on.
+  useEffect(() => () => recording.current?.cancel(), [])
+
+  // The clock the button shows.
+  useEffect(() => {
+    if (state !== 'recording') return
+    setSeconds(0)
+    const from = Date.now()
+    const timer = setInterval(() => setSeconds(Math.floor((Date.now() - from) / 1000)), 250)
+    return () => clearInterval(timer)
+  }, [state])
+
+  const finish = useCallback(async () => {
+    const current = recording.current
+    if (!current) return
+    recording.current = null
+    setState('transcribing')
+    const { notify } = useEditor.getState()
+    try {
+      const samples = await current.stop()
+      // Under a third of a second is a mis-click, not speech.
+      if (samples.length < 5000) {
+        notify('Nothing was heard. Click the microphone, speak, then click it again.')
+        return
+      }
+      const answer = await window.uve.sarvam.stt({ wav: encodeWav(samples, 16000) })
+      const text = answer.transcript.trim()
+      if (text) latest.current(text)
+      else notify('Nothing was heard. Click the microphone, speak, then click it again.')
+    } catch (error) {
+      notify(`Could not write down what you said: ${plainError(error)}`, 'error')
+    } finally {
+      setState('idle')
+    }
+  }, [])
+
+  const toggle = useCallback(async () => {
+    if (state === 'recording') {
+      void finish()
+      return
+    }
+    if (state !== 'idle') return
+    const { notify } = useEditor.getState()
+    try {
+      const sarvam = await window.uve.sarvam.status()
+      if (!sarvam.hasKey) {
+        notify('Speaking to the chat needs a Sarvam key: add it in the Voice tab.', 'error')
+        return
+      }
+      recording.current = await startRecording(() => void finish())
+      setState('recording')
+    } catch (error) {
+      const denied = error instanceof DOMException && (error.name === 'NotAllowedError' || error.name === 'NotFoundError')
+      notify(denied ? 'The microphone is not available. Plug one in or allow it in Windows settings, then try again.' : `Could not start the microphone: ${plainError(error)}`, 'error')
+    }
+  }, [state, finish])
+
+  return { state, seconds, toggle }
+}
+
 /** The OpenCode chat. */
 export function ChatPanel() {
   const status = useEditor((s) => s.opencodeStatus)
@@ -380,22 +461,33 @@ export function ChatPanel() {
     el.style.height = `${Math.min(el.scrollHeight, COMPOSER_MAX_PX)}px`
   }, [draft])
 
-  if (!bridge) {
-    return <p className="px-6 pt-8 text-center text-[11px] leading-relaxed text-muted">The OpenCode chat needs a newer app build. Restart the editor.</p>
-  }
-
-  const canSend = (status.state === 'ready' || status.state === 'stopped') && draft.trim() !== ''
-  const send = async () => {
-    const text = draft.trim()
-    if (!text || !(status.state === 'ready' || status.state === 'stopped')) return
+  const usable = status.state === 'ready' || status.state === 'stopped'
+  const send = async (words = draft) => {
+    const text = words.trim()
+    if (!text || !bridge || !usable) return
     setDraft('')
     try {
       if (status.state === 'stopped') await bridge.start()
-      await bridge.prompt(text)
+      // The editor's context rides along with every message: where the playhead is and what is selected.
+      await bridge.prompt(text, editorContext(useEditor.getState()))
     } catch {
       // The error event shows the failure in the transcript.
     }
   }
+  // Spoken words are sent at once when OpenCode can take them; otherwise they wait in the composer.
+  const mic = useMic((text) => {
+    if (usable && !status.busy) void send(text)
+    else {
+      setDraft((d) => (d.trim() ? `${d.trimEnd()} ${text}` : text))
+      area.current?.focus()
+    }
+  })
+
+  if (!bridge) {
+    return <p className="px-6 pt-8 text-center text-[11px] leading-relaxed text-muted">The OpenCode chat needs a newer app build. Restart the editor.</p>
+  }
+
+  const canSend = usable && draft.trim() !== ''
   const modelName = status.models.find((m) => m.value === status.model)?.name ?? status.model
 
   return (
@@ -447,6 +539,30 @@ export function ChatPanel() {
             }}
             className="min-w-0 flex-1 resize-none bg-transparent py-1 text-[12px] leading-[18px] text-ink outline-none placeholder:text-muted"
           />
+          <button
+            type="button"
+            aria-label={mic.state === 'recording' ? 'Stop and send' : mic.state === 'transcribing' ? 'Transcribing' : 'Speak'}
+            title={mic.state === 'recording' ? 'Stop and send' : mic.state === 'transcribing' ? 'Transcribing…' : 'Speak in any language'}
+            aria-pressed={mic.state === 'recording'}
+            disabled={status.busy || mic.state === 'transcribing'}
+            onClick={() => void mic.toggle()}
+            className={`flex h-7 shrink-0 items-center justify-center gap-1 rounded-full disabled:opacity-40 ${
+              mic.state === 'recording' ? 'active-tint min-w-7 px-2' : mic.state === 'transcribing' ? 'size-7 text-muted' : 'size-7 text-muted hover:bg-hover hover:text-ink'
+            }`}
+          >
+            {mic.state === 'recording' ? (
+              <>
+                <span className="size-1.5 shrink-0 animate-pulse rounded-full bg-accent" aria-hidden />
+                <span className="text-[11px] tabular-nums">{mic.seconds}s</span>
+              </>
+            ) : mic.state === 'transcribing' ? (
+              <LoaderCircle size={14} className="animate-spin" aria-hidden />
+            ) : status.busy ? (
+              <MicOff size={14} aria-hidden />
+            ) : (
+              <Mic size={14} aria-hidden />
+            )}
+          </button>
           {status.busy ? (
             <button
               type="button"

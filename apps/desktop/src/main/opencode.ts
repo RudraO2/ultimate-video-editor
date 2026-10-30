@@ -109,6 +109,7 @@ You are the agent built into Ultimate Video Editor, a motion design and video ed
 - This folder is only your scratch space: the project lives in the editor, not in files. Do not write code or files to make a video.
 - Media the person names is on this computer: pass absolute paths to \`media_import\`.
 - Look at your work (\`view_render\`, \`view_frames\`) before you say it is done, then answer in a few plain sentences.
+- Each message may start with an "Editor context" block. The editor wrote it, not the person: it says which comp is open, where the playhead is and what is selected. "This", "that", "here" and "it" mean the selected layer and the playhead in it. Act on the selection unless the person names something else. Keep answers short and in the person's language.
 `
 
 /** Shell commands that only look at, convert or arrange media; the last matching rule wins. */
@@ -454,8 +455,13 @@ function stop(): void {
   proc?.kill()
 }
 
-async function prompt(text: string): Promise<void> {
+/** Longest editor context sent ahead of a message. */
+const CONTEXT_MAX = 4000
+
+async function prompt(text: string, context?: string): Promise<void> {
   if (typeof text !== 'string' || text.trim() === '') return
+  // The context is the editor's, not the person's: it goes to the agent but not into the transcript.
+  const lead = typeof context === 'string' && context.trim() !== '' ? [{ type: 'text', text: context.slice(0, CONTEXT_MAX) }] : []
   if (status.busy) throw new Error('OpenCode is still working on the last request. Stop it first.')
   await start()
   if (status.state !== 'ready' || !status.sessionId) {
@@ -465,7 +471,7 @@ async function prompt(text: string): Promise<void> {
   setStatus({ busy: true })
   emit({ type: 'prompt', text, at: Date.now() })
   try {
-    const result = await request<{ stopReason?: string }>('session/prompt', { sessionId: status.sessionId, prompt: [{ type: 'text', text }] }, null)
+    const result = await request<{ stopReason?: string }>('session/prompt', { sessionId: status.sessionId, prompt: [...lead, { type: 'text', text }] }, null)
     emit({ type: 'turn-end', stopReason: result?.stopReason ?? 'end_turn', at: Date.now() })
   } catch (error) {
     emit({ type: 'error', message: error instanceof Error ? error.message : String(error), at: Date.now() })
@@ -527,7 +533,7 @@ export function handleOpenCode(): void {
   ipcMain.handle('opencode:status', () => status)
   ipcMain.handle('opencode:start', () => start())
   ipcMain.handle('opencode:new-chat', () => newChat())
-  ipcMain.handle('opencode:prompt', (_event, text: unknown) => prompt(text as string))
+  ipcMain.handle('opencode:prompt', (_event, text: unknown, context?: unknown) => prompt(text as string, typeof context === 'string' ? context : undefined))
   ipcMain.handle('opencode:cancel', () => cancel())
   ipcMain.on('opencode:answer', (_event, id: unknown, optionId: unknown) => {
     if (typeof id === 'string') questions.get(id)?.(typeof optionId === 'string' ? optionId : null)
