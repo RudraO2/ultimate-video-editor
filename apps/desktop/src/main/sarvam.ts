@@ -9,6 +9,7 @@ import {
   type SarvamUsage,
   type SttRequest,
   type SttResult,
+  STT_MODES,
   TRANSLATE_MODES,
   TTS_MODELS,
   type TranslateRequest,
@@ -232,7 +233,10 @@ async function stt(req: SttRequest): Promise<SttResult> {
   if (seconds > STT_MAX_SECONDS + 0.5) throw new Error(`Speech to text takes ${STT_MAX_SECONDS} seconds at most; this is ${Math.round(seconds)}.`)
   const language = req.language && req.language !== 'unknown' ? (languageCode(req.language) ?? req.language) : 'unknown'
   const model = req.model ?? 'saaras:v3'
-  const key = sha(req.wav, stableKey({ language, model }))
+  // Verbatim keeps fillers and false starts (what footage cutting needs); the cache key
+  // leaves the default mode out so earlier entries still hit.
+  const mode = req.mode && req.mode !== 'transcribe' ? req.mode : undefined
+  const key = sha(req.wav, stableKey({ language, model, ...(mode ? { mode } : {}) }))
   const cache = await readJson<Record<string, SttCached>>('stt.json', {})
   const hit = cache[key]
   if (hit) return { ...hit, cached: true, costInr: 0 }
@@ -241,6 +245,7 @@ async function stt(req: SttRequest): Promise<SttResult> {
   form.append('model', model)
   form.append('language_code', language)
   form.append('with_timestamps', 'true')
+  if (mode) form.append('mode', mode)
   const answer = await call('/speech-to-text', form)
   const transcript = typeof answer.transcript === 'string' ? answer.transcript : ''
   const stamps = answer.timestamps as { words?: unknown; start_time_seconds?: unknown; end_time_seconds?: unknown } | null | undefined
@@ -322,7 +327,9 @@ function parseStt(v: unknown): SttRequest {
   const wav = v.wav
   if (!(wav instanceof Uint8Array)) throw new Error('wav must be the bytes of a WAV file.')
   if (wav.byteLength > MAX_WAV_BYTES) throw new Error('That sound file is too large.')
-  return { wav, language: optString(v.language, 'language'), model: optString(v.model, 'model') }
+  const mode = optString(v.mode, 'mode')
+  if (mode !== undefined && !(STT_MODES as readonly string[]).includes(mode)) throw new Error(`Unknown speech to text mode "${mode}".`)
+  return { wav, language: optString(v.language, 'language'), model: optString(v.model, 'model'), ...(mode ? { mode: mode as SttRequest['mode'] } : {}) }
 }
 
 export function handleSarvam(): void {

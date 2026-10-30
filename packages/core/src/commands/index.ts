@@ -27,6 +27,7 @@ import { keyframesSmooth } from './smooth'
 import { apiDescribe, docOverview, layerGet, layerProperties, layersList } from './read'
 import { timelineCloseGaps, timelineCompact, timelineCutRanges } from './ripple'
 import { timelineInsertTime } from './insertTime'
+import { mediaDescribeShots, mediaFootage, timelineMarkers } from './footage'
 import { timelineMove, timelineSplit, timelineTrim } from './timeline'
 import { transitionAdd, transitionRemove } from './transition'
 import { trackCreate, trackDelete, trackUpdate } from './track'
@@ -127,6 +128,9 @@ export const CORE_COMMANDS = [
   scriptRun,
   mediaEnvelope,
   mediaSpeech,
+  mediaFootage,
+  mediaDescribeShots,
+  timelineMarkers,
   scriptSave,
   scriptList,
   scriptRead,

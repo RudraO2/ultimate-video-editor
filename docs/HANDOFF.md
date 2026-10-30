@@ -54,6 +54,21 @@ Status in CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit 
 your reply with the prompt for the next step (B1, from the archive).
 ```
 
+## Plan of F1 (written 2026-10-30)
+
+Times: analysis is in media time; a layer maps it to comp time by `startMs + (mediaMs - sourceStartMs) / playbackRate`.
+
+- **F1a, core.** Format 19: `media.footage` (gate, speech ranges, shots with descriptions, scene threshold) and comp `markers` (review marks). Pure module `packages/core/src/footage.ts`: gate calibration (trough + 0.6 × (peak − trough), clamp −60…−24 dB, refuse under 12 dB), speech ranges from 20 ms loudness, scene threshold (mean + 2.5 sd, 0.15…0.40) and shots, filler lists per language (English, Hindi in Devanagari and Latin, a few more Indian languages), tighten plan (head/tail air, long pauses with breathing room ×2.5 / ×1.5, fillers, false starts, retakes, handles, slivers, reasons, swallowed-retake flags; generous/balanced/tight), sentences, footage search (words with in/out selects, shot descriptions), B-roll placement (inside a sentence, inset 0.15 s, ≥ 0.8 s, never over protected beats, relevance ≥ 0.35), media↔comp time. Core commands `media.footage` (store), `media.describe_shots`, `timeline.markers`. Tests.
+- **F1b, analysis (desktop).** `media.analyze` (loudness gate and speech ranges from the decoded sound; Sarvam STT in verbatim mode, ≤ 30 s pieces, words aligned; shots from a frame-difference scene score over small frames via mediabunny; cached on the media, reused); host tool `media_inspect` (contact sheet of a shot or range of a media file, with the words spoken in it; text-only answer with `frames: 0`). Sarvam STT `mode`.
+- **F1c, cutting (desktop).** `media.remove_pauses` (AtomCut's shape plus `tightness`, `fillers`, `falseStarts`, `retakes`, `markers`, `variant`): dryRun gives the plan with reasons; apply cuts in one step (in place via `timeline.cut_ranges`, or into a duplicated frame with `variant`). `media.search`, `timeline.place_broll`.
+- **F1d, by hand.** Inspector ▸ Footage section on video/audio layers (Analyse, transcript and shots, tightness, Mark, Cut, as new comp); timeline draws markers; chat example in Easy mode.
+- **F1e, skill and docs.** Skill 0.25.0: "Footage" section and recipe "Rough cut from raw footage" (analyse, plan, review, apply, B-roll, captions, sound pass); `docs/core-api.md` rows.
+- **F1f, live test.** Talking-head test file (Sarvam TTS lines, pauses, fillers, a retake) and a screen-recording-like clip; OpenCode in Easy mode cuts and adds B-roll; timed. End-of-step docs.
+
+### F1 progress
+
+- F1a, F1b, F1c done (code; live check at F1f): format 19 (`media.footage`, comp `markers`), `core/src/footage.ts` (+ tests), core commands `media.footage`, `media.describe_shots`, `timeline.markers` (`commands/footage.ts`); desktop `agent/footageCommands.ts` (`media.analyze`, `media.remove_pauses`, `media.search`, `timeline.place_broll`), `agent/footageInspect.ts` (host tool `media_inspect`), `media/footageFrames.ts` (scene scores, stills); Sarvam STT `mode: verbatim` (main change: restart `pnpm dev`), `media.transcribe {mode}`.
+
 ## Last chunk: M1, Easy and Advanced modes, speaking to the chat (2026-10-30)
 
 - Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "O1 last chunk, M1 plan and progress"); files and names in `docs/HISTORY.md` ▸ M1; AtomCut findings in `docs/research/atomcut-inspiration.md` ▸ "Easy and Advanced modes (step M1 research)".

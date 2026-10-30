@@ -74,7 +74,7 @@ export async function renderStills(
 }
 
 /** Lays stills out in a grid close to 16:9, each labelled with its time, the whole sheet `longSide` pixels across its long side. */
-export function contactSheet(stills: readonly OffscreenCanvas[], times: readonly number[], longSide: number): OffscreenCanvas {
+export function contactSheet(stills: readonly OffscreenCanvas[], times: readonly number[], longSide: number, labels?: readonly string[]): OffscreenCanvas {
   const first = stills[0]
   if (!first) throw new Error('No frames to lay out.')
   const gap = 6
@@ -106,7 +106,7 @@ export function contactSheet(stills: readonly OffscreenCanvas[], times: readonly
     const x = gap + (index % columns) * (tileWidth + gap)
     const y = gap + Math.floor(index / columns) * (tileHeight + gap)
     ctx.drawImage(still, x, y, tileWidth, tileHeight)
-    const label = `${((times[index] ?? 0) / 1000).toFixed(2)} s`
+    const label = labels?.[index] ?? `${((times[index] ?? 0) / 1000).toFixed(2)} s`
     const pad = Math.round(fontSize / 3)
     const width = ctx.measureText(label).width + pad * 2
     ctx.fillStyle = 'rgba(0, 0, 0, 0.7)'

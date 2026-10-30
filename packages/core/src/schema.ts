@@ -965,6 +965,17 @@ export const WorldSchema = z.strictObject({
   fog: WorldFogSchema.prefault({}),
 })
 
+export const MARKER_KINDS = ['cut', 'flag', 'note'] as const
+
+/** A mark on a comp's ruler: a moment or a span, with a label (a planned cut and its reason, a flag for a person, a note). */
+export const MarkerSchema = z.strictObject({
+  id: IdSchema,
+  startMs: z.number().min(0).describe('Comp ms'),
+  durationMs: z.number().min(0).default(0).describe('0 marks a moment'),
+  kind: z.enum(MARKER_KINDS).default('note'),
+  label: z.string().default(''),
+})
+
 export const CompSchema = z.strictObject({
   id: IdSchema,
   name: z.string().min(1),
@@ -992,6 +1003,7 @@ export const CompSchema = z.strictObject({
   world: WorldSchema.optional().describe('Present on a 3D world (world.create): its render settings and fog'),
   soundMix: SoundMixSchema.prefault({}).describe("The frame's mix: master fader, leveler (loudness per category) and limiter (frame.update soundMix)"),
   physics: PhysicsSceneSchema.optional().describe('Physics of the comp: gravity, floor, walls, speed (physics.scene); absent until set'),
+  markers: z.array(MarkerSchema).default([]).describe('Review marks on the ruler (timeline.markers): planned cuts, flags, notes'),
 })
 
 export const MEDIA_KINDS = ['video', 'image', 'audio', 'model'] as const
@@ -1029,6 +1041,28 @@ export const SpeechInfoSchema = z.strictObject({
   source: z.string().nullable().default(null).describe('The media id of the take this one translates, if any'),
 })
 
+const SpanSchema = z.strictObject({ startMs: z.number().min(0), endMs: z.number().min(0) })
+
+/** What footage holds, read once and kept on its media (media.analyze): where the voice is and where the shots change. Times are ms from the start of the file. */
+export const FootageInfoSchema = z.strictObject({
+  gate: z
+    .strictObject({ gateDb: z.number(), troughDb: z.number(), peakDb: z.number() })
+    .nullable()
+    .default(null)
+    .describe('The speech gate calibrated for this file; null when its quiet and loud parts are too close to tell (then nothing is cut for silence)'),
+  speech: z.array(SpanSchema).default([]).describe('Where someone is speaking (louder than the gate)'),
+  sceneThreshold: z.number().min(0).max(1).nullable().default(null).describe('The scene-change score a cut needed; null for sound only'),
+  shots: z
+    .array(
+      SpanSchema.extend({
+        score: z.number().min(0).max(1).default(0).describe('How sharp the change into this shot is'),
+        description: z.string().nullable().default(null).describe('One line on what the shot shows (media.describe_shots)'),
+      }),
+    )
+    .default([])
+    .describe('Shots from start to end; one shot for a file with no picture changes'),
+})
+
 export const MediaAssetSchema = z.strictObject({
   id: IdSchema,
   kind: z.enum(MEDIA_KINDS),
@@ -1049,6 +1083,7 @@ export const MediaAssetSchema = z.strictObject({
     .optional()
     .describe("A voice's loudness over time, traced from its audio, so talk and nod are pure functions of the document"),
   speech: SpeechInfoSchema.optional().describe('What a voice take says and when (generate_speech, media_transcribe): its script, language, voice and word times'),
+  footage: FootageInfoSchema.optional().describe('Speech gate, speech ranges and shots read from the file (media.analyze), so cuts and searches reuse them'),
   silhouette: z
     .array(z.array(z.tuple([z.number(), z.number()])))
     .optional()
@@ -1169,6 +1204,8 @@ export type JointType = (typeof JOINT_TYPES)[number]
 export type Comp = z.infer<typeof CompSchema>
 export type ScriptFile = z.infer<typeof ScriptFileSchema>
 export type MediaAsset = z.infer<typeof MediaAssetSchema>
+export type FootageInfo = z.infer<typeof FootageInfoSchema>
+export type Marker = z.infer<typeof MarkerSchema>
 export type SpeechInfo = z.infer<typeof SpeechInfoSchema>
 export type SpeechWord = z.infer<typeof SpeechWordSchema>
 export type MediaKind = MediaAsset['kind']

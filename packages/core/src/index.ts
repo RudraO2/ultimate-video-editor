@@ -235,3 +235,4 @@ export { type ScriptRunHandle, type ScriptRunRecord, ScriptRuns, type ScriptRunS
 export { type ScriptError, type ScriptHere, type ScriptLog, type ScriptOutcome } from './script/runtime'
 export { fitPace, type PlacedTake, takeSlots } from './localize'
 export { insertTime } from './commands/insertTime'
+export * from './footage'

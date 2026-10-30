@@ -14,6 +14,7 @@ import { hasUnsavedChanges, newProject, openProjectFrom, saveProjectTo } from '.
 import { activeComp, session, useEditor } from '../store'
 import { editorView, registerDesktopCommands } from './commands'
 import { captureConsole } from './console'
+import { MediaInspectInput, mediaInspect } from './footageInspect'
 import { contactSheet, DETAIL_PX, type Detail, encodePicture, type Region, renderStills } from './view'
 
 // Answers agents' tool calls, relayed by the main process from the MCP server.
@@ -152,6 +153,19 @@ const HOST_TOOLS: HostTool[] = [
       'WATCH motion: a contact sheet of a comp at several instants in one image, each tile labelled with its time. The cheapest way to judge an animation or pacing. 4 to 9 tiles; by default it spans the whole comp, or the working range when one is on (session_set {workRange}). A static frame is one picture: you get one tile at its still.',
     input: ViewFramesInput,
     run: viewFrames,
+  },
+  {
+    name: 'media_inspect',
+    description:
+      "LOOK at footage: a contact sheet of a video file's own frames (not the comp). With no shot or range, one tile per shot (from media_analyze), the whole file at a glance; with shot or fromMs/toMs, frames spread inside it. The text gives each shot's times and description and the words said there. frames: 0 answers in text only (use it when you cannot see images). Then write what each shot shows with media_describe_shots.",
+    input: MediaInspectInput,
+    run: async (args: z.output<typeof MediaInspectInput>) => {
+      try {
+        return await mediaInspect(args)
+      } catch (error) {
+        return thrown(error)
+      }
+    },
   },
   {
     name: 'history_undo',

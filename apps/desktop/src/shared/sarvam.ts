@@ -138,11 +138,15 @@ export interface TranslateResult {
   costInr: number
 }
 
+/** Saaras modes: transcribe (clean text) or verbatim (every filler and false start kept). */
+export const STT_MODES = ['transcribe', 'verbatim'] as const
+
 export interface SttRequest {
   /** A WAV file, 30 seconds at most. */
   wav: Uint8Array
   language?: string
   model?: string
+  mode?: (typeof STT_MODES)[number]
 }
 
 export interface SttSegment {

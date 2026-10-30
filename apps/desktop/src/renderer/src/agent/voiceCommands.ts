@@ -2,7 +2,7 @@ import { CommandError, type CommandResult, defineCommand, findComp, locateLayer,
 import { alignWords, layoutText, scriptFontsOf, speechSpan, splitWords } from '@uve/engine'
 import { z } from 'zod'
 import { mediaUrl } from '../../../shared/media'
-import { BULBUL_V3_SPEAKERS, DEFAULT_SPEAKER, languageCode, SARVAM_LANGUAGES, SARVAM_PRICES, STT_MAX_SECONDS, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
+import { BULBUL_V3_SPEAKERS, DEFAULT_SPEAKER, languageCode, SARVAM_LANGUAGES, SARVAM_PRICES, STT_MAX_SECONDS, STT_MODES, type SttRequest, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { mediaInput } from '../media/import'
 import { probeMedia } from '../media/probe'
 import { loadFont } from '../library/fonts'
@@ -16,9 +16,10 @@ import { useEditor } from '../store'
 // other languages follow the words.
 
 type Call = (name: string, input: unknown) => Promise<CommandResult>
+type SttMode = NonNullable<SttRequest['mode']>
 
 /** The rate takes are decoded at for timing: plenty for speech, small in memory. */
-const DECODE_RATE = 16000
+export const DECODE_RATE = 16000
 
 /** A Sarvam failure as a command error: the main process's message without Electron's wrapping. */
 function sarvamError(error: unknown): CommandError {
@@ -259,7 +260,7 @@ export const generateSpeech = defineCommand({
 })
 
 /** Sarvam's speech to text over a whole file: pieces of at most STT_MAX_SECONDS cut at the quietest moment, each with its phrases. */
-async function transcribeSamples(samples: Float32Array, language: string | undefined): Promise<{ text: string; language: string | null; phrases: { text: string; startMs: number; endMs: number }[]; costInr: number }> {
+async function transcribeSamples(samples: Float32Array, language: string | undefined, mode?: SttMode): Promise<{ text: string; language: string | null; phrases: { text: string; startMs: number; endMs: number }[]; costInr: number }> {
   const limit = Math.floor((STT_MAX_SECONDS - 1) * DECODE_RATE)
   const phrases: { text: string; startMs: number; endMs: number }[] = []
   let detected: string | null = null
@@ -283,7 +284,7 @@ async function transcribeSamples(samples: Float32Array, language: string | undef
       to = best
     }
     const piece = samples.subarray(from, to)
-    const answer = await sarvam(() => window.uve.sarvam.stt({ wav: encodeWav(piece, DECODE_RATE), ...(language ? { language } : {}) }))
+    const answer = await sarvam(() => window.uve.sarvam.stt({ wav: encodeWav(piece, DECODE_RATE), ...(language ? { language } : {}), ...(mode ? { mode } : {}) }))
     detected ??= answer.language
     costInr += answer.costInr
     const offset = Math.round((from / DECODE_RATE) * 1000)
@@ -381,8 +382,9 @@ export const mediaTranscribe = defineCommand({
     language: languageField.optional(),
     captions: z.union([z.boolean(), z.strictObject({ id: z.string().min(1).describe('A text layer to re-time') })]).optional(),
     force: z.boolean().default(false).describe('Hear or align again although the take already has words'),
+    mode: z.enum(STT_MODES).default('transcribe').describe('verbatim keeps every filler and false start (for cutting footage); transcribe gives clean text'),
   }),
-  run: async ({ id, text, language, captions, force }, ctx) => {
+  run: async ({ id, text, language, captions, force, mode }, ctx) => {
     const call: Call = (name, value) => ctx.call(name, value)
     const { media, layerId } = soundOf(ctx.project, id)
     if (captions && !layerId) throw new CommandError('Captions need the take on the timeline.', 'Give the audio layer id instead of the media id.')
@@ -394,7 +396,7 @@ export const mediaTranscribe = defineCommand({
       if (text !== undefined) {
         speech = { text, language: requireLanguage(language, text), voice: media.speech?.voice ?? null, provider: media.speech?.provider ?? null, ...timeWords(samples, text), source: media.speech?.source ?? null }
       } else {
-        const heard = await transcribeSamples(samples, language ? requireLanguage(language) : undefined)
+        const heard = await transcribeSamples(samples, language ? requireLanguage(language) : undefined, mode)
         if (!heard.text) throw new CommandError(`No speech was heard in ${media.name}.`, 'Check the file has a voice in it, or give its text.')
         phrases = heard.phrases
         costInr = heard.costInr
@@ -409,7 +411,7 @@ export const mediaTranscribe = defineCommand({
           text: heard.text,
           language: heard.language ?? requireLanguage(language, heard.text),
           voice: null,
-          provider: 'sarvam:saaras:v3',
+          provider: mode === 'verbatim' ? 'sarvam:saaras:v3:verbatim' : 'sarvam:saaras:v3',
           startMs: span?.startMs ?? 0,
           endMs: span?.endMs ?? Math.round((samples.length / DECODE_RATE) * 1000),
           words,

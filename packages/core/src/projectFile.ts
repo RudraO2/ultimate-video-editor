@@ -45,8 +45,11 @@ export const PROJECT_FILE_FORMAT = 'uve-project'
  * made); defaulted to none, so earlier files need no change.
  * 18 (S1): `speech` on media (a take's script, language, voice, speech span
  * and word times); optional, so earlier files need no change.
+ * 19 (F1): `footage` on media (speech gate, speech ranges, shots and their
+ * descriptions) and `markers` on comps (review marks); optional or defaulted,
+ * so earlier files need no change.
  */
-export const PROJECT_FILE_VERSION = 18
+export const PROJECT_FILE_VERSION = 19
 export const PROJECT_FILE_EXTENSION = '.uve'
 
 export const ProjectManifestSchema = z.object({
