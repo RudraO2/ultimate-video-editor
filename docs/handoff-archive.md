@@ -1078,3 +1078,43 @@ Owner added on 2026-10-30: in both modes the chat edits the open project live by
 - M1a done: plan written; repo pushed to `github.com/RudraO2/ultimate-video-editor` (private, `main`).
 - M1b and M1c done: `renderer/src/uiMode.ts` (`UiMode`, `MODE_TABS`, `readUiMode`, `tabForMode`, key `uve.uiMode`; tests in `uiMode.test.ts`); store `uiMode` and `setUiMode` (Easy forces the timeline view, closes plugin windows); rail `ModeSwitch` (Easy / Advanced) under the main menu, tabs per mode, a Chat tab (`ChatPanel`); right rail shows only Export in Easy; Main menu ▸ View ▸ Easy mode / Advanced mode; `App.tsx` remounts the panel groups per mode (Easy: chat 380 px, preview 70 %, no inspector, no bottom tabs); `Timeline simple` (timeline view only, no mixer, track toggles, record keys, range, close gaps or snapping buttons).
 - M1d and M1e done: `renderer/src/agent/chatContext.ts` (`editorContext(state)`: comp, size, fps, length, playhead, selected layer and its text, mode; tests in `chatContext.test.ts`); `opencode.prompt(text, context?)` (preload, main): the context goes as a leading ACP text part (≤ 4000 chars), never into the transcript; `AGENTS.md` bullet on "this" and "here"; `renderer/src/agent/micRecorder.ts` (MediaRecorder, 16 kHz mono, stops at 29 s, always releases the mic); ChatPanel mic button (Speak, Stop and send, Transcribing) → Sarvam STT (`saaras:v3`, language detected) → sent, or into the draft while busy. No Electron permission handler exists, so the mic is allowed by default.
+
+## B1 prompt (deferred)
+
+Written after M1 (2026-10-30); the owner put F1 first. Use it after F1.
+
+### Step B1 (phase B starts: screen recording)
+
+B1 is one chat: it writes phase B's numbered steps into `docs/PLAN.md` (if missing), then its own plan (lettered sub-steps B1a, B1b, … under a new "Plan of B1" here), then does them all, saving a "B1 progress" note here after each and committing and pushing to `main` after each.
+
+Paste this into a new chat:
+
+```
+Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
+never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
+"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B) and key decision 5 (OpenScreen
+is reused in Phase B). Search docs/HISTORY.md only when a detail is needed (M1 for the modes and
+chat; A4 for media import).
+
+Phase B (OpenScreen features) starts now. First, if docs/PLAN.md has no numbered phase B steps, write
+them there (B1, B2, … each one chat: recorder and capture helpers, cursor telemetry and auto-zoom as
+editable zoom keyframes, background/padding/rounded corners/shadow as layer properties, agent tools
+and skill). Then do ONE step only: B1, screen recording, whole, in this chat. Goal: record the screen
+(a display or a window, with system audio and the mic, optional webcam) from inside the editor, by
+hand and as an agent tool; the recording lands in the project as a clip (the file stays on disk, as
+every media file), with its cursor positions and clicks kept beside it for B2's auto-zoom. Research
+first: OpenScreen (MIT) on GitHub, its native capture helpers (Windows Graphics Capture), cursor
+telemetry and file layout; what Electron's desktopCapturer gives on Windows 11 with the Intel GPU
+only; keep OpenScreen's MIT notice for anything ported. It must work in both Easy and Advanced modes
+and from the chat ("record my screen for 20 seconds"). First write the lettered sub-steps (B1a, B1b,
+...) under a new "Plan of B1" in docs/HANDOFF.md, start at once and run through every sub-step
+without stopping (no plan mode, no waiting for approval). Owner's rule: build everything first and
+test once at the end; usage is limited. After each sub-step: tests and type checks pass, update the
+"B1 progress" note, commit and push to main (owner is the only author; no AI attribution). Delegate
+bounded pieces to Sonnet subagents on separate files; the main chat verifies. Main-process changes
+and new files under skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user
+environment). At the end, record a short clip in the running app by hand and once through OpenCode;
+then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in
+CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end your reply
+with the prompt for the next step (B2).
+```

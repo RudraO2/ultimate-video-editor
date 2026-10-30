@@ -302,6 +302,21 @@ Sources: OpenCode 1.18.32 on the owner's machine (`opencode acp --help`, and a p
 
 **Keeping the owner's own setup out.** With `XDG_CONFIG_HOME` pointed at a folder of ours, `OPENCODE_DISABLE_CLAUDE_CODE=1` and `OPENCODE_DISABLE_EXTERNAL_SKILLS=1`, the session lists only OpenCode's built-in commands and our `uve` skill (copied into `<XDG_CONFIG_HOME>/opencode/skills/uve/`): none of the owner's skills, plugins or MCP servers. Logins are untouched, as they live in the data folder.
 
+## Footage understanding and auto-cutting (step F1 research)
+
+Source: `github.com/samuelgursky/davinci-resolve-mcp` (MIT), read on 2026-10-30 (shallow clone in a session scratchpad; behaviour only, no code copied). It drives Resolve Studio's scripting API; all editing sits in one `edit_engine(action, params)` tool, logic in `src/utils/`.
+
+- **Transcription.** Local Whisper (CLI `base`, whisper.cpp, or `mlx_whisper` large-v3-turbo) with word times, normalised to `{word, start, end, confidence}`, stored per project in SQLite and as a sidecar JSON. About 4–7× realtime.
+- **Silence** (`silence_ripple.py`). ffmpeg `silencedetect` with a threshold **calibrated per clip** from `astats`: gate = trough + 0.6 × (peak − trough), clamped to −60…−24 dB; under 12 dB of range the clip is left whole ("refuse when unsure"). Minimum silence 10 frames; each silence shrinks inward by 2 frames after the last word and 4 before the next (soft onsets cross the gate late). Tightness presets: generous (default, ×1.5 guards), balanced, tight.
+- **Transcript tightening** (`transcript_edit.py`). Fillers: a fixed English set (uh, um, er, erm, hmm, mm, mhm, ah, eh), cut with half a handle of pad. False starts: an adjacent repeat of 4 down to 1 words within 0.6 s; the first copy goes. Pauses over 0.6 s collapse to 0.15 s handles, but the limit is ×2.5 after `. ? !` and ×1.5 after `, ; :` (breathing room after sentences). Cuts merge; slivers under 0.15 s are absorbed; every removal has a reason. Words of 1.2 s or more are flagged as a swallowed retake, not cut.
+- **Takes.** `rank_takes` scores fluency only (100 − fillers/min × 5 − false starts × 6 − missed script × 30), never "the best take".
+- **Applying cuts.** Resolve's API has no razor, so it builds a **new variant timeline** in one `AppendToTimeline` call from the keep ranges (packed end to end), archives the original, then re-reads it to check counts. Fast because it is one call; nothing updates live while it works.
+- **Plan, review, execute.** Every plan is saved with an id, reasons and a fingerprint; execution needs the plan id (and a confirm token, 300 s); review markers can be dropped first (lifts over about 15 s flagged for a human).
+- **B-roll** (`plan_broll`). Mechanical: beats come from the agent, a cutaway sits inside a beat inset 0.15 s each end, needs ≥ 0.8 s, never covers a `protected` beat, rejects relevance under 0.35 (relevance is the agent's).
+- **Seeing footage.** Scene changes by ffmpeg `select='gt(scene,…)'` with a threshold of mean + 2.5 sd clamped to 0.15–0.40; up to 80 frames per clip. **The host agent's own vision** describes them (contact sheets to save tokens; `commit_vision` stores the descriptions). Search over spoken words (`search_spoken_content`, with in/out selects) and embeddings (CLIP, CLAP, text).
+
+**What we take for F1.** Our edits are commands, so we can do better than a variant timeline: one transaction cuts the clips in place, the timeline shows it at once, and it is one undo step (or a new comp, for a non-destructive variant). Sarvam gives word times in Indian languages, so filler lists per language (Hindi: matlab, toh, haan, accha, umm…) beat Resolve MCP's English-only set. Plan, review markers, apply, with reasons; calibrated silence gate; breathing-room rule; generous by default; the agent's own vision on contact sheets, text-only fallback when its model cannot see.
+
 ## Easy and Advanced modes (step M1 research)
 
 Source: AtomCut 4.9.0's bundled `web-out`, chunk 5009 (the shell's panel store and View menu), read for behaviour only.
