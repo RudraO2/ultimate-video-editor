@@ -4,6 +4,7 @@ import { Group, Panel, Separator } from 'react-resizable-panels'
 import { ExportDialog } from './components/ExportDialog'
 import { InspectorPanel } from './components/InspectorPanel'
 import { AgentsPanel } from './components/AgentsPanel'
+import { ChatPanel } from './components/ChatPanel'
 import { LayersPanel } from './components/LayersPanel'
 import { FontsWindow } from './components/FontsWindow'
 import { IconsWindow } from './components/IconsWindow'
@@ -233,6 +234,7 @@ const clip = { overflow: 'hidden' } as const
 
 function LeftPanel() {
   const tab = useEditor((s) => s.leftTab)
+  if (tab === 'chat') return <ChatPanel />
   if (tab === 'media') return <MediaPanel />
   if (tab === 'layers') return <LayersPanel />
   if (tab === 'agents') return <AgentsPanel />
@@ -254,15 +256,19 @@ export function App() {
   useShortcuts()
   usePlaybackClock()
   useDropGuard()
-  const inspectorOpen = useEditor((s) => s.inspectorOpen)
+  const easy = useEditor((s) => s.uiMode === 'easy')
+  const inspectorOpen = useEditor((s) => s.inspectorOpen) && !easy
+  // Easy mode gives the chat more room and the preview more height. Each mode keeps its own layout,
+  // so the groups are remounted (with that mode's sizes) when the mode changes.
+  const mode = easy ? 'easy' : 'advanced'
   return (
     <div className="flex h-full gap-gap bg-app p-gap pb-0 pl-0">
       <LeftRail />
       <div className="flex min-w-0 flex-1 flex-col">
-        <Group orientation="vertical" className="min-h-0 flex-1">
-          <Panel id="top" defaultSize="64" minSize={240} style={clip}>
+        <Group key={mode} orientation="vertical" className="min-h-0 flex-1">
+          <Panel id="top" defaultSize={easy ? '70' : '64'} minSize={240} style={clip}>
             <Group orientation="horizontal">
-              <Panel id="left" defaultSize={280} minSize={220} maxSize={440} style={clip}>
+              <Panel id="left" defaultSize={easy ? 380 : 280} minSize={220} maxSize={easy ? 560 : 440} style={clip}>
                 <Card>
                   <LeftPanel />
                 </Card>
@@ -286,13 +292,13 @@ export function App() {
             </Group>
           </Panel>
           <ResizeHandle between="rows" />
-          <Panel id="timeline" defaultSize="36" minSize={180} style={clip}>
+          <Panel id="timeline" defaultSize={easy ? '30' : '36'} minSize={easy ? 140 : 180} style={clip}>
             <Card>
-              <Timeline />
+              <Timeline simple={easy} />
             </Card>
           </Panel>
         </Group>
-        <BottomTabs />
+        {easy ? <div className="h-gap shrink-0" /> : <BottomTabs />}
       </div>
       <RightRail />
       <PluginLayer />

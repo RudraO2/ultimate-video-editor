@@ -302,6 +302,21 @@ Sources: OpenCode 1.18.32 on the owner's machine (`opencode acp --help`, and a p
 
 **Keeping the owner's own setup out.** With `XDG_CONFIG_HOME` pointed at a folder of ours, `OPENCODE_DISABLE_CLAUDE_CODE=1` and `OPENCODE_DISABLE_EXTERNAL_SKILLS=1`, the session lists only OpenCode's built-in commands and our `uve` skill (copied into `<XDG_CONFIG_HOME>/opencode/skills/uve/`): none of the owner's skills, plugins or MCP servers. Logins are untouched, as they live in the data folder.
 
+## Easy and Advanced modes (step M1 research)
+
+Source: AtomCut 4.9.0's bundled `web-out`, chunk 5009 (the shell's panel store and View menu), read for behaviour only.
+
+- **AtomCut has no simple or pro mode.** One editor; panels come and go instead.
+- **Panel store.** `left`, `inspector`, `timeline` and `mixer` are each shown or hidden. What is shown is remembered per **workspace** in localStorage. The workspace is picked from the open frame: `flipbook`, `drawing` (a flipbook in context), `static` or `default`.
+- **Focus mode** (View ▸ Focus mode, with a shortcut) hides every panel and leaves the canvas. **Density** `wide` or `compact`: compact shows the side panels as overlays, one at a time.
+- Asking for a panel shows it again: opening an inspector tab, for example, leaves Focus mode and shows the inspector.
+- **Its chat** is a cloud panel (Pro), not a layout of its own.
+
+**What we did.** Easy and Advanced are two layouts over the same store, project and commands, switched at the top of the left rail and remembered in localStorage.
+- Easy: the OpenCode chat on the left, the preview, a simple timeline (no key views, mixer or range buttons), Export. Its rail tabs are Chat, Media and Library.
+- Advanced: today's full editor, unchanged.
+- The chat adds what AtomCut's lacks: each prompt carries where the person is (comp, playhead, selection), and a mic button sends speech in any language through Sarvam's speech to text.
+
 ## Project save and open (step A6b.1 research)
 
 Sources: the prettified chunk 459 (the project package and preset-bundle code, read for behaviour only) and the live 4.17.0 main menu, read over CDP on port 9333 on 2026-10-24.

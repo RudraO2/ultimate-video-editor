@@ -36,6 +36,22 @@ docs/HISTORY.md), and end your reply with the prompt for the next step (phase B,
 Commit only when I ask; no AI attribution.
 ```
 
+### Plan of M1 (modes)
+
+Owner added on 2026-10-30: in both modes the chat edits the open project live by typing or **speaking in any language**, and "this" or "here" means what the person has selected and the playhead.
+
+- **M1a. Research and plan.** AtomCut has no simple or pro mode (bundled 4.9.0 web-out, chunk 5009). Instead it has a panel store: `left`, `inspector`, `timeline`, `mixer` shown or hidden per workspace (`default`, `flipbook`, `drawing`, `static`, chosen from the open frame) and remembered in localStorage; Focus mode (hides every panel); density `wide` or `compact` (panels as overlays); asking for the inspector shows it again and leaves Focus mode. Its chat is a cloud panel, not a layout. Notes go to the research doc.
+- **M1b. The mode.** `uiMode: 'easy' | 'advanced'` in the store, kept in localStorage (`uve.uiMode`), Easy on first launch; an Easy/Advanced switch at the top of the left rail; Main menu ▸ View has it too.
+- **M1c. Easy layout.** Chat (OpenCode) on the left at about 380 px, the preview, a simple timeline (timeline view only: no keyframes, curves, colour or nodes tabs, no mixer, no range buttons), Export on the right rail. Rail tabs: Chat, Media, Library. Undo and redo stay. Advanced is today's layout, unchanged.
+- **M1d. Where you are.** Each prompt carries a short editor context (open comp, size, length, playhead, selected layer with id, name, kind, times and text, mode) as a separate ACP text block. The transcript shows only what the person typed. `AGENTS.md` says that "this" and "here" mean the selection and the playhead.
+- **M1e. Speak to the chat.** A mic button in the composer: click to record, click again (or 30 s) to stop. Sarvam speech to text (`saaras:v3`, language detected) turns the speech into text, which is sent. Works in both modes.
+- **M1f. Finish.** Unit tests (context text, mode memory), one live check of both modes with one short request to OpenCode in Easy mode, docs (HISTORY, PLAN, CLAUDE.md status), then commit and push.
+
+### M1 progress
+
+- M1a done: plan written; repo pushed to `github.com/RudraO2/ultimate-video-editor` (private, `main`).
+- M1b and M1c done: `renderer/src/uiMode.ts` (`UiMode`, `MODE_TABS`, `readUiMode`, `tabForMode`, key `uve.uiMode`; tests in `uiMode.test.ts`); store `uiMode` and `setUiMode` (Easy forces the timeline view, closes plugin windows); rail `ModeSwitch` (Easy / Advanced) under the main menu, tabs per mode, a Chat tab (`ChatPanel`); right rail shows only Export in Easy; Main menu ▸ View ▸ Easy mode / Advanced mode; `App.tsx` remounts the panel groups per mode (Easy: chat 380 px, preview 70 %, no inspector, no bottom tabs); `Timeline simple` (timeline view only, no mixer, track toggles, record keys, range, close gaps or snapping buttons).
+
 ## Last chunk: O1, OpenCode as the only harness in the app (2026-10-30)
 
 - Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "S1 last chunk, O1 plan and progress"); files and names in `docs/HISTORY.md` ▸ O1; ACP facts in `docs/research/atomcut-inspiration.md` ▸ "OpenCode inside the app (step O1 research)".

@@ -25,6 +25,7 @@ import type { RecentProject } from '../../shared/project'
 import type { RenderResult } from './export/render'
 import { envelopeOfMedia } from './media/envelope'
 import { silhouetteOfMedia } from './media/silhouette'
+import { type LeftTab, MODE_TABS, readUiMode, tabForMode, UI_MODE_KEY, type UiMode } from './uiMode'
 
 /**
  * The open project. Every edit goes through `session.call`: the same command
@@ -107,6 +108,8 @@ interface EditorState {
   exportJob: ExportJob | null
   /** Whether the export settings dialog is open (it comes before the save dialog). */
   exportSetupOpen: boolean
+  /** Easy (the chat, the preview, a simple timeline, export) or Advanced (every panel); remembered across launches. */
+  uiMode: UiMode
   /** What the left panel shows, picked in the rail. */
   leftTab: LeftTab
   /** The plugin window open over the editor (icons, fonts), or null. */
@@ -159,6 +162,8 @@ interface EditorState {
   select: (id: string | null, additive?: boolean) => void
   /** Shows or hides the motion paths, and remembers the choice. */
   setMotionPaths: (on: boolean) => void
+  /** Switches between Easy and Advanced, and remembers the choice; the left panel moves to a tab the mode has. */
+  setUiMode: (mode: UiMode) => void
   /** Changes how a world comp is looked at (the orbit view, its shading and grid). */
   setWorldView: (compId: string, patch: Partial<WorldViewState>) => void
   /** Switches a world comp between looking through its camera and the orbit view; a flat comp has none. */
@@ -183,7 +188,8 @@ interface EditorState {
 
 export type RightTab = 'design' | 'effects' | 'animate' | 'sound'
 
-export type LeftTab = 'library' | 'media' | 'layers' | 'scripts' | 'voice' | 'plugins' | 'agents'
+export type { LeftTab, UiMode } from './uiMode'
+export { MODE_TABS } from './uiMode'
 
 /** The plugins that open a window of their own. */
 export type PluginId = 'icons' | 'fonts'
@@ -279,6 +285,8 @@ function readMotionPaths(): boolean {
   }
 }
 
+const initialUiMode = readUiMode()
+
 export const useEditor = create<EditorState>()((set, get) => ({
   ...fromSession(),
   savedRevision: session.revision,
@@ -297,7 +305,8 @@ export const useEditor = create<EditorState>()((set, get) => ({
   guide: null,
   exportJob: null,
   exportSetupOpen: false,
-  leftTab: 'library',
+  uiMode: initialUiMode,
+  leftTab: MODE_TABS[initialUiMode][0] as LeftTab,
   plugin: null,
   pluginFolded: false,
   inspectorOpen: true,
@@ -338,6 +347,15 @@ export const useEditor = create<EditorState>()((set, get) => ({
       // Storage can be blocked; the choice then lasts for this session only.
     }
     set({ motionPaths: on, ...(on ? {} : { motionHover: null }) })
+  },
+  setUiMode: (mode) => {
+    try {
+      localStorage.setItem(UI_MODE_KEY, mode)
+    } catch {
+      // Storage can be blocked; the choice then lasts for this session only.
+    }
+    // Easy has no key, colour or node views: the timeline comes back.
+    set((s) => ({ uiMode: mode, leftTab: tabForMode(mode, s.leftTab), ...(mode === 'easy' ? { bottomView: 'timeline' as const, plugin: null } : {}) }))
   },
   setWorldView: (compId, patch) => set((s) => ({ worldView: { ...s.worldView, [compId]: { ...worldViewOf(s, compId), ...patch } } })),
   toggleOrbit: (compId) => {

@@ -72,6 +72,8 @@ function viewMenu(): Entry[] {
   const state = useEditor.getState()
   const comp = activeComp(state)
   return [
+    { label: 'Easy mode', shortcut: 'chat, preview, export', checked: state.uiMode === 'easy', onSelect: () => useEditor.getState().setUiMode('easy') },
+    { label: 'Advanced mode', shortcut: 'every panel', checked: state.uiMode === 'advanced', onSelect: () => useEditor.getState().setUiMode('advanced') },
     { label: 'Motion paths', shortcut: 'on selection', checked: useEditor.getState().motionPaths, onSelect: () => useEditor.getState().setMotionPaths(!useEditor.getState().motionPaths) },
     {
       label: 'Orbit view',
@@ -132,7 +134,7 @@ export function MainMenu() {
   const [open, setOpen] = useState(false)
   const root = useRef<HTMLDivElement>(null)
   // Re-render when the recent list or undo state changes while the menu is open.
-  useEditor((s) => (open ? `${s.recentProjects.length}|${s.undoLabel}|${s.redoLabel}|${s.motionPaths}|${s.selectedLayerId}|${s.alsoSelected.length}|${s.activeCompId}` : ''))
+  useEditor((s) => (open ? `${s.recentProjects.length}|${s.undoLabel}|${s.redoLabel}|${s.motionPaths}|${s.uiMode}|${s.selectedLayerId}|${s.alsoSelected.length}|${s.activeCompId}` : ''))
 
   useEffect(() => {
     if (!open) return

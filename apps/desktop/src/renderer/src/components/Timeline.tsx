@@ -158,7 +158,8 @@ function ZoomSlider() {
   )
 }
 
-function Toolbar({ onFit, mixerHidden, onShowMixer }: { onFit: () => void; mixerHidden: boolean; onShowMixer: () => void }) {
+/** The timeline's toolbar; `simple` (Easy mode) keeps play, loop, time, split, delete and zoom. */
+function Toolbar({ onFit, mixerHidden, onShowMixer, simple }: { onFit: () => void; mixerHidden: boolean; onShowMixer: () => void; simple: boolean }) {
   const { id: compId, fps, mode } = useActiveComp()
   const timeMs = useEditor((s) => s.timeMs)
   const playing = useEditor((s) => s.playing)
@@ -183,25 +184,29 @@ function Toolbar({ onFit, mixerHidden, onShowMixer }: { onFit: () => void; mixer
       >
         {playing ? <Pause size={15} fill="currentColor" /> : <Play size={15} fill="currentColor" className="translate-x-px" />}
       </button>
-      <ToolButton
-        label={recordKeys ? 'Record keyframes is on: every edit keys at the playhead' : 'Record keyframes'}
-        active={recordKeys}
-        onClick={() => useEditor.setState({ recordKeys: !recordKeys })}
-      >
-        <span className={`size-3 rounded-full ${recordKeys ? 'bg-accent' : 'bg-muted'}`} />
-      </ToolButton>
+      {!simple && (
+        <ToolButton
+          label={recordKeys ? 'Record keyframes is on: every edit keys at the playhead' : 'Record keyframes'}
+          active={recordKeys}
+          onClick={() => useEditor.setState({ recordKeys: !recordKeys })}
+        >
+          <span className={`size-3 rounded-full ${recordKeys ? 'bg-accent' : 'bg-muted'}`} />
+        </ToolButton>
+      )}
       <ToolButton label={loop ? 'Loop is on' : 'Loop playback'} active={loop} onClick={() => useEditor.setState({ loop: !loop })}>
         <Repeat size={15} />
       </ToolButton>
-      <ToolButton
-        label="Working range — loop & export just a section"
-        active={rangeOn}
-        disabled={mode === 'static'}
-        onClick={() => useEditor.getState().setWorkRangeEnabled(!rangeOn)}
-      >
-        <BetweenHorizontalStart size={15} />
-      </ToolButton>
-      {rangeOn && mode !== 'static' && (
+      {!simple && (
+        <ToolButton
+          label="Working range — loop & export just a section"
+          active={rangeOn}
+          disabled={mode === 'static'}
+          onClick={() => useEditor.getState().setWorkRangeEnabled(!rangeOn)}
+        >
+          <BetweenHorizontalStart size={15} />
+        </ToolButton>
+      )}
+      {!simple && rangeOn && mode !== 'static' && (
         <>
           <ToolButton label="Set range in ([)" onClick={() => useEditor.getState().setWorkRangeEdge('start', useEditor.getState().timeMs)}>
             <span className="font-mono text-[13px] font-semibold">[</span>
@@ -223,16 +228,20 @@ function Toolbar({ onFit, mixerHidden, onShowMixer }: { onFit: () => void; mixer
       <ToolButton label="Delete the selected layer (Delete; Shift+Delete also closes the gap)" onClick={deleteSelected}>
         <Trash2 size={15} />
       </ToolButton>
-      <ToolButton label="Close the gaps on the selected layer's lane" onClick={() => void closeGapsOfSelection()}>
-        <ArrowLeftToLine size={15} />
-      </ToolButton>
-      <ToolButton
-        label={snapping ? 'Snapping is on (hold Alt to place freely)' : 'Snapping is off'}
-        active={snapping}
-        onClick={() => useEditor.setState({ snapping: !snapping })}
-      >
-        <Magnet size={15} />
-      </ToolButton>
+      {!simple && (
+        <>
+          <ToolButton label="Close the gaps on the selected layer's lane" onClick={() => void closeGapsOfSelection()}>
+            <ArrowLeftToLine size={15} />
+          </ToolButton>
+          <ToolButton
+            label={snapping ? 'Snapping is on (hold Alt to place freely)' : 'Snapping is off'}
+            active={snapping}
+            onClick={() => useEditor.setState({ snapping: !snapping })}
+          >
+            <Magnet size={15} />
+          </ToolButton>
+        </>
+      )}
       <div className="ml-auto flex items-center gap-1">
         <button
           type="button"
@@ -423,9 +432,11 @@ function Guides({ tracks }: { tracks: number }) {
   )
 }
 
-export function Timeline() {
+/** The timeline panel; `simple` (Easy mode) shows only the timeline view, without the mixer or the track toggles. */
+export function Timeline({ simple = false }: { simple?: boolean }) {
   const comp = useActiveComp()
-  const view = useEditor((s) => s.bottomView)
+  const chosenView = useEditor((s) => s.bottomView)
+  const view = simple ? 'timeline' : chosenView
   const [mixer, setMixer] = useState(true)
   const pxPerSecond = useEditor((s) => s.pxPerSecond)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -525,7 +536,7 @@ export function Timeline() {
   return (
     <div className="flex h-full">
       <div className="flex min-w-0 flex-1 flex-col">
-        <Toolbar onFit={fit} mixerHidden={!mixer} onShowMixer={() => setMixer(true)} />
+        <Toolbar onFit={fit} mixerHidden={!simple && !mixer} onShowMixer={() => setMixer(true)} simple={simple} />
         {view === 'keyframes' && <DopeSheet />}
         {view === 'curves' && <CurvesView />}
         {view === 'color' && <ColorView />}
@@ -554,7 +565,7 @@ export function Timeline() {
                       <X size={13} />
                     </button>
                   )}
-                  <TrackToggles track={track} label={trackLabel(track, index)} />
+                  {!simple && <TrackToggles track={track} label={trackLabel(track, index)} />}
                 </div>
               ))}
             </div>
@@ -602,7 +613,7 @@ export function Timeline() {
           </div>
         )}
       </div>
-      {mixer && <Mixer onClose={() => setMixer(false)} />}
+      {mixer && !simple && <Mixer onClose={() => setMixer(false)} />}
     </div>
   )
 }
