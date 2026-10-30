@@ -1079,9 +1079,37 @@ Owner added on 2026-10-30: in both modes the chat edits the open project live by
 - M1b and M1c done: `renderer/src/uiMode.ts` (`UiMode`, `MODE_TABS`, `readUiMode`, `tabForMode`, key `uve.uiMode`; tests in `uiMode.test.ts`); store `uiMode` and `setUiMode` (Easy forces the timeline view, closes plugin windows); rail `ModeSwitch` (Easy / Advanced) under the main menu, tabs per mode, a Chat tab (`ChatPanel`); right rail shows only Export in Easy; Main menu ▸ View ▸ Easy mode / Advanced mode; `App.tsx` remounts the panel groups per mode (Easy: chat 380 px, preview 70 %, no inspector, no bottom tabs); `Timeline simple` (timeline view only, no mixer, track toggles, record keys, range, close gaps or snapping buttons).
 - M1d and M1e done: `renderer/src/agent/chatContext.ts` (`editorContext(state)`: comp, size, fps, length, playhead, selected layer and its text, mode; tests in `chatContext.test.ts`); `opencode.prompt(text, context?)` (preload, main): the context goes as a leading ACP text part (≤ 4000 chars), never into the transcript; `AGENTS.md` bullet on "this" and "here"; `renderer/src/agent/micRecorder.ts` (MediaRecorder, 16 kHz mono, stops at 29 s, always releases the mic); ChatPanel mic button (Speak, Stop and send, Transcribing) → Sarvam STT (`saaras:v3`, language detected) → sent, or into the draft while busy. No Electron permission handler exists, so the mic is allowed by default.
 
+## M1 last chunk, F1 plan and progress (2026-10-30)
+
+### Last chunk: M1, Easy and Advanced modes, speaking to the chat (2026-10-30)
+
+- Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "O1 last chunk, M1 plan and progress"); files and names in `docs/HISTORY.md` ▸ M1; AtomCut findings in `docs/research/atomcut-inspiration.md` ▸ "Easy and Advanced modes (step M1 research)".
+- Built: `uiMode.ts` and store `uiMode` (Easy on first launch, remembered in `uve.uiMode`), the Easy/Advanced switch in the left rail and Main menu ▸ View, the Easy layout (Chat, Media, Library tabs; chat 380 px; preview; `Timeline simple`; Export only on the right rail), `agent/chatContext.ts` (editor context sent ahead of every prompt, unseen in the transcript), `agent/micRecorder.ts` and the chat's mic button (Sarvam STT, any language).
+- Test: "इसे लाल कर दो" with a title selected turned it red in about 8 s and OpenCode answered in Hindi; the mic recorded, Sarvam transcribed and the chat sent it; Advanced showed the same project with every panel; the mode survived a reload.
+- Git (owner's rule from 2026-10-30): commit and push to `main` of `github.com/RudraO2/ultimate-video-editor` (private) after every sub-step, without asking; the owner is the only author.
+- Loose ends: the owner has not yet spoken a real sentence to it (only room sound was tested); no push-to-talk key; panel sizes per mode are not remembered; the Advanced Agents tab holds the same chat as Easy's Chat tab.
+
+### Plan of F1 (written 2026-10-30)
+
+Times: analysis is in media time; a layer maps it to comp time by `startMs + (mediaMs - sourceStartMs) / playbackRate`.
+
+- **F1a, core.** Format 19: `media.footage` (gate, speech ranges, shots with descriptions, scene threshold) and comp `markers` (review marks). Pure module `packages/core/src/footage.ts`: gate calibration (trough + 0.6 × (peak − trough), clamp −60…−24 dB, refuse under 12 dB), speech ranges from 20 ms loudness, scene threshold (mean + 2.5 sd, 0.15…0.40) and shots, filler lists per language (English, Hindi in Devanagari and Latin, a few more Indian languages), tighten plan (head/tail air, long pauses with breathing room ×2.5 / ×1.5, fillers, false starts, retakes, handles, slivers, reasons, swallowed-retake flags; generous/balanced/tight), sentences, footage search (words with in/out selects, shot descriptions), B-roll placement (inside a sentence, inset 0.15 s, ≥ 0.8 s, never over protected beats, relevance ≥ 0.35), media↔comp time. Core commands `media.footage` (store), `media.describe_shots`, `timeline.markers`. Tests.
+- **F1b, analysis (desktop).** `media.analyze` (loudness gate and speech ranges from the decoded sound; Sarvam STT in verbatim mode, ≤ 30 s pieces, words aligned; shots from a frame-difference scene score over small frames via mediabunny; cached on the media, reused); host tool `media_inspect` (contact sheet of a shot or range of a media file, with the words spoken in it; text-only answer with `frames: 0`). Sarvam STT `mode`.
+- **F1c, cutting (desktop).** `media.remove_pauses` (AtomCut's shape plus `tightness`, `fillers`, `falseStarts`, `retakes`, `markers`, `variant`): dryRun gives the plan with reasons; apply cuts in one step (in place via `timeline.cut_ranges`, or into a duplicated frame with `variant`). `media.search`, `timeline.place_broll`.
+- **F1d, by hand.** Inspector ▸ Footage section on video/audio layers (Analyse, transcript and shots, tightness, Mark, Cut, as new comp); timeline draws markers; chat example in Easy mode.
+- **F1e, skill and docs.** Skill 0.25.0: "Footage" section and recipe "Rough cut from raw footage" (analyse, plan, review, apply, B-roll, captions, sound pass); `docs/core-api.md` rows.
+- **F1f, live test.** Talking-head test file (Sarvam TTS lines, pauses, fillers, a retake) and a screen-recording-like clip; OpenCode in Easy mode cuts and adds B-roll; timed. End-of-step docs.
+
+### F1 progress
+
+- F1a, F1b, F1c done (code; live check at F1f): format 19 (`media.footage`, comp `markers`), `core/src/footage.ts` (+ tests), core commands `media.footage`, `media.describe_shots`, `timeline.markers` (`commands/footage.ts`); desktop `agent/footageCommands.ts` (`media.analyze`, `media.remove_pauses`, `media.search`, `timeline.place_broll`), `agent/footageInspect.ts` (host tool `media_inspect`), `media/footageFrames.ts` (scene scores, stills); Sarvam STT `mode: verbatim` (main change: restart `pnpm dev`), `media.transcribe {mode}`.
+- F1d done: Inspector ▸ Footage (`components/FootageSection.tsx`: Analyse, Generous/Balanced/Tight, As new frame, Mark cuts, Cut); review marks on the timeline ruler (`Ruler {markers}`, cut red, flag amber, note violet; hover for the reason); chat example "Cut the pauses and ums from my clip, then add the screen recording as B-roll".
+- F1e done: skill 0.25.0 ("Raw footage: rough cuts", recipe 12), `docs/core-api.md` rows.
+- F1f done: live test (words fitted to the gate with `fitWordsToSpans`, retakes as repeated runs, the frame fits the cut footage, surviving piece reported); OpenCode run in Easy mode, 101 s.
+
 ## B1 prompt (deferred)
 
-Written after M1 (2026-10-30); the owner put F1 first. Use it after F1.
+Written after M1 (2026-10-30); the owner put F1 first. Moved to `docs/HANDOFF.md` ▸ Next task after F1.
 
 ### Step B1 (phase B starts: screen recording)
 

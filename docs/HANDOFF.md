@@ -1,82 +1,49 @@
 # Handoff
 
-Updated 2026-10-30 (after M1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
+Updated 2026-10-30 (after F1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step F1 (footage understanding and auto-cutting)
+## Next task: step B1 (phase B starts: screen recording)
 
-Owner's call (2026-10-30), before phase B: a person adds their own videos (talking head, screen recordings, B-roll) and the agent understands them and cuts: silences, filler words in any language, false starts and retakes, then places B-roll and screen recordings where the words call for them, fast and live on the timeline. Research done: `docs/research/atomcut-inspiration.md` ▸ "Footage understanding and auto-cutting (step F1 research)" (DaVinci Resolve MCP). After F1 comes B1 (screen recording); its prompt is kept in `docs/handoff-archive.md` ▸ "B1 prompt (deferred)".
+B1 is one chat: it writes phase B's numbered steps into `docs/PLAN.md` (if missing), then its own plan (lettered sub-steps B1a, B1b, … under a new "Plan of B1" here), then does them all, saving a "B1 progress" note here after each and committing and pushing to `main` after each.
 
 Paste this into a new chat:
 
 ```
 Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
 never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
-"Next task" and "Last chunk"; docs/research/atomcut-inspiration.md "Footage understanding and
-auto-cutting (step F1 research)". Search docs/HISTORY.md only when a detail is needed (S1 for
-media_transcribe and Sarvam STT; Q2 for media.envelope; M1 for the chat context; A4 for media).
+"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B) and key decision 5 (OpenScreen
+is reused in Phase B). Search docs/HISTORY.md only when a detail is needed (M1 for the modes and
+chat; A4 for media import).
 
-Do ONE step only: F1, footage understanding and auto-cutting, whole, in this chat. Goal: a person
-drops their own videos (talking head, screen recordings, B-roll) and asks in the chat, in any
-language, "cut this" or "make a 60-second edit with B-roll"; the agent understands the footage and
-the edit appears on the timeline within seconds, as one undo step, by hand and as MCP tools.
-Build, as commands (registry, so they become tools; AtomCut-style names):
-- analysis per media, cached and reused: word times (Sarvam STT, long files in 30 s pieces, any
-  Indian language or English), speech/silence with a gate calibrated per clip
-  (trough + 0.6 x (peak - trough), clamp -60..-24 dB, refuse below 12 dB range), shot changes
-  (ffmpeg scene score, threshold mean + 2.5 sd clamped 0.15..0.40), and a contact sheet per shot
-  range that the agent looks at with its own vision (text-only fallback when it can't see); the
-  agent can store a one-line description per shot.
-- media_remove_pauses / a transcript-tighten plan: silences, fillers per language (English and
-  Hindi/Hinglish at least: um, uh, matlab, toh, haan, accha, basically, you know...), false starts
-  (adjacent 1-4 word repeats within 0.6 s, first copy goes), long pauses with the breathing-room
-  rule (x2.5 after . ? !, x1.5 after , ; :), handles, sliver merge, a reason per removal, swallowed
-  retakes flagged; tightness generous (default) / balanced / tight. Plan, optional review markers,
-  apply: applied in ONE transaction that cuts the clips in place (or into a new comp with
-  `variant: true`), so the timeline updates at once and undo restores it.
-- footage search (spoken words with in/out selects; shot descriptions) and B-roll placement:
-  cutaways inside a sentence's span, inset 0.15 s, at least 0.8 s, never over protected beats,
-  placed on the track above, picked by the agent from the search.
-- the skill: a recipe "rough cut from raw footage" (analyse, plan, review, apply, B-roll, captions,
-  sound pass), and a short Easy-mode example in the chat panel's suggestions.
-Research more only if needed (how AtomCut's media_remove_pauses and media_transcribe take input:
-its MCP tool schemas via ToolSearch). First write the lettered sub-steps (F1a, F1b, ...) under a new
-"Plan of F1" in docs/HANDOFF.md, start at once and run through every sub-step without stopping (no
-plan mode, no waiting for approval). Owner's rule: build everything first and test once at the end;
-usage is limited. After each sub-step: tests and type checks pass, update the "F1 progress" note,
-commit and push to main (owner is the only author; no AI attribution). Delegate bounded pieces to
-Sonnet subagents on separate files; the main chat verifies. Main-process changes and new files under
-skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user environment). At
-the end, in the running app: make a 1-2 minute talking-head test file with pauses, fillers and a
-retake (Sarvam TTS lines joined with ffmpeg silences, in the session scratchpad) plus a
-screen-recording-like clip, and ask OpenCode in Easy mode to cut it and add the recording as B-roll;
-time it. Then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the
-Status in CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end
-your reply with the prompt for the next step (B1, from the archive).
+Phase B (OpenScreen features) starts now. First, if docs/PLAN.md has no numbered phase B steps, write
+them there (B1, B2, … each one chat: recorder and capture helpers, cursor telemetry and auto-zoom as
+editable zoom keyframes, background/padding/rounded corners/shadow as layer properties, agent tools
+and skill). Then do ONE step only: B1, screen recording, whole, in this chat. Goal: record the screen
+(a display or a window, with system audio and the mic, optional webcam) from inside the editor, by
+hand and as an agent tool; the recording lands in the project as a clip (the file stays on disk, as
+every media file), with its cursor positions and clicks kept beside it for B2's auto-zoom. Research
+first: OpenScreen (MIT) on GitHub, its native capture helpers (Windows Graphics Capture), cursor
+telemetry and file layout; what Electron's desktopCapturer gives on Windows 11 with the Intel GPU
+only; keep OpenScreen's MIT notice for anything ported. It must work in both Easy and Advanced modes
+and from the chat ("record my screen for 20 seconds"). First write the lettered sub-steps (B1a, B1b,
+...) under a new "Plan of B1" in docs/HANDOFF.md, start at once and run through every sub-step
+without stopping (no plan mode, no waiting for approval). Owner's rule: build everything first and
+test once at the end; usage is limited. After each sub-step: tests and type checks pass, update the
+"B1 progress" note, commit and push to main (owner is the only author; no AI attribution). Delegate
+bounded pieces to Sonnet subagents on separate files; the main chat verifies. Main-process changes
+and new files under skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user
+environment). At the end, record a short clip in the running app by hand and once through OpenCode;
+then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in
+CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end your reply
+with the prompt for the next step (B2).
 ```
 
-## Plan of F1 (written 2026-10-30)
+## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
 
-Times: analysis is in media time; a layer maps it to comp time by `startMs + (mediaMs - sourceStartMs) / playbackRate`.
-
-- **F1a, core.** Format 19: `media.footage` (gate, speech ranges, shots with descriptions, scene threshold) and comp `markers` (review marks). Pure module `packages/core/src/footage.ts`: gate calibration (trough + 0.6 × (peak − trough), clamp −60…−24 dB, refuse under 12 dB), speech ranges from 20 ms loudness, scene threshold (mean + 2.5 sd, 0.15…0.40) and shots, filler lists per language (English, Hindi in Devanagari and Latin, a few more Indian languages), tighten plan (head/tail air, long pauses with breathing room ×2.5 / ×1.5, fillers, false starts, retakes, handles, slivers, reasons, swallowed-retake flags; generous/balanced/tight), sentences, footage search (words with in/out selects, shot descriptions), B-roll placement (inside a sentence, inset 0.15 s, ≥ 0.8 s, never over protected beats, relevance ≥ 0.35), media↔comp time. Core commands `media.footage` (store), `media.describe_shots`, `timeline.markers`. Tests.
-- **F1b, analysis (desktop).** `media.analyze` (loudness gate and speech ranges from the decoded sound; Sarvam STT in verbatim mode, ≤ 30 s pieces, words aligned; shots from a frame-difference scene score over small frames via mediabunny; cached on the media, reused); host tool `media_inspect` (contact sheet of a shot or range of a media file, with the words spoken in it; text-only answer with `frames: 0`). Sarvam STT `mode`.
-- **F1c, cutting (desktop).** `media.remove_pauses` (AtomCut's shape plus `tightness`, `fillers`, `falseStarts`, `retakes`, `markers`, `variant`): dryRun gives the plan with reasons; apply cuts in one step (in place via `timeline.cut_ranges`, or into a duplicated frame with `variant`). `media.search`, `timeline.place_broll`.
-- **F1d, by hand.** Inspector ▸ Footage section on video/audio layers (Analyse, transcript and shots, tightness, Mark, Cut, as new comp); timeline draws markers; chat example in Easy mode.
-- **F1e, skill and docs.** Skill 0.25.0: "Footage" section and recipe "Rough cut from raw footage" (analyse, plan, review, apply, B-roll, captions, sound pass); `docs/core-api.md` rows.
-- **F1f, live test.** Talking-head test file (Sarvam TTS lines, pauses, fillers, a retake) and a screen-recording-like clip; OpenCode in Easy mode cuts and adds B-roll; timed. End-of-step docs.
-
-### F1 progress
-
-- F1a, F1b, F1c done (code; live check at F1f): format 19 (`media.footage`, comp `markers`), `core/src/footage.ts` (+ tests), core commands `media.footage`, `media.describe_shots`, `timeline.markers` (`commands/footage.ts`); desktop `agent/footageCommands.ts` (`media.analyze`, `media.remove_pauses`, `media.search`, `timeline.place_broll`), `agent/footageInspect.ts` (host tool `media_inspect`), `media/footageFrames.ts` (scene scores, stills); Sarvam STT `mode: verbatim` (main change: restart `pnpm dev`), `media.transcribe {mode}`.
-- F1d done: Inspector ▸ Footage (`components/FootageSection.tsx`: Analyse, Generous/Balanced/Tight, As new frame, Mark cuts, Cut); review marks on the timeline ruler (`Ruler {markers}`, cut red, flag amber, note violet; hover for the reason); chat example "Cut the pauses and ums from my clip, then add the screen recording as B-roll".
-
-## Last chunk: M1, Easy and Advanced modes, speaking to the chat (2026-10-30)
-
-- Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "O1 last chunk, M1 plan and progress"); files and names in `docs/HISTORY.md` ▸ M1; AtomCut findings in `docs/research/atomcut-inspiration.md` ▸ "Easy and Advanced modes (step M1 research)".
-- Built: `uiMode.ts` and store `uiMode` (Easy on first launch, remembered in `uve.uiMode`), the Easy/Advanced switch in the left rail and Main menu ▸ View, the Easy layout (Chat, Media, Library tabs; chat 380 px; preview; `Timeline simple`; Export only on the right rail), `agent/chatContext.ts` (editor context sent ahead of every prompt, unseen in the transcript), `agent/micRecorder.ts` and the chat's mic button (Sarvam STT, any language).
-- Test: "इसे लाल कर दो" with a title selected turned it red in about 8 s and OpenCode answered in Hindi; the mic recorded, Sarvam transcribed and the chat sent it; Advanced showed the same project with every panel; the mode survived a reload.
-- Git (owner's rule from 2026-10-30): commit and push to `main` of `github.com/RudraO2/ultimate-video-editor` (private) after every sub-step, without asking; the owner is the only author.
-- Loose ends: the owner has not yet spoken a real sentence to it (only room sound was tested); no push-to-talk key; panel sizes per mode are not remembered; the Advanced Agents tab holds the same chat as Easy's Chat tab.
+- Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "M1 last chunk, F1 plan and progress"); files and names in `docs/HISTORY.md` ▸ F1.
+- Built: format 19 (`media.footage`, comp `markers`); `core/src/footage.ts` (gate, speech spans, shots, fillers per language, tighten plan, word fitting, search, B-roll placement); commands `media.analyze`, `media.remove_pauses`, `media.search`, `timeline.place_broll`, `media.footage`, `media.describe_shots`, `timeline.markers`, host tool `media_inspect`; Sarvam STT verbatim mode; Inspector ▸ Footage; markers on the ruler; skill 0.25.0 (recipe 12).
+- Test: 79 s talking head (pauses, um/uh/hmm, false starts, a retake) cut to 59.3 s in 185 ms after a 3–7 s analysis; OpenCode in Easy mode with the chat example did analyse, inspect, plan, cut, two cutaways, frames check in 101 s (cut visible after about 45 s); undo restores.
+- Loose ends: word times are estimates (a word can drift across a pause, so a retake cut may leave a stray word); Saaras wrote one English piece in Devanagari; long files decoded whole; no by-hand B-roll or search UI; markers do not ripple; `media_import` does not lengthen the comp.
 
 ## Plan of Phase Q
 

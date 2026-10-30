@@ -46,13 +46,14 @@ Everything must also work by hand.
 - **S1 done (2026-10-30):** Sarvam voices (`generate_speech`, one take per phrase), word times (`media_transcribe`, own alignment), `text_translate`, `comp_localize`, `timeline_insert_time`, Indic scripts fall back to Noto, Voice tab; format 18; skill 0.24.0; A/B vs Sarvam Dubbing in `docs/benchmarks/results.md`. Key in user env `SARVAM_API_KEY` (start `pnpm dev` with it set). Details in `docs/HISTORY.md` ▸ S1.
 - **O1 done (2026-10-30):** OpenCode inside app over ACP (`main/opencode.ts`, Agents tab ▸ OpenCode chat), own config folder, our MCP and skill, video-only permissions, key via `safeStorage`; default `opencode/glm-5.3-flash-free`; brief 01 made by it. Details in `docs/HISTORY.md` ▸ O1.
 - **M1 done (2026-10-30):** Easy (chat, preview, simple timeline, Export) and Advanced modes, switch remembered (`uve.uiMode`); chat sends editor context (selection, playhead) and takes speech in any language (Sarvam STT). Details in `docs/HISTORY.md` ▸ M1.
-- **Next: F1, footage understanding and auto-cutting** (owner moved it before phase B; prompt in `docs/HANDOFF.md` ▸ Next task). Then phase B (B1 screen recording).
+- **F1 done (2026-10-30):** footage read once (`media_analyze`: Sarvam verbatim words fitted to a per-file speech gate, shots), `media_remove_pauses` (reasons, generous/balanced/tight, markers, `variant`), `media_search`, `timeline_place_broll`, `media_inspect`, Inspector ▸ Footage; format 19; skill 0.25.0. OpenCode cut a 79 s talking head to 59 s with B-roll in 101 s. Details in `docs/HISTORY.md` ▸ F1.
+- **Next: B1, screen recording** (phase B starts; prompt in `docs/HANDOFF.md` ▸ Next task).
 - **Still to check by hand:** real Export save dialog (Ctrl+E, each format's filter, PNG sequence folder dialog) and "Show in folder"; project Save/Open dialogs and native close warning (CDP can't drive); adding server to Claude Code with `claude mcp add`.
 - **Git:** private repo `github.com/RudraO2/ultimate-video-editor`, branch `main` (first push 2026-10-30).
 
 ## Gotchas (learnt the hard way; details in `docs/HISTORY.md` and `docs/handoff-archive.md` ▸ Notes)
 
-- Every schema change bumps project file format (now 18) and converts older files in `packages/core/src/projectFile.ts`.
+- Every schema change bumps project file format (now 19) and converts older files in `packages/core/src/projectFile.ts`.
 - Property specs per layer: `propertiesOf(layer)`, `resolveProperty(layer, name)`, `readProperty`/`writeProperty`. Merge inputs use `optionalFields` (`schema.ts`), not zod's `.partial()` (drops defaults).
 - AtomCut input shapes go through `core/src/compat.ts` (`FIELD_ALIASES`, `toKey`); command names follow AtomCut tool names (`timeline.close_gaps` is `timeline_close_gaps`).
 - Agent calls within 45 s = one undo step; one MCP session can't undo another's step.
