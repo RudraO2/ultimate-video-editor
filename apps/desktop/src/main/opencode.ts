@@ -430,7 +430,9 @@ async function openSession(): Promise<void> {
     mcpServers: [{ type: 'http', name: 'uve', url: endpoint.url, headers: [{ name: 'Authorization', value: `Bearer ${endpoint.token}` }] }],
   }, START_TIMEOUT_MS)
   setStatus({ sessionId: result.sessionId, usage: null, ...readOptions(result.configOptions) })
-  const { effort } = await readSettings()
+  const { effort, model } = await readSettings()
+  // A new session starts on the config's model; the one picked since (Sarvam's, say) is put back.
+  if (model && model !== status.model && status.models.some((m) => m.value === model)) await setOption('model', model).catch(() => undefined)
   if (effort && status.efforts.some((e) => e.value === effort) && effort !== status.effort) await setOption('effort', effort).catch(() => undefined)
 }
 
