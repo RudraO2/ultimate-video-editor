@@ -42,6 +42,10 @@ export interface OpenCodeChoice {
 /** The default model (OpenCode Zen's free GLM), set by the owner. */
 export const DEFAULT_OPENCODE_MODEL = 'opencode/glm-5.3-flash-free'
 
+/** The same GLM served by Sarvam (OpenAI-compatible, in India): the default when a Sarvam key is set. */
+export const SARVAM_OPENCODE_MODEL = 'sarvam/glm5.3-flash'
+export const SARVAM_CHAT_BASE_URL = 'https://api.sarvam.ai/v2'
+
 /** The OpenCode version the app installs when none is found (MIT, npm `opencode-ai`). */
 export const OPENCODE_VERSION = '1.18.32'
 

@@ -9,12 +9,18 @@ import {
   type AcpToolCall,
   DEFAULT_OPENCODE_MODEL,
   initialOpenCodeStatus,
+  SARVAM_CHAT_BASE_URL,
+  SARVAM_OPENCODE_MODEL,
   OPENCODE_VERSION,
   type OpenCodeChoice,
   type OpenCodeEvent,
   type OpenCodeStatus,
 } from '../shared/opencode'
 import { mcpEndpoint, skillFiles } from './agent'
+import { sarvamKey } from './sarvam'
+
+/** The env var OpenCode reads the Sarvam key from (its Sarvam provider). */
+const SARVAM_KEY_ENV = 'UVE_SARVAM_CHAT_KEY'
 
 // OpenCode inside the app. The main process starts `opencode acp` and speaks
 // the Agent Client Protocol to it: newline-delimited JSON-RPC on stdio. Each
@@ -151,8 +157,9 @@ const VIDEO_ONLY = {
 }
 
 /** Writes our config, the agent's instructions and the skill (fresh on every start, so they match this build). */
-async function writeWorkspace(settings: Settings, hasKey: boolean): Promise<void> {
-  const model = settings.model ?? DEFAULT_OPENCODE_MODEL
+async function writeWorkspace(settings: Settings, hasKey: boolean, hasSarvam: boolean): Promise<void> {
+  // With a Sarvam key the agent thinks on Sarvam (the same GLM, served in India); OpenCode Zen stays in the picker.
+  const model = settings.model ?? (hasSarvam ? SARVAM_OPENCODE_MODEL : DEFAULT_OPENCODE_MODEL)
   const config: Record<string, unknown> = {
     $schema: 'https://opencode.ai/config.json',
     model,
@@ -160,7 +167,17 @@ async function writeWorkspace(settings: Settings, hasKey: boolean): Promise<void
     share: 'disabled',
     permission: VIDEO_ONLY,
   }
-  if (hasKey) config.provider = { [settings.keyProvider ?? providerOf(model)]: { options: { apiKey: `{env:${KEY_ENV}}` } } }
+  const providers: Record<string, unknown> = {}
+  if (hasKey) providers[settings.keyProvider ?? providerOf(model)] = { options: { apiKey: `{env:${KEY_ENV}}` } }
+  if (hasSarvam) {
+    providers.sarvam = {
+      npm: '@ai-sdk/openai-compatible',
+      name: 'Sarvam (India)',
+      options: { baseURL: SARVAM_CHAT_BASE_URL, apiKey: `{env:${SARVAM_KEY_ENV}}` },
+      models: { 'glm5.3-flash': { name: 'GLM 5.3 Flash on Sarvam', tool_call: true, limit: { context: 200000, output: 32000 } } },
+    }
+  }
+  if (Object.keys(providers).length > 0) config.provider = providers
   const configDir = join(configHome(), 'opencode')
   await fs.mkdir(configDir, { recursive: true })
   await fs.writeFile(join(configDir, 'opencode.json'), JSON.stringify(config, null, 2), 'utf8')
@@ -354,7 +371,7 @@ function cancelQuestions(): void {
 
 // ---- The process and its chat ----
 
-function startProcess(path: string, key: string | null): ChildProcess {
+function startProcess(path: string, key: string | null, sarvam: string | null): ChildProcess {
   const env: NodeJS.ProcessEnv = {
     ...process.env,
     XDG_CONFIG_HOME: configHome(),
@@ -365,6 +382,7 @@ function startProcess(path: string, key: string | null): ChildProcess {
   // The agent reaches Sarvam through the editor's tools; it needs no key of its own.
   delete env.SARVAM_API_KEY
   if (key) env[KEY_ENV] = key
+  if (sarvam) env[SARVAM_KEY_ENV] = sarvam
   const proc = spawn(path, ['acp'], { cwd: workDir(), env, stdio: ['pipe', 'pipe', 'pipe'], windowsHide: true })
   let buffer = ''
   proc.stdout?.setEncoding('utf8')
@@ -426,9 +444,10 @@ async function launch(): Promise<void> {
   const settings = await readSettings()
   const key = await readKey()
   setStatus({ hasKey: key !== null, keyHint: key ? keyHint(key) : null })
-  await writeWorkspace(settings, key !== null)
+  const sarvam = await sarvamKey()
+  await writeWorkspace(settings, key !== null, sarvam !== null)
   stderrTail = ''
-  child = startProcess(found.path, key)
+  child = startProcess(found.path, key, sarvam)
   try {
     await request('initialize', { protocolVersion: 1, clientCapabilities: { fs: { readTextFile: false, writeTextFile: false }, terminal: false } }, START_TIMEOUT_MS)
     await openSession()

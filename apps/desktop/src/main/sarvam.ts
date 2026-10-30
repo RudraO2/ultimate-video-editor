@@ -82,6 +82,11 @@ const sha = (...parts: (string | Uint8Array)[]) => {
 
 // ---- Key ----
 
+/** The Sarvam key, for OpenCode's Sarvam provider (main process only). */
+export async function sarvamKey(): Promise<string | null> {
+  return (await currentKey())?.key ?? null
+}
+
 async function currentKey(): Promise<{ key: string; source: 'settings' | 'environment' } | null> {
   const saved = (await readJson<{ key?: unknown }>('settings.json', {})).key
   if (typeof saved === 'string' && saved !== '') return { key: saved, source: 'settings' }
