@@ -340,3 +340,17 @@ await fly('z', 16 * U)
 await ac.keyframes.set({ id: cloud.id, property: 'y', keys: [{ t: MOVE, v: 0, ease: 'ease-in-out' }, { t: MOVE + FLY, v: 45 * U }] })
 return { sky: sky.id, nested: moved.nestedId, world, camera: cameraId, aim: aim.id, word: word.id, cloud: cloud.id }
 ```
+
+## 12. Rough cut from raw footage
+
+The user dropped their own clips (a talking head, a screen recording, B-roll) and asks to "cut this", "remove the pauses and ums" or "make a 60-second edit with B-roll", in any language. See "Raw footage: rough cuts" in SKILL.md.
+
+1. **Orient.** `doc_overview`, `layers_list`: which layer is the speaker (video or audio with a voice), which clips are B-roll. Nothing on the timeline yet: `media_import {localPath, place}` the speaker first.
+2. **Analyse** each clip once: `media_analyze {id: <speaker layer>}` (words, pauses, shots) and `media_analyze {id: <B-roll media>, words: false}` when a clip has no voice worth hearing (a screen recording with music).
+3. **Look.** `media_inspect {id}` on each B-roll clip (one tile per shot), then `media_describe_shots` with one line per shot. Without vision, `frames: 0`.
+4. **Plan the cut.** `media_remove_pauses {id, dryRun: true}` (generous unless asked for tight). Read the reasons and the flags. If the user wants to review, add `markers: true` and stop to ask; otherwise go on.
+5. **Apply.** The same call without `dryRun`: one undo step. For a length target, drop whole sentences with `timeline_cut_ranges` until it fits, starting with repeats and asides, never the opening hook or the closing line.
+6. **B-roll.** Re-read the sentences (`media_analyze {id}` again is free and gives the new comp times of the cut speaker), match each B-roll shot to the sentence about it (`media_search` helps), then one `timeline_place_broll` with every cutaway and the first and last sentences in `protected`.
+7. **Captions.** `media_transcribe {id: <speaker layer>, captions: true}`: one word-synced caption per phrase, on the cut timing.
+8. **Sound pass** (The loop, step 6): the speaker on `voice`, a bed if there is one, then `view_frames` across the edit and, when asked, `export_video`.
+9. **Report** what was cut (seconds removed, fillers, retakes), what B-roll went where, and any flags a person should check.

@@ -11,7 +11,6 @@ import {
   loudnessDb,
   type MediaAsset,
   type MediaTiming,
-  mediaToComp,
   placeBroll,
   planTighten,
   type Project,
@@ -79,7 +78,6 @@ async function readFootage(media: MediaAsset, shots: boolean): Promise<FootageIn
   const durationMs = media.durationMs ?? 0
   let gate: FootageInfo['gate'] = null
   let speech: Span[] = []
-  let refused: string | null = null
   if (media.hasAudio !== false) {
     const samples = await decodeMono(media.path)
     const db = loudnessDb(samples, DECODE_RATE, FRAME_MS)
@@ -87,7 +85,7 @@ async function readFootage(media: MediaAsset, shots: boolean): Promise<FootageIn
     if ('gateDb' in calibrated) {
       gate = { gateDb: round1(calibrated.gateDb), troughDb: round1(calibrated.troughDb), peakDb: round1(calibrated.peakDb) }
       speech = speechRanges(db, calibrated.gateDb, FRAME_MS)
-    } else refused = calibrated.refused
+    }
   }
   let sceneThreshold: number | null = null
   let cuts: FootageInfo['shots'] = [{ startMs: 0, endMs: round(durationMs), score: 0, description: null }]
@@ -104,7 +102,6 @@ async function readFootage(media: MediaAsset, shots: boolean): Promise<FootageIn
     const before = media.footage?.shots.find((s) => Math.abs(s.startMs - shot.startMs) < 50 && Math.abs(s.endMs - shot.endMs) < 50)
     if (before?.description) shot.description = before.description
   }
-  void refused
   return { gate, speech, sceneThreshold, shots: cuts }
 }
 
@@ -117,26 +114,56 @@ function needsWords(media: MediaAsset): boolean {
   return !media.speech || media.speech.provider === 'sarvam:saaras:v3'
 }
 
-/** What an analysis tells the agent: sentences and shots, in comp time when a layer was given. */
-function summary(media: MediaAsset, layer: MediaLayer | null, notes: string[]) {
+/** Every piece of `media` in `comp` (a clip cut in pieces is still one take). */
+function piecesOf(comp: Comp, mediaId: string): MediaLayer[] {
+  return comp.tracks.flatMap((t) => t.layers.filter(isMediaLayer).filter((l) => l.mediaId === mediaId))
+}
+
+/** A span of the file in comp time through the pieces that show it: from the first shown moment to the last; null when none shows it. */
+function shownSpan(pieces: readonly MediaLayer[], span: Span): Span | null {
+  const shown = pieces.flatMap((p) => spansToComp(timingOf(p), [span]))
+  if (shown.length === 0) return null
+  return { startMs: round(Math.min(...shown.map((s) => s.startMs))), endMs: round(Math.max(...shown.map((s) => s.endMs))) }
+}
+
+/** The words of `media` that its pieces in `comp` still show, in comp time and order. */
+function compWordsOf(comp: Comp, media: MediaAsset): Word[] {
+  const pieces = piecesOf(comp, media.id)
+  return pieces
+    .flatMap((piece) =>
+      (media.speech?.words ?? []).flatMap((w) => {
+        const [span] = spansToComp(timingOf(piece), [w])
+        // A word is shown when most of it is.
+        return span && (span.endMs - span.startMs) * piece.playbackRate >= 0.5 * (w.endMs - w.startMs) ? [{ text: w.text, startMs: span.startMs, endMs: span.endMs }] : []
+      }),
+    )
+    .sort((a, b) => a.startMs - b.startMs)
+}
+
+/** What an analysis tells the agent: sentences and shots, in comp time (as cut) when a layer was given. */
+function summary(media: MediaAsset, layer: MediaLayer | null, comp: Comp | null, notes: string[]) {
   const footage = media.footage
-  const toTime = (ms: number) => (layer ? round(mediaToComp(timingOf(layer), ms)) : round(ms))
+  const pieces = layer && comp ? piecesOf(comp, media.id) : []
   const words = media.speech?.words ?? []
-  const sentences = sentencesOf(words)
+  const sentences = sentencesOf(layer && comp ? compWordsOf(comp, media) : words)
+  const shots = (footage?.shots ?? []).flatMap((s, index) => {
+    const span = layer ? shownSpan(pieces, s) : { startMs: round(s.startMs), endMs: round(s.endMs) }
+    return span ? [{ index, ...span, ...(s.score ? { score: s.score } : {}), description: s.description }] : []
+  })
   const speechMs = (footage?.speech ?? []).reduce((sum, s) => sum + s.endMs - s.startMs, 0)
   return {
     mediaId: media.id,
     name: media.name,
     kind: media.kind,
     durationMs: media.durationMs ?? null,
-    times: layer ? `comp ms, through layer ${layer.id}` : 'ms from the start of the file',
+    times: layer && comp ? `comp ms in ${comp.id}, as cut` : 'ms from the start of the file',
     language: media.speech?.language ?? null,
     gate: footage?.gate ?? { refused: 'The quiet and loud parts are too close to tell speech from silence; silence is not cut.' },
     speechMs: round(speechMs),
     words: words.length,
-    sentences: sentences.slice(0, MAX_SENTENCES).map((s, index) => ({ index, startMs: toTime(s.startMs), endMs: toTime(s.endMs), text: s.text })),
+    sentences: sentences.slice(0, MAX_SENTENCES).map((s, index) => ({ index, startMs: round(s.startMs), endMs: round(s.endMs), text: s.text })),
     ...(sentences.length > MAX_SENTENCES ? { moreSentences: sentences.length - MAX_SENTENCES } : {}),
-    shots: (footage?.shots ?? []).map((s, index) => ({ index, startMs: toTime(s.startMs), endMs: toTime(s.endMs), ...(s.score ? { score: s.score } : {}), description: s.description })),
+    shots,
     ...(notes.length > 0 ? { notes } : {}),
   }
 }
@@ -159,7 +186,7 @@ export const mediaAnalyze = defineCommand({
   }),
   run: async ({ id, words, shots, language, force }, ctx) => {
     const call: Call = (name, value) => ctx.call(name, value)
-    let { media, layer } = footageOf(ctx.project, id)
+    let { media, layer, comp } = footageOf(ctx.project, id)
     const notes: string[] = []
     if (!media.footage || force) {
       const footage = await readFootage(media, shots)
@@ -173,8 +200,8 @@ export const mediaAnalyze = defineCommand({
       else notes.push(`No words: ${heard.error}${heard.hint ? ` ${heard.hint}` : ''} Pauses can still be cut from the speech gate.`)
     }
     media = ctx.project.media.find((m) => m.id === media.id) ?? media
-    if (layer) layer = (locateLayer(ctx.project, layer.id).layer as MediaLayer | undefined) ?? layer
-    return { ...summary(media, layer, notes), costInr }
+    if (comp) comp = findComp(ctx.project, comp.id)
+    return { ...summary(media, layer, comp, notes), costInr }
   },
 })
 
@@ -373,17 +400,8 @@ export const timelinePlaceBroll = defineCommand({
     if (!layer || !comp) throw new CommandError('voiceId must be a layer on the timeline.', 'Give the speaking video or audio layer.')
     const words = voice.speech?.words ?? []
     if (words.length === 0) throw new CommandError(`${voice.name} has no words yet, so there are no sentences to place cutaways in.`, 'Run media_analyze on it first.')
-    // Every piece of the voice in this comp (it may have been cut): its words in comp time.
-    const pieces = comp.tracks.flatMap((t) => t.layers.filter(isMediaLayer).filter((l) => l.mediaId === voice.id))
-    const compWords = pieces
-      .flatMap((piece) =>
-        words.flatMap((w) => {
-          const [span] = spansToComp(timingOf(piece), [w])
-          return span && span.endMs - span.startMs >= Math.min(30, (w.endMs - w.startMs) / piece.playbackRate) ? [{ text: w.text, startMs: span.startMs, endMs: span.endMs }] : []
-        }),
-      )
-      .sort((a, b) => a.startMs - b.startMs)
-    const sentences = sentencesOf(compWords)
+    // Every piece of the voice in this comp (it may have been cut): its sentences in comp time.
+    const sentences = sentencesOf(compWordsOf(comp, voice))
     const medias = input.cutaways.map((c, index) => {
       const m = ctx.project.media.find((x) => x.id === c.mediaId)
       if (!m) throw new CommandError(`Cutaway ${index}: there is no media ${c.mediaId}.`, 'media_list gives media ids.')

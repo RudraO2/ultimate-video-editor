@@ -50,6 +50,9 @@ The schemas in `src/schema.ts` and every command input are strict zod objects: u
 | `media.envelope` | write | Read a voice's loudness into its media item (what talk and nod follow). |
 | `media.speech` | write | Keep what a voice take says on its media: script, language, voice, speech span and word times (format 18). |
 | `timeline.insert_time` | write | Open room at a comp moment: what follows slides later, what spans it holds on (keys and caption cues after the moment slide too); the inverse of `timeline.cut_ranges`. |
+| `media.footage` | write | Keep what footage holds on its media: the speech gate, speech ranges, shots with score and description (format 19; `media.analyze` writes it). |
+| `media.describe_shots` | write | A one-line description per shot (`[{index, description}]`), so `media.search` finds shots by what they show. |
+| `timeline.markers` | write | Review marks on a comp's ruler (`cut`, `flag`, `note`): add, remove by id, kind or all, or list (comp `markers`, format 19). |
 
 Layers can be addressed by id or by a name that only one layer has. Tool-style names such as `layer_set` are accepted too.
 
@@ -82,4 +85,5 @@ The desktop app adds four commands to its session's registry (`apps/desktop/src/
 - Each registry command is a tool named with `_` for `.` (`layer.set` is `layer_set`), described by its summary and details, with its input's JSON Schema.
 - Tools that need the editor itself are answered outside the registry: `view_render`, `view_frames`, `history_undo` and `media_import` in the renderer (`agent/host.ts`), `uve_status` and `report_issue` in the main process (`main/agent.ts`).
 - Voice and languages are desktop commands (`agent/voiceCommands.ts`, `agent/localizeCommand.ts`) calling Sarvam through the main process (`main/sarvam.ts`, key from user data or `SARVAM_API_KEY`, disk caches, a usage ledger): `voices.list`, `generate.speech`, `media.transcribe`, `text.translate`, `sarvam.usage`, `comp.localize`.
+- Raw footage (`agent/footageCommands.ts`, pure rules in `core/src/footage.ts`): `media.analyze` (speech gate calibrated per file, speech ranges, Sarvam words in verbatim mode, shots from a frame-difference scene score; kept on the media), `media.remove_pauses` (the tighten plan: head and tail air, pauses with breathing room, fillers per language, false starts, retakes, reasons and flags; `dryRun`, `markers`, `variant`; one undo step through `timeline.cut_ranges`), `media.search` (words and shot descriptions, with in/out), `timeline.place_broll` (cutaways inside sentences, inset, minimum length, protected beats, relevance). Host tool `media_inspect` (`agent/footageInspect.ts`): a contact sheet of a file's own shots, with the words said in them.
 - Results are compact JSON text; failures are `isError` results with the error and its hint.

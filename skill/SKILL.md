@@ -1,7 +1,7 @@
 ---
 name: uve
 description: How to design, animate and edit in Ultimate Video Editor through its MCP tools. Use for any request to make or change something in an Ultimate Video Editor project.
-version: 0.24.0
+version: 0.25.0
 ---
 
 # Working in Ultimate Video Editor
@@ -58,6 +58,7 @@ Aim for work that looks intentional: one focal point, clear type, motion with a 
 | 3D worlds | `world_create`, `world_move_into`, `world_add` (mesh, camera, light, controller, text), `world_camera`, `world_inspect`, `world_track` (look at, follow, child of), `world_import_model` (glTF, OBJ, STL, PLY), `world_material`, `world_look`; `catalog_list` `primitives`, `lights` and `materials` |
 | Nest | `layers_nest`, `layer_create {kind: "comp", sourceCompId}`, `layers_makeUnique` |
 | Arrange | `layers_duplicate` (in place, just in front), `layers_copy` (into another comp or the same one, `atMs` moves the earliest start), `layers_restack` (`front`, `back`, `{above: id}`, `{below: id}`), `layers_delete` |
+| Raw footage | `media_analyze` (words, speech and silence, shots; once per file), `media_inspect` (look at a file's shots), `media_describe_shots`, `media_remove_pauses` (pauses, fillers, false starts, retakes; plan, mark, cut), `media_search` (lines and shots), `timeline_place_broll` (cutaways inside sentences), `timeline_markers` (review marks); see "Raw footage: rough cuts" |
 | Time | `timeline_move`, `timeline_trim`, `timeline_split`, `timeline_cut_ranges`, `timeline_insert_time` (open room at a moment: what follows waits) (take stretches out of a layer and ripple, `sync` by default), `timeline_close_gaps` (close every gap on the lanes of these layers), `timeline_compact` (drop empty lanes, let layers fall back without changing what covers what) |
 | Frames and pages | `frame_create`, `frame_update`, `frame_duplicate`, `frame_delete` (inside `api_batch`, the old names `comp.create` and `comp.update` still run them), `page_create`, `page_update`, `page_delete` |
 | Tracks, project | `track_create`, `track_update`, `track_delete`, `project_update` |
@@ -206,6 +207,18 @@ return made
 - **Tidy:** after heavy restructuring, `timeline_compact {compId}` drops empty lanes and lets layers fall into free lanes behind, never changing what covers what. Locked, hidden and muted lanes stay put.
 - Build scene after scene on few lanes: a new layer can share a lane with layers it never plays at the same time as (`trackId`).
 - **The working range** (editor state: not saved, not undone): `session_set {workRange: {startMs, endMs}}` (at least 100 ms; `frameId` for another frame, default the open one) turns it on. Preview then loops inside it, `export_video` writes only that span (its reply gives `startMs` and `workRange`), and `view_frames` with no times spreads its tiles over it. `session_set {workRange: null}` turns it off and keeps the span. Use it to show or export one section; turn it off before exporting the whole video.
+
+## Raw footage: rough cuts
+
+When the user brings their own footage (a talking head, a screen recording, B-roll) and asks to cut it, tighten it or make an edit of a length, read it first, then cut from the plan. The full recipe is 12 in `uve://skill/references/recipes.md`.
+
+- **Read once:** `media_analyze {id}` on each clip (a layer id gives comp times). It finds the speech gate for that file, where the voice is, every word (Sarvam, verbatim, Indian languages or English; ₹0.49 a minute, free when heard before) and the shots, keeps them on the media and returns sentences and shots. Never re-run it without `force`; everything else reuses it.
+- **Look at the picture:** `media_inspect {id}` is one tile per shot; `{id, shot}` or `{fromMs, toMs}` looks inside one. Write what each shot shows with `media_describe_shots {mediaId, shots: [{index, description}]}`, one plain line each (what is seen, any text on screen, the camera). If you cannot see images, `frames: 0` gives the words said in each shot instead; describe from those.
+- **Tighten:** `media_remove_pauses {id, dryRun: true}` returns the plan in comp ms, a reason per cut (pause, filler "um", false start, retake) and flags for a person (a swallowed retake). `tightness`: `generous` (default; long pauses, ums, false starts, restarted sentences), `balanced` (also fillers such as "basically", "matlab", "accha" next to a pause), `tight` (short pauses, every filler phrase). Breathing room is built in: a pause after a sentence keeps 2.5× the air of one inside it. Show the plan when the user wants to review (`markers: true` puts it on the ruler), then apply with the same input and no `dryRun`: one undo step, captions and titles ripple with the words. `variant: true` cuts a copy of the frame and keeps the original.
+- **Fit a length:** after tightening, if the edit is still too long, pick whole sentences to drop from `media_analyze`'s list and pass their spans to `timeline_cut_ranges` (one call, `ripple: "sync"`). Never cut inside a sentence to save time.
+- **Find:** `media_search {query}` finds what is said (word for word or by sentence) and what shots show (their descriptions), with `inMs`/`outMs` of the sentence or shot for a select, and the layers that show it.
+- **B-roll:** decide where each cutaway belongs (the sentence that talks about what it shows), then `timeline_place_broll {voiceId, cutaways: [{mediaId, startMs, endMs?, sourceStartMs?, relevance}]}`. Each is kept inside its sentence (0.15 s in from each end), at least 0.8 s, never over a `protected` beat (a punchline, the speaker's first line, a face reveal) or another cutaway; video is muted and scaled to cover. Give `relevance` honestly (0..1): under 0.35 is refused. Cover jump cuts with cutaways where you can; leave the speaker's face on the opening line and the closing line.
+- **Then** captions (`media_transcribe {id, captions: true}` reuses the words), and the sound pass ("The loop", step 6).
 
 ## Exporting
 
