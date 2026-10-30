@@ -2,7 +2,7 @@ import { CommandError, type CommandResult, defineCommand, findComp, locateLayer,
 import { alignWords, layoutText, scriptFontsOf, speechSpan, splitWords } from '@uve/engine'
 import { z } from 'zod'
 import { mediaUrl } from '../../../shared/media'
-import { BULBUL_V3_SPEAKERS, DEFAULT_SPEAKER, languageCode, SARVAM_LANGUAGES, SARVAM_PRICES, STT_MAX_SECONDS, STT_MODES, type SttRequest, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
+import { BULBUL_V3_SPEAKERS, BULBUL_V4_FLASH_SPEAKERS, DEFAULT_SPEAKER, languageCode, SARVAM_LANGUAGES, SARVAM_PRICES, STT_MAX_SECONDS, STT_MODES, type SttRequest, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { mediaInput } from '../media/import'
 import { probeMedia } from '../media/probe'
 import { loadFont } from '../library/fonts'
@@ -172,7 +172,7 @@ export const voicesList = defineCommand({
   name: 'voices.list',
   summary: 'The voices generate_speech can use: Sarvam Bulbul speakers, the 11 languages they speak, and whether a Sarvam key is set.',
   details:
-    'Every Bulbul v3 speaker speaks every language (Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Marathi, Gujarati, Punjabi, Odia, Indian English). gender is given where Sarvam states it, else null: listen before choosing. Prices are in rupees; sarvam_usage shows what this editor has spent.',
+    'Every Bulbul v3 speaker speaks every language (Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Marathi, Gujarati, Punjabi, Odia, Indian English). gender is given where Sarvam states it, else null: listen before choosing. Bulbul v4 Flash (model "bulbul:v4-flash", Sarvam’s newest: more natural, cheaper) has its own speakers named name_language_style (kavya_hi_conversational, a narrator, a documentary or ads voice; enhi speaks Hinglish): v4Voices lists those for the language; without a v4 voice, generate_speech picks a narrator of the language. Prices are in rupees; sarvam_usage shows what this editor has spent.',
   effect: 'read',
   input: z.strictObject({
     language: z.string().optional().describe('Only check that this language is spoken'),
@@ -187,6 +187,7 @@ export const voicesList = defineCommand({
       defaultVoice: DEFAULT_SPEAKER,
       languages: SARVAM_LANGUAGES.map((l) => ({ code: l.code, name: l.name, native: l.native })),
       voices: BULBUL_V3_SPEAKERS.filter((s) => !gender || s.gender === gender),
+      v4Voices: BULBUL_V4_FLASH_SPEAKERS.filter((s) => !language || s.split('_')[1] === language.toLowerCase().split('-')[0] || s.split('_')[1] === 'enhi').map((id) => ({ id, language: id.split('_')[1], style: id.split('_').slice(2).join(' ') })),
       key: status.hasKey ? `set (${status.source})` : 'missing: set it in the Voice tab',
       pricesInr: SARVAM_PRICES,
     }
@@ -205,7 +206,7 @@ export const generateSpeech = defineCommand({
       text: z.string().min(1).max(2500).optional(),
       lines: z.array(z.string().min(1).max(2500)).min(1).max(50).optional(),
       language: languageField.optional(),
-      voice: z.string().min(1).optional().describe('A speaker from voices_list (default shubh)'),
+      voice: z.string().min(1).optional().describe('A speaker from voices_list (default shubh; with model bulbul:v4-flash, a v4 voice or a narrator of the language)'),
       model: z.enum(TTS_MODELS).optional(),
       pace: z.number().min(0.5).max(2).optional(),
       temperature: z.number().min(0.01).max(1).optional().describe('Lower is steadier, higher more expressive (default 0.6)'),
@@ -411,7 +412,7 @@ export const mediaTranscribe = defineCommand({
           text: heard.text,
           language: heard.language ?? requireLanguage(language, heard.text),
           voice: null,
-          provider: mode === 'verbatim' ? 'sarvam:saaras:v3:verbatim' : 'sarvam:saaras:v3',
+          provider: mode === 'verbatim' ? 'sarvam:saaras:v4:verbatim' : `sarvam:saaras:v4${mode === 'codemix' ? ':codemix' : ''}`,
           startMs: span?.startMs ?? 0,
           endMs: span?.endMs ?? Math.round((samples.length / DECODE_RATE) * 1000),
           words,

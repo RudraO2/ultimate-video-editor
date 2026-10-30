@@ -135,7 +135,8 @@ function round1(n: number): number {
 
 /** A take heard by Saaras in its default mode has lost its fillers; footage needs every word. */
 function needsWords(media: MediaAsset): boolean {
-  return !media.speech || media.speech.provider === 'sarvam:saaras:v3'
+  const provider = media.speech?.provider ?? ''
+  return !media.speech || (provider.startsWith('sarvam:saaras') && !provider.endsWith(':verbatim'))
 }
 
 /** Every piece of `media` in `comp` (a clip cut in pieces is still one take). */

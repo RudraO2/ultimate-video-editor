@@ -13,6 +13,7 @@ import {
   translateCost,
   ttsBody,
   ttsCost,
+  v4SpeakerFor,
   wavSeconds,
 } from './sarvam'
 
@@ -64,7 +65,16 @@ describe('ttsBody', () => {
 
   it('passes pace and temperature when given', () => {
     const body = ttsBody({ text: 'hi', language: 'en', speaker: 'ritu', model: 'bulbul:v4-flash', pace: 1.2, temperature: 0.3, sampleRate: 24000 })
-    expect(body).toMatchObject({ speaker: 'ritu', model: 'bulbul:v4-flash', pace: 1.2, temperature: 0.3, speech_sample_rate: 24000 })
+    // ritu is a v3 speaker, which v4 Flash refuses: an English narrator of v4 takes its place.
+    expect(body).toMatchObject({ model: 'bulbul:v4-flash', pace: 1.2, temperature: 0.3, speech_sample_rate: 24000 })
+    expect(body.speaker).toMatch(/_en_/)
+  })
+
+  it('gives a v4 Flash take a v4 voice of its language', () => {
+    expect(v4SpeakerFor('hi-IN')).toMatch(/_hi_/)
+    expect(v4SpeakerFor('ta-IN')).toMatch(/_ta_/)
+    expect(v4SpeakerFor('ml-IN')).toBe('shubh_enhi_ads')
+    expect(v4SpeakerFor('hi-IN', 'kavya_hi_conversational')).toBe('kavya_hi_conversational')
   })
 
   it('refuses text that is empty or too long', () => {

@@ -402,7 +402,7 @@ function useMic(onText: (text: string) => void) {
         notify('Nothing was heard. Click the microphone, speak, then click it again.')
         return
       }
-      const answer = await window.uve.sarvam.stt({ wav: encodeWav(samples, 16000) })
+      const answer = await window.uve.sarvam.stt({ wav: encodeWav(samples, 16000), mode: 'codemix' })
       const text = answer.transcript.trim()
       if (text) latest.current(text)
       else notify('Nothing was heard. Click the microphone, speak, then click it again.')

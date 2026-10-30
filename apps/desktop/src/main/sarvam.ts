@@ -237,7 +237,7 @@ async function stt(req: SttRequest): Promise<SttResult> {
   if (seconds === null) throw new Error('Speech to text needs a WAV file.')
   if (seconds > STT_MAX_SECONDS + 0.5) throw new Error(`Speech to text takes ${STT_MAX_SECONDS} seconds at most; this is ${Math.round(seconds)}.`)
   const language = req.language && req.language !== 'unknown' ? (languageCode(req.language) ?? req.language) : 'unknown'
-  const model = req.model ?? 'saaras:v3'
+  const model = req.model ?? 'saaras:v4'
   // Verbatim keeps fillers and false starts (what footage cutting needs); the cache key
   // leaves the default mode out so earlier entries still hit.
   const mode = req.mode && req.mode !== 'transcribe' ? req.mode : undefined
