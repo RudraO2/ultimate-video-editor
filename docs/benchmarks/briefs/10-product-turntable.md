@@ -1,0 +1,8 @@
+# 10 · Product turntable
+
+**Brief:**
+Make a 6-second 1920×1080 product shot of a simple perfume bottle (a rounded glass-like body, a short neck and a gold cap; build it from simple shapes). It stands on a soft studio floor with a gentle reflection or contact shadow under it. The camera circles slowly around the bottle the whole time, always keeping it centred and slightly from above, while the bottle itself turns slowly the other way. Light it like a studio product photo: a soft key from one side, a rim of light on the edges, a neutral dark grey background. End on a calm frame with the product name "AURA" small under the bottle.
+
+**AtomCut's recipe (the bar):** `world_create` (starter off, a dark neutral background); the product from primitives with `world_add {kind: mesh}` (a cylinder or rounded cube body, a narrow cylinder neck, a cap) given materials with `world_material` (`glass` or `frosted` for the body, `gold` for the cap), stood on z = 0 by half their heights and grouped or parented to a controller so it turns as one; a `world_add {kind: controller}` at the product's centre with the camera tied to it by `world_track {childOf}` and the controller's `rotation` keyed 0 → a part of a turn (linear) for the orbit, the camera aimed by `world_track {lookAt}`; the product's own `rotation` keyed the other way; lights from `world_add {kind: light}` (an `environment` studio light for reflections, a `spot` or `area` key light and a rim light behind); `world_look {floor: {mode: "mirror" or "shadow"}, ao, shadows: true}` and a touch of bloom; the name as a small text picture; `world_inspect` at the start, middle and end to check the framing; then export.
+
+**Media:** none.

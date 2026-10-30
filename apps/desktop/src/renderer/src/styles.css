@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/*
+ * Dark theme: floating rounded panels on a near-black stage, with a pink-red
+ * brand colour for active states (see docs/research/atomcut-inspiration.md).
+ */
+@theme {
+  --color-app: #08060a;
+  --color-panel: #100c11;
+  --color-stage: #060406;
+  --color-lane: #140f14;
+  --color-card: #161016;
+  --color-raised: #1b141b;
+  --color-field: rgb(255 255 255 / 4%);
+  --color-hover: rgb(255 255 255 / 8%);
+  --color-line: rgb(255 255 255 / 7%);
+  --color-ink: #f1eaee;
+  --color-muted: #8c818a;
+  --color-accent: #ff4e6a;
+  --color-ok: #2fd47a;
+  --color-clip-text: #9d8bff;
+  --color-clip-shape: #4cc3e0;
+  --color-clip-image: #e8b04b;
+  --color-clip-video: #7c9dff;
+  --color-clip-audio: #46d39a;
+  --color-clip-group: #d6c3a5;
+  --color-clip-path: #ff86c8;
+  --color-clip-nested: #f2a65a;
+  --radius-panel: 12px;
+  --spacing-gap: 6px;
+  --shadow-panel: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-float: inset 0 1px 0 rgb(255 255 255 / 12%), 0 16px 48px -12px rgb(0 0 0 / 70%), 0 4px 12px -4px rgb(0 0 0 / 40%);
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+}
+
+/* The motion path drawn on the viewport. Static: the canvas reads these, no class uses them, and Tailwind would drop them. */
+@theme static {
+  --color-motion: #8b5cf6;
+  --color-motion-halo: rgb(10 10 14 / 62%);
+  --color-motion-ink: #ffffff;
+}
+
+/* A floating control: a translucent popover over the stage, such as the zoom pill. */
+@utility glass {
+  background: color-mix(in srgb, var(--color-raised) 88%, transparent);
+  backdrop-filter: blur(24px) saturate(1.9);
+  box-shadow: var(--shadow-float);
+}
+
+/* A toggle or tab that is on: a brand-tinted fill with brand-coloured content. */
+@utility active-tint {
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  color: var(--color-accent);
+}
+
+html {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+body {
+  margin: 0;
+  background: var(--color-app);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  overflow: hidden;
+  user-select: none;
+}

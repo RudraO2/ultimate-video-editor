@@ -1,0 +1,2884 @@
+{
+ "capturedAt": "2026-10-25",
+ "source": "AtomCut 4.17.0 live app over CDP (port 9333), network capture while browsing the Library and the Plugins tab",
+ "sources": {
+  "soundLibrary": "https://library.atomcut.net/v1/index.json (packs/<id>.json, blobs/<sha256>.<ext>)",
+  "icons": "https://icons.atomcut.net (an Iconify API mirror; collections, <prefix>.json?icons=...; falls back to https://api.iconify.design)",
+  "fonts": "https://fonts.googleapis.com and fonts.gstatic.com (Google Fonts, 1944 families in the Fonts plugin) plus local system fonts"
+ },
+ "totals": {
+  "soundPacks": 91,
+  "sounds": 4555,
+  "soundBytes": 80264036,
+  "iconSets": 243,
+  "icons": 416940,
+  "iconSetsExcluded": [
+   "gridicons (GPL-2.0-only)",
+   "wordpress (GPL-2.0-or-later)",
+   "cbi (CC-BY-NC-SA-4.0)",
+   "dashicons (GPL-2.0-or-later)",
+   "gala (GPL-3.0)",
+   "icomoon-free (GPL-3.0-or-later)",
+   "et (GPL-3.0-or-later)",
+   "ps (CC-BY-NC-4.0)"
+  ]
+ },
+ "soundPacks": [
+  {
+   "id": "impacts-risers",
+   "title": "Impacts & Risers",
+   "publisher": "AtomCut",
+   "sounds": 8,
+   "bytes": 750934,
+   "license": "CC0-1.0",
+   "attribution": "AtomCut",
+   "manifest": "https://library.atomcut.net/v1/packs/impacts-risers.json"
+  },
+  {
+   "id": "kenney-casino-audio",
+   "title": "Casino Audio",
+   "publisher": "Kenney",
+   "sounds": 55,
+   "bytes": 1237621,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-casino-audio.json"
+  },
+  {
+   "id": "kenney-digital-audio",
+   "title": "Digital Audio",
+   "publisher": "Kenney",
+   "sounds": 63,
+   "bytes": 1659943,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-digital-audio.json"
+  },
+  {
+   "id": "kenney-impact-sounds",
+   "title": "Impact Sounds",
+   "publisher": "Kenney",
+   "sounds": 128,
+   "bytes": 924511,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-impact-sounds.json"
+  },
+  {
+   "id": "kenney-interface-sounds",
+   "title": "Interface Sounds",
+   "publisher": "Kenney",
+   "sounds": 95,
+   "bytes": 522115,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-interface-sounds.json"
+  },
+  {
+   "id": "kenney-music-jingles",
+   "title": "Music Jingles",
+   "publisher": "Kenney",
+   "sounds": 86,
+   "bytes": 1367785,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-music-jingles.json"
+  },
+  {
+   "id": "kenney-rpg-audio",
+   "title": "RPG Audio",
+   "publisher": "Kenney",
+   "sounds": 52,
+   "bytes": 907278,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-rpg-audio.json"
+  },
+  {
+   "id": "kenney-sci-fi-sounds",
+   "title": "Sci-Fi Sounds",
+   "publisher": "Kenney",
+   "sounds": 73,
+   "bytes": 3415166,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-sci-fi-sounds.json"
+  },
+  {
+   "id": "kenney-ui-audio",
+   "title": "UI Audio",
+   "publisher": "Kenney",
+   "sounds": 52,
+   "bytes": 520805,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-ui-audio.json"
+  },
+  {
+   "id": "kenney-voiceover-pack",
+   "title": "Voiceover Pack",
+   "publisher": "Kenney",
+   "sounds": 51,
+   "bytes": 2131344,
+   "license": "CC0-1.0",
+   "attribution": "Kenney · kenney.nl · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/kenney-voiceover-pack.json"
+  },
+  {
+   "id": "motion-essentials",
+   "title": "Motion Essentials",
+   "publisher": "AtomCut",
+   "sounds": 22,
+   "bytes": 1276252,
+   "license": "CC0-1.0",
+   "attribution": "AtomCut",
+   "manifest": "https://library.atomcut.net/v1/packs/motion-essentials.json"
+  },
+  {
+   "id": "opengameart-10-8bit-coin-sounds",
+   "title": "10 8bit coin sounds",
+   "publisher": "lukerustltd",
+   "sounds": 10,
+   "bytes": 63107,
+   "license": "CC0-1.0",
+   "attribution": "lukerustltd · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-10-8bit-coin-sounds.json"
+  },
+  {
+   "id": "opengameart-100-cc0-metal-and-wood-sfx",
+   "title": "100 metal and wood SFX",
+   "publisher": "rubberduck",
+   "sounds": 100,
+   "bytes": 826581,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-100-cc0-metal-and-wood-sfx.json"
+  },
+  {
+   "id": "opengameart-100-cc0-sfx",
+   "title": "100 SFX",
+   "publisher": "rubberduck",
+   "sounds": 100,
+   "bytes": 1292970,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-100-cc0-sfx.json"
+  },
+  {
+   "id": "opengameart-100-cc0-sfx-2",
+   "title": "100 SFX #2",
+   "publisher": "rubberduck",
+   "sounds": 100,
+   "bytes": 2714580,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-100-cc0-sfx-2.json"
+  },
+  {
+   "id": "opengameart-15-vocal-male-strainhurtpainjump-sounds",
+   "title": "15 vocal male strain/hurt/pain/jump sounds",
+   "publisher": "qubodup",
+   "sounds": 15,
+   "bytes": 145479,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-15-vocal-male-strainhurtpainjump-sounds.json"
+  },
+  {
+   "id": "opengameart-16-button-clicks",
+   "title": "16 button clicks",
+   "publisher": "qubodup",
+   "sounds": 16,
+   "bytes": 141143,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-16-button-clicks.json"
+  },
+  {
+   "id": "opengameart-2-dice-roll-29-throws",
+   "title": "2 dice roll (29 throws)",
+   "publisher": "rpg",
+   "sounds": 29,
+   "bytes": 665798,
+   "license": "CC0-1.0",
+   "attribution": "rpg · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-2-dice-roll-29-throws.json"
+  },
+  {
+   "id": "opengameart-20-rustles-dry-leaves",
+   "title": "20 Rustles of dry leaves",
+   "publisher": "qubodup",
+   "sounds": 20,
+   "bytes": 453182,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-20-rustles-dry-leaves.json"
+  },
+  {
+   "id": "opengameart-20-sword-sound-effects-attacks-and-clashes",
+   "title": "20 Sword Sound Effects (Attacks and Clashes)",
+   "publisher": "starninjas",
+   "sounds": 20,
+   "bytes": 329140,
+   "license": "CC0-1.0",
+   "attribution": "starninjas · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-20-sword-sound-effects-attacks-and-clashes.json"
+  },
+  {
+   "id": "opengameart-202-more-sound-effects",
+   "title": "202 More Sound Effects",
+   "publisher": "owlishmedia",
+   "sounds": 202,
+   "bytes": 4544230,
+   "license": "CC0-1.0",
+   "attribution": "owlishmedia · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-202-more-sound-effects.json"
+  },
+  {
+   "id": "opengameart-25-cc0-bang-firework-sfx",
+   "title": "25 bang / firework SFX",
+   "publisher": "rubberduck",
+   "sounds": 25,
+   "bytes": 677922,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-25-cc0-bang-firework-sfx.json"
+  },
+  {
+   "id": "opengameart-25-cc0-mud-sfx",
+   "title": "25 mud sfx",
+   "publisher": "rubberduck",
+   "sounds": 25,
+   "bytes": 198340,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-25-cc0-mud-sfx.json"
+  },
+  {
+   "id": "opengameart-30-cc0-sfx-loops",
+   "title": "30 SFX loops",
+   "publisher": "rubberduck",
+   "sounds": 30,
+   "bytes": 1411470,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-30-cc0-sfx-loops.json"
+  },
+  {
+   "id": "opengameart-30-weird-cc0-sfx",
+   "title": "30 weird SFX",
+   "publisher": "rubberduck",
+   "sounds": 30,
+   "bytes": 320323,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-30-weird-cc0-sfx.json"
+  },
+  {
+   "id": "opengameart-35-wooden-crackshitsdestructions",
+   "title": "35 wooden cracks/hits/destructions",
+   "publisher": "qubodup",
+   "sounds": 34,
+   "bytes": 1333226,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-35-wooden-crackshitsdestructions.json"
+  },
+  {
+   "id": "opengameart-37-hitspunches",
+   "title": "37 hits/punches",
+   "publisher": "qubodup",
+   "sounds": 37,
+   "bytes": 541684,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-37-hitspunches.json"
+  },
+  {
+   "id": "opengameart-40-cc0-water-splash-slime-sfx",
+   "title": "40 water / splash / slime SFX",
+   "publisher": "rubberduck",
+   "sounds": 40,
+   "bytes": 883448,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-40-cc0-water-splash-slime-sfx.json"
+  },
+  {
+   "id": "opengameart-42-snow-and-gravel-footsteps",
+   "title": "42 Snow and Gravel Footsteps",
+   "publisher": "qubodup",
+   "sounds": 42,
+   "bytes": 476063,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-42-snow-and-gravel-footsteps.json"
+  },
+  {
+   "id": "opengameart-5-hit-sounds-dying",
+   "title": "5 Hit Sounds + Dying",
+   "publisher": "tinyworlds",
+   "sounds": 6,
+   "bytes": 49294,
+   "license": "CC0-1.0",
+   "attribution": "tinyworlds · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-5-hit-sounds-dying.json"
+  },
+  {
+   "id": "opengameart-50-cc0-retro-synth-sfx",
+   "title": "50 retro / synth SFX",
+   "publisher": "rubberduck",
+   "sounds": 50,
+   "bytes": 565260,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-50-cc0-retro-synth-sfx.json"
+  },
+  {
+   "id": "opengameart-50-cc0-sci-fi-sfx",
+   "title": "50 Sci-Fi SFX",
+   "publisher": "rubberduck",
+   "sounds": 50,
+   "bytes": 857999,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-50-cc0-sci-fi-sfx.json"
+  },
+  {
+   "id": "opengameart-51-ui-sound-effects-buttons-switches-and-clicks",
+   "title": "51 UI sound effects (buttons, switches and clicks)",
+   "publisher": "kenney",
+   "sounds": 51,
+   "bytes": 263863,
+   "license": "CC0-1.0",
+   "attribution": "kenney · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-51-ui-sound-effects-buttons-switches-and-clicks.json"
+  },
+  {
+   "id": "opengameart-512-sound-effects-8-bit-style",
+   "title": "512 Sound Effects (8-bit style)",
+   "publisher": "subspaceaudio",
+   "sounds": 400,
+   "bytes": 4663465,
+   "license": "CC0-1.0",
+   "attribution": "subspaceaudio · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-512-sound-effects-8-bit-style.json"
+  },
+  {
+   "id": "opengameart-60-cc0-sci-fi-sfx",
+   "title": "60 Sci-Fi SFX",
+   "publisher": "rubberduck",
+   "sounds": 60,
+   "bytes": 3152336,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-60-cc0-sci-fi-sfx.json"
+  },
+  {
+   "id": "opengameart-63-digital-sound-effects-lasers-phasers-space-etc",
+   "title": "63 Digital sound effects (lasers, phasers, space etc.)",
+   "publisher": "kenney",
+   "sounds": 62,
+   "bytes": 983266,
+   "license": "CC0-1.0",
+   "attribution": "kenney · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-63-digital-sound-effects-lasers-phasers-space-etc.json"
+  },
+  {
+   "id": "opengameart-7-assorted-sound-effects-menu-level-up",
+   "title": "7 Assorted Sound Effects (Menu, Level Up)",
+   "publisher": "joth",
+   "sounds": 8,
+   "bytes": 535434,
+   "license": "CC0-1.0",
+   "attribution": "joth · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-7-assorted-sound-effects-menu-level-up.json"
+  },
+  {
+   "id": "opengameart-75-cc0-breaking-falling-hit-sfx",
+   "title": "75 breaking / falling / hit sfx",
+   "publisher": "rubberduck",
+   "sounds": 75,
+   "bytes": 662169,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-75-cc0-breaking-falling-hit-sfx.json"
+  },
+  {
+   "id": "opengameart-8-bit-jump-1",
+   "title": "8-BIT Jump #1",
+   "publisher": "jalastram",
+   "sounds": 49,
+   "bytes": 316432,
+   "license": "CC0-1.0",
+   "attribution": "jalastram · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-8-bit-jump-1.json"
+  },
+  {
+   "id": "opengameart-8-bit-sound-effect-pack-vol-001",
+   "title": "8-Bit Sound Effect Pack (Vol. 001)",
+   "publisher": "deva",
+   "sounds": 46,
+   "bytes": 335130,
+   "license": "CC0-1.0",
+   "attribution": "deva · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-8-bit-sound-effect-pack-vol-001.json"
+  },
+  {
+   "id": "opengameart-8-wet-squish-slurp-impacts",
+   "title": "8 wet squish, slurp impacts",
+   "publisher": "qubodup",
+   "sounds": 8,
+   "bytes": 140988,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-8-wet-squish-slurp-impacts.json"
+  },
+  {
+   "id": "opengameart-80-cc0-creature-sfx",
+   "title": "80 creature SFX",
+   "publisher": "rubberduck",
+   "sounds": 80,
+   "bytes": 805948,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-80-cc0-creature-sfx.json"
+  },
+  {
+   "id": "opengameart-80-cc0-creture-sfx-2",
+   "title": "80 creture SFX #2",
+   "publisher": "rubberduck",
+   "sounds": 80,
+   "bytes": 770788,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-80-cc0-creture-sfx-2.json"
+  },
+  {
+   "id": "opengameart-80-cc0-rpg-sfx",
+   "title": "80 RPG SFX",
+   "publisher": "rubberduck",
+   "sounds": 80,
+   "bytes": 774799,
+   "license": "CC0-1.0",
+   "attribution": "rubberduck · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-80-cc0-rpg-sfx.json"
+  },
+  {
+   "id": "opengameart-87-clickety-clips",
+   "title": "87 Clickety Clips",
+   "publisher": "owlishmedia",
+   "sounds": 87,
+   "bytes": 596251,
+   "license": "CC0-1.0",
+   "attribution": "owlishmedia · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-87-clickety-clips.json"
+  },
+  {
+   "id": "opengameart-9-wet-snow-steps",
+   "title": "9 wet snow steps",
+   "publisher": "qubodup",
+   "sounds": 9,
+   "bytes": 69972,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-9-wet-snow-steps.json"
+  },
+  {
+   "id": "opengameart-alien-sounds",
+   "title": "Alien sounds",
+   "publisher": "OpenGameArt",
+   "sounds": 7,
+   "bytes": 115833,
+   "license": "CC0-1.0",
+   "attribution": "opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-alien-sounds.json"
+  },
+  {
+   "id": "opengameart-atmospheric-interaction-sound-pack",
+   "title": "Atmospheric Interaction Sound Pack",
+   "publisher": "qubodup",
+   "sounds": 10,
+   "bytes": 239652,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-atmospheric-interaction-sound-pack.json"
+  },
+  {
+   "id": "opengameart-book-flip-sounds",
+   "title": "Book Flip Sounds",
+   "publisher": "voltiment555",
+   "sounds": 13,
+   "bytes": 552962,
+   "license": "CC0-1.0",
+   "attribution": "voltiment555 · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-book-flip-sounds.json"
+  },
+  {
+   "id": "opengameart-card-game-sounds",
+   "title": "Card Game sounds",
+   "publisher": "haeldb",
+   "sounds": 10,
+   "bytes": 69622,
+   "license": "CC0-1.0",
+   "attribution": "haeldb · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-card-game-sounds.json"
+  },
+  {
+   "id": "opengameart-click-sounds6",
+   "title": "Click sounds(6)",
+   "publisher": "pauliuw",
+   "sounds": 6,
+   "bytes": 22244,
+   "license": "CC0-1.0",
+   "attribution": "pauliuw · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-click-sounds6.json"
+  },
+  {
+   "id": "opengameart-dialog-vocal-samples",
+   "title": "Dialog vocal samples",
+   "publisher": "mirceakitsune",
+   "sounds": 32,
+   "bytes": 144584,
+   "license": "CC0-1.0",
+   "attribution": "mirceakitsune · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-dialog-vocal-samples.json"
+  },
+  {
+   "id": "opengameart-different-steps-on-wood-stone-leaves-gravel-and-mud",
+   "title": "Different steps on wood, stone, leaves, gravel and mud",
+   "publisher": "tinyworlds",
+   "sounds": 8,
+   "bytes": 55929,
+   "license": "CC0-1.0",
+   "attribution": "tinyworlds · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-different-steps-on-wood-stone-leaves-gravel-and-mud.json"
+  },
+  {
+   "id": "opengameart-door-open-door-close",
+   "title": "Door open, door close",
+   "publisher": "qubodup",
+   "sounds": 9,
+   "bytes": 95562,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-door-open-door-close.json"
+  },
+  {
+   "id": "opengameart-door-open-door-close-set",
+   "title": "Door Open, Door Close Set",
+   "publisher": "qubodup",
+   "sounds": 18,
+   "bytes": 239346,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-door-open-door-close-set.json"
+  },
+  {
+   "id": "opengameart-fantasy-accessory-sfx-library",
+   "title": "Fantasy Accessory SFX Library",
+   "publisher": "vehicle",
+   "sounds": 137,
+   "bytes": 2598290,
+   "license": "CC0-1.0",
+   "attribution": "vehicle · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-fantasy-accessory-sfx-library.json"
+  },
+  {
+   "id": "opengameart-fantasy-sound-effects-tinysized-sfx",
+   "title": "Fantasy Sound Effects (Tinysized SFX)",
+   "publisher": "vehicle",
+   "sounds": 95,
+   "bytes": 1574091,
+   "license": "CC0-1.0",
+   "attribution": "vehicle · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-fantasy-sound-effects-tinysized-sfx.json"
+  },
+  {
+   "id": "opengameart-fantozzis-footsteps-grasssand-stone",
+   "title": "Fantozzi's Footsteps (Grass/Sand & Stone)",
+   "publisher": "qubodup",
+   "sounds": 12,
+   "bytes": 78863,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-fantozzis-footsteps-grasssand-stone.json"
+  },
+  {
+   "id": "opengameart-female-rpg-voice-starter-pack",
+   "title": "Female RPG Voice Starter Pack",
+   "publisher": "cicifyre",
+   "sounds": 30,
+   "bytes": 336723,
+   "license": "CC0-1.0",
+   "attribution": "cicifyre · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-female-rpg-voice-starter-pack.json"
+  },
+  {
+   "id": "opengameart-footsteps-leather-cloth-armor",
+   "title": "Footsteps Leather, Cloth, Armor",
+   "publisher": "haeldb",
+   "sounds": 12,
+   "bytes": 60754,
+   "license": "CC0-1.0",
+   "attribution": "haeldb · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-footsteps-leather-cloth-armor.json"
+  },
+  {
+   "id": "opengameart-goblins-sound-pack",
+   "title": "Goblins Sound Pack",
+   "publisher": "artisticdude",
+   "sounds": 15,
+   "bytes": 109166,
+   "license": "CC0-1.0",
+   "attribution": "artisticdude · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-goblins-sound-pack.json"
+  },
+  {
+   "id": "opengameart-gui-sound-effects",
+   "title": "GUI Sound Effects",
+   "publisher": "lokif",
+   "sounds": 13,
+   "bytes": 335075,
+   "license": "CC0-1.0",
+   "attribution": "lokif · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-gui-sound-effects.json"
+  },
+  {
+   "id": "opengameart-hurt-death-sound-effect-for-character",
+   "title": "Hurt / Death sound effect for character",
+   "publisher": "badre-eddine",
+   "sounds": 19,
+   "bytes": 802218,
+   "license": "CC0-1.0",
+   "attribution": "badre-eddine · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-hurt-death-sound-effect-for-character.json"
+  },
+  {
+   "id": "opengameart-interface-beeps",
+   "title": "Interface beeps",
+   "publisher": "bart",
+   "sounds": 16,
+   "bytes": 240593,
+   "license": "CC0-1.0",
+   "attribution": "bart · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-interface-beeps.json"
+  },
+  {
+   "id": "opengameart-keyboard-soundpack-1-typing-and-single-keystrokes",
+   "title": "Keyboard Soundpack #1",
+   "publisher": "unicaegames",
+   "sounds": 50,
+   "bytes": 2776796,
+   "license": "CC0-1.0",
+   "attribution": "unicaegames · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-keyboard-soundpack-1-typing-and-single-keystrokes.json"
+  },
+  {
+   "id": "opengameart-level-up-power-up-coin-get-13-sounds",
+   "title": "Level up, power up, Coin get (13 Sounds)",
+   "publisher": "wobbleboxx",
+   "sounds": 13,
+   "bytes": 518636,
+   "license": "CC0-1.0",
+   "attribution": "wobbleboxx · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-level-up-power-up-coin-get-13-sounds.json"
+  },
+  {
+   "id": "opengameart-magic-spell-sfx",
+   "title": "Magic Spell SFX",
+   "publisher": "jaggedstone",
+   "sounds": 7,
+   "bytes": 183559,
+   "license": "CC0-1.0",
+   "attribution": "jaggedstone · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-magic-spell-sfx.json"
+  },
+  {
+   "id": "opengameart-male-gruntyelling-sounds",
+   "title": "Male Grunt/Yelling sounds",
+   "publisher": "haeldb",
+   "sounds": 62,
+   "bytes": 1581099,
+   "license": "CC0-1.0",
+   "attribution": "haeldb · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-male-gruntyelling-sounds.json"
+  },
+  {
+   "id": "opengameart-monster-sound-effects-2",
+   "title": "Monster Sound Effects 2",
+   "publisher": "ogrebane",
+   "sounds": 17,
+   "bytes": 163557,
+   "license": "CC0-1.0",
+   "attribution": "ogrebane · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-monster-sound-effects-2.json"
+  },
+  {
+   "id": "opengameart-monster-sound-effects-pack",
+   "title": "Monster Sound Effects Pack",
+   "publisher": "ogrebane",
+   "sounds": 10,
+   "bytes": 106166,
+   "license": "CC0-1.0",
+   "attribution": "ogrebane · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-monster-sound-effects-pack.json"
+  },
+  {
+   "id": "opengameart-monster-sound-pack-volume-1",
+   "title": "Monster Sound Pack, Volume 1",
+   "publisher": "ogrebane",
+   "sounds": 18,
+   "bytes": 174844,
+   "license": "CC0-1.0",
+   "attribution": "ogrebane · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-monster-sound-pack-volume-1.json"
+  },
+  {
+   "id": "opengameart-nes-8-bit-sound-effects",
+   "title": "NES 8-bit sound effects",
+   "publisher": "shiru8bit",
+   "sounds": 81,
+   "bytes": 901461,
+   "license": "CC0-1.0",
+   "attribution": "shiru8bit · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-nes-8-bit-sound-effects.json"
+  },
+  {
+   "id": "opengameart-nes-sounds",
+   "title": "NES Sounds",
+   "publisher": "baŝto",
+   "sounds": 24,
+   "bytes": 411257,
+   "license": "CC0-1.0",
+   "attribution": "ba%C5%9Dto · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-nes-sounds.json"
+  },
+  {
+   "id": "opengameart-platformer-sounds-terminal-interaction-door-shots-bang-and-footsteps",
+   "title": "Platformer Sounds: Terminal, Interaction, Door, Shots, Bang and Footsteps",
+   "publisher": "yd",
+   "sounds": 12,
+   "bytes": 213304,
+   "license": "CC0-1.0",
+   "attribution": "yd · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-platformer-sounds-terminal-interaction-door-shots-bang-and-footsteps.json"
+  },
+  {
+   "id": "opengameart-racing-car-engine-sound-loops",
+   "title": "racing car engine sound loops",
+   "publisher": "domasx2",
+   "sounds": 6,
+   "bytes": 71598,
+   "license": "CC0-1.0",
+   "attribution": "domasx2 · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-racing-car-engine-sound-loops.json"
+  },
+  {
+   "id": "opengameart-random-sfx",
+   "title": "Random SFX",
+   "publisher": "écrivain",
+   "sounds": 21,
+   "bytes": 971202,
+   "license": "CC0-1.0",
+   "attribution": "%C3%A9crivain · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-random-sfx.json"
+  },
+  {
+   "id": "opengameart-retro-shooter-sound-effects",
+   "title": "Retro Shooter Sound Effects",
+   "publisher": "muncheybobo",
+   "sounds": 9,
+   "bytes": 217248,
+   "license": "CC0-1.0",
+   "attribution": "muncheybobo · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-retro-shooter-sound-effects.json"
+  },
+  {
+   "id": "opengameart-rpg-sound-pack",
+   "title": "RPG Sound Pack",
+   "publisher": "artisticdude",
+   "sounds": 96,
+   "bytes": 1011188,
+   "license": "CC0-1.0",
+   "attribution": "artisticdude · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-rpg-sound-pack.json"
+  },
+  {
+   "id": "opengameart-sfx-the-ultimate-2017-16-bit-mini-pack",
+   "title": "SFX: The Ultimate 2017 16 bit Mini pack",
+   "publisher": "phoenix1291",
+   "sounds": 210,
+   "bytes": 2287818,
+   "license": "CC0-1.0",
+   "attribution": "phoenix1291 · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-sfx-the-ultimate-2017-16-bit-mini-pack.json"
+  },
+  {
+   "id": "opengameart-sfx-the-ultimate-2017-8-bit-mini-pack",
+   "title": "SFX: The Ultimate 2017 8 bit Mini pack",
+   "publisher": "phoenix1291",
+   "sounds": 210,
+   "bytes": 2296577,
+   "license": "CC0-1.0",
+   "attribution": "phoenix1291 · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-sfx-the-ultimate-2017-8-bit-mini-pack.json"
+  },
+  {
+   "id": "opengameart-sound-effects-mini-pack15",
+   "title": "Sound effects Mini Pack1.5",
+   "publisher": "phoenix1291",
+   "sounds": 55,
+   "bytes": 684935,
+   "license": "CC0-1.0",
+   "attribution": "phoenix1291 · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-sound-effects-mini-pack15.json"
+  },
+  {
+   "id": "opengameart-sound-effects-pack-2",
+   "title": "Sound effects Pack 2",
+   "publisher": "phoenix1291",
+   "sounds": 110,
+   "bytes": 1627411,
+   "license": "CC0-1.0",
+   "attribution": "phoenix1291 · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-sound-effects-pack-2.json"
+  },
+  {
+   "id": "opengameart-space-ship-shield-sounds",
+   "title": "Space Ship Shield Sounds",
+   "publisher": "bart",
+   "sounds": 9,
+   "bytes": 163789,
+   "license": "CC0-1.0",
+   "attribution": "bart · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-space-ship-shield-sounds.json"
+  },
+  {
+   "id": "opengameart-superpowers-assets-sound-effects",
+   "title": "Superpowers assets sound effects",
+   "publisher": "medicinestorm",
+   "sounds": 134,
+   "bytes": 3197572,
+   "license": "CC0-1.0",
+   "attribution": "medicinestorm · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-superpowers-assets-sound-effects.json"
+  },
+  {
+   "id": "opengameart-swamp-environment-audio",
+   "title": "Swamp Environment Audio",
+   "publisher": "lokif",
+   "sounds": 17,
+   "bytes": 2924043,
+   "license": "CC0-1.0",
+   "attribution": "lokif · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-swamp-environment-audio.json"
+  },
+  {
+   "id": "opengameart-swish-bamboo-stick-weapon-swhoshes",
+   "title": "Swish - bamboo stick weapon swhoshes",
+   "publisher": "qubodup",
+   "sounds": 43,
+   "bytes": 487093,
+   "license": "CC0-1.0",
+   "attribution": "qubodup · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-swish-bamboo-stick-weapon-swhoshes.json"
+  },
+  {
+   "id": "opengameart-swishes-sound-pack",
+   "title": "Swishes Sound Pack",
+   "publisher": "artisticdude",
+   "sounds": 13,
+   "bytes": 48880,
+   "license": "CC0-1.0",
+   "attribution": "artisticdude · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-swishes-sound-pack.json"
+  },
+  {
+   "id": "opengameart-voiceover-pack-fighter-40-taunts",
+   "title": "Voiceover Pack: Fighter (40+ taunts)",
+   "publisher": "kenney",
+   "sounds": 47,
+   "bytes": 1646002,
+   "license": "CC0-1.0",
+   "attribution": "kenney · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-voiceover-pack-fighter-40-taunts.json"
+  },
+  {
+   "id": "opengameart-wood-and-metal-sound-effects-volume-2",
+   "title": "Wood and Metal Sound Effects: Volume 2",
+   "publisher": "ogrebane",
+   "sounds": 26,
+   "bytes": 215537,
+   "license": "CC0-1.0",
+   "attribution": "ogrebane · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-wood-and-metal-sound-effects-volume-2.json"
+  },
+  {
+   "id": "opengameart-zombies-sound-pack",
+   "title": "Zombies Sound Pack",
+   "publisher": "artisticdude",
+   "sounds": 24,
+   "bytes": 350803,
+   "license": "CC0-1.0",
+   "attribution": "artisticdude · opengameart.org · CC0 1.0 (public domain)",
+   "manifest": "https://library.atomcut.net/v1/packs/opengameart-zombies-sound-pack.json"
+  },
+  {
+   "id": "ui-clicks",
+   "title": "UI Clicks",
+   "publisher": "AtomCut",
+   "sounds": 8,
+   "bytes": 84320,
+   "license": "CC0-1.0",
+   "attribution": "AtomCut",
+   "manifest": "https://library.atomcut.net/v1/packs/ui-clicks.json"
+  }
+ ],
+ "iconSets": [
+  {
+   "prefix": "material-symbols",
+   "name": "Material Symbols",
+   "icons": 15744,
+   "author": "Google",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "material-symbols-light",
+   "name": "Material Symbols Light",
+   "icons": 15809,
+   "author": "Google",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "ic",
+   "name": "Google Material Icons",
+   "icons": 10955,
+   "author": "Material Design Authors",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "mdi",
+   "name": "Material Design Icons",
+   "icons": 7447,
+   "author": "Pictogrammers",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "mdi-light",
+   "name": "Material Design Light",
+   "icons": 284,
+   "author": "Pictogrammers",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "line-md",
+   "name": "Material Line Icons",
+   "icons": 1218,
+   "author": "Vjacheslav Trushkin",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "solar",
+   "name": "Solar",
+   "icons": 8706,
+   "author": "480 Design",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "tabler",
+   "name": "Tabler Icons",
+   "icons": 6238,
+   "author": "Paweł Kuna",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "iconmind",
+   "name": "IconMind",
+   "icons": 31722,
+   "author": "IconMind",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "iconoven",
+   "name": "IconOven",
+   "icons": 18236,
+   "author": "Appic Marketing",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "boxicons",
+   "name": "Boxicons",
+   "icons": 3768,
+   "author": "Boxicons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "mingcute",
+   "name": "MingCute Icon",
+   "icons": 3320,
+   "author": "MingCute Design",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "keyline-icons",
+   "name": "Keyline Icons",
+   "icons": 12544,
+   "author": "Keyline Icons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "ri",
+   "name": "Remix Icon",
+   "icons": 3188,
+   "author": "Remix Design",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "mynaui",
+   "name": "Myna UI Icons",
+   "icons": 2620,
+   "author": "Praveen Juge",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "andrsrxn",
+   "name": "andrsrxn/icons",
+   "icons": 2563,
+   "author": "Andrés Raxón",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "griddy-icons",
+   "name": "Griddy Icons",
+   "icons": 2010,
+   "author": "Zuzana Benova",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "iconamoon",
+   "name": "IconaMoon",
+   "icons": 1781,
+   "author": "Dariush Habibpour",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "iconoir",
+   "name": "Iconoir",
+   "icons": 1671,
+   "author": "Luca Burgio",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "lucide",
+   "name": "Lucide",
+   "icons": 1903,
+   "author": "Lucide Contributors",
+   "license": "ISC",
+   "usable": true
+  },
+  {
+   "prefix": "lucide-extended",
+   "name": "Lucide Extended",
+   "icons": 2719,
+   "author": "Applifted",
+   "license": "ISC",
+   "usable": true
+  },
+  {
+   "prefix": "lucide-lab",
+   "name": "Lucide Lab",
+   "icons": 373,
+   "author": "Lucide Contributors",
+   "license": "ISC",
+   "usable": true
+  },
+  {
+   "prefix": "uil",
+   "name": "Unicons",
+   "icons": 1215,
+   "author": "Iconscout",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "tdesign",
+   "name": "TDesign Icons",
+   "icons": 2356,
+   "author": "TDesign",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "si",
+   "name": "Sargam Icons",
+   "icons": 1299,
+   "author": "Abhimanyu Rana",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "majesticons",
+   "name": "Majesticons",
+   "icons": 760,
+   "author": "Gerrit Halfmann",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "gg",
+   "name": "css.gg",
+   "icons": 704,
+   "author": "Astrit",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "flowbite",
+   "name": "Flowbite Icons",
+   "icons": 751,
+   "author": "Themesberg",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "vadivam",
+   "name": "Vadivam",
+   "icons": 1903,
+   "author": "Praveen Juge",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "basil",
+   "name": "Basil",
+   "icons": 493,
+   "author": "Craftwork",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "pixelarticons",
+   "name": "Pixelarticons",
+   "icons": 1036,
+   "author": "Gerrit Halfmann",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "pixel",
+   "name": "Pixel Icon",
+   "icons": 578,
+   "author": "HackerNoon",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "akar-icons",
+   "name": "Akar Icons",
+   "icons": 454,
+   "author": "Arturo Wibawa",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "ci",
+   "name": "coolicons",
+   "icons": 442,
+   "author": "Kryston Schwarze",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "proicons",
+   "name": "ProIcons",
+   "icons": 544,
+   "author": "ProCode",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "typcn",
+   "name": "Typicons",
+   "icons": 336,
+   "author": "Stephen Hutchings",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "meteor-icons",
+   "name": "Meteor Icons",
+   "icons": 409,
+   "author": "zkreations",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "prime",
+   "name": "Prime Icons",
+   "icons": 313,
+   "author": "PrimeTek",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "circum",
+   "name": "Circum Icons",
+   "icons": 288,
+   "author": "Klarr Agency",
+   "license": "MPL-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "fe",
+   "name": "Feather Icon",
+   "icons": 255,
+   "author": "Megumi Hano",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "eos-icons",
+   "name": "EOS Icons",
+   "icons": 253,
+   "author": "SUSE UX/UI team",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "bitcoin-icons",
+   "name": "Bitcoin Icons",
+   "icons": 330,
+   "author": "Bitcoin Design Community",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "humbleicons",
+   "name": "Humbleicons",
+   "icons": 286,
+   "author": "Jiří Zralý",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "uim",
+   "name": "Unicons Monochrome",
+   "icons": 298,
+   "author": "Iconscout",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "uit",
+   "name": "Unicons Thin Line",
+   "icons": 216,
+   "author": "Iconscout",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "uis",
+   "name": "Unicons Solid",
+   "icons": 190,
+   "author": "Iconscout",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "gridicons",
+   "name": "Gridicons",
+   "icons": 207,
+   "author": "Automattic",
+   "license": "GPL-2.0-only",
+   "usable": false
+  },
+  {
+   "prefix": "mi",
+   "name": "Mono Icons",
+   "icons": 180,
+   "author": "Mono",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "cuida",
+   "name": "Cuida Icons",
+   "icons": 182,
+   "author": "Sysvale",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "weui",
+   "name": "WeUI Icon",
+   "icons": 162,
+   "author": "WeUI",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "duo-icons",
+   "name": "Duoicons",
+   "icons": 91,
+   "author": "fernandcf",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "svg-spinners",
+   "name": "SVG Spinners",
+   "icons": 46,
+   "author": "Utkarsh Verma",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "reicon",
+   "name": "Reicon",
+   "icons": 6590,
+   "author": "REICON",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "hugeicons",
+   "name": "Huge Icons",
+   "icons": 6065,
+   "author": "Hugeicons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "lets-icons",
+   "name": "Lets Icons",
+   "icons": 1528,
+   "author": "Leonid Tsvetkov",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-ultimate",
+   "name": "Ultimate free icons",
+   "icons": 1999,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-plump",
+   "name": "Plump free icons",
+   "icons": 1499,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-sharp",
+   "name": "Sharp free icons",
+   "icons": 1500,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "mage",
+   "name": "Mage Icons",
+   "icons": 1042,
+   "author": "MageIcons",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "stash",
+   "name": "Stash Icons",
+   "icons": 982,
+   "author": "Pingback LLC",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "lineicons",
+   "name": "Lineicons",
+   "icons": 606,
+   "author": "Lineicons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "wordpress",
+   "name": "WordPress Icons",
+   "icons": 346,
+   "author": "The WordPress Contributors",
+   "license": "GPL-2.0-or-later",
+   "usable": false
+  },
+  {
+   "prefix": "matita",
+   "name": "Matita",
+   "icons": 260,
+   "author": "matita.dev",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "icon-park-outline",
+   "name": "IconPark Outline",
+   "icons": 2658,
+   "author": "ByteDance",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "icon-park-solid",
+   "name": "IconPark Solid",
+   "icons": 1947,
+   "author": "ByteDance",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "icon-park-twotone",
+   "name": "IconPark TwoTone",
+   "icons": 1944,
+   "author": "ByteDance",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "jam",
+   "name": "Jam Icons",
+   "icons": 940,
+   "author": "Michael Amprimo",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-cyber",
+   "name": "Cyber free icons",
+   "icons": 500,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "guidance",
+   "name": "Guidance",
+   "icons": 360,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "carbon",
+   "name": "Carbon",
+   "icons": 2638,
+   "author": "IBM",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "ion",
+   "name": "IonIcons",
+   "icons": 1357,
+   "author": "Ben Sperry",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "famicons",
+   "name": "Famicons",
+   "icons": 1342,
+   "author": "Family",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "ant-design",
+   "name": "Ant Design Icons",
+   "icons": 848,
+   "author": "HeskeyBaozi",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "lsicon",
+   "name": "Lsicon",
+   "icons": 716,
+   "author": "Wis Design",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "gravity-ui",
+   "name": "Gravity UI Icons",
+   "icons": 809,
+   "author": "YANDEX LLC",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "cil",
+   "name": "CoreUI Free",
+   "icons": 554,
+   "author": "creativeLabs Łukasz Holeczek",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "at-icons",
+   "name": "@icons",
+   "icons": 642,
+   "author": "Valentin Fossati",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "ep",
+   "name": "Element Plus",
+   "icons": 293,
+   "author": "Element Plus",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "charm",
+   "name": "Charm Icons",
+   "icons": 261,
+   "author": "Jay Newey",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "quill",
+   "name": "Quill Icons",
+   "icons": 140,
+   "author": "Casper Lourens",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "bytesize",
+   "name": "Bytesize Icons",
+   "icons": 101,
+   "author": "Dan Klammer",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "bi",
+   "name": "Bootstrap Icons",
+   "icons": 2078,
+   "author": "The Bootstrap Authors",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-pixel",
+   "name": "Pixel free icons",
+   "icons": 662,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-block",
+   "name": "Streamline Block",
+   "icons": 300,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "rivet-icons",
+   "name": "Rivet Icons",
+   "icons": 210,
+   "author": "Indiana University",
+   "license": "BSD-3-Clause",
+   "usable": true
+  },
+  {
+   "prefix": "nimbus",
+   "name": "Nimbus",
+   "icons": 140,
+   "author": "Linkedstore S.A.",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "formkit",
+   "name": "FormKit Icons",
+   "icons": 144,
+   "author": "FormKit, Inc",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "fluent",
+   "name": "Fluent UI System Icons",
+   "icons": 19900,
+   "author": "Microsoft Corporation",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "ph",
+   "name": "Phosphor",
+   "icons": 9072,
+   "author": "Phosphor Icons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "energy-icons",
+   "name": "Energy Icons",
+   "icons": 8252,
+   "author": "Sam Passmore",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "glyphs",
+   "name": "Glyphs",
+   "icons": 3452,
+   "author": "Goran Spasojevic",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "glyphs-poly",
+   "name": "Glyphs Poly",
+   "icons": 863,
+   "author": "Goran Spasojevic",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "teenyicons",
+   "name": "Teenyicons",
+   "icons": 1200,
+   "author": "smhmd",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "clarity",
+   "name": "Clarity",
+   "icons": 1103,
+   "author": "VMware",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-freehand",
+   "name": "Freehand free icons",
+   "icons": 1000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "ix",
+   "name": "Siemens Industrial Experience Icons",
+   "icons": 1490,
+   "author": "Siemens AG",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "octicon",
+   "name": "Octicons",
+   "icons": 780,
+   "author": "GitHub",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "memory",
+   "name": "Memory Icons",
+   "icons": 651,
+   "author": "Pictogrammers",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "system-uicons",
+   "name": "System UIcons",
+   "icons": 430,
+   "author": "Corey Ginnivan",
+   "license": "Unlicense",
+   "usable": true
+  },
+  {
+   "prefix": "radix-icons",
+   "name": "Radix Icons",
+   "icons": 332,
+   "author": "WorkOS",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "zondicons",
+   "name": "Zondicons",
+   "icons": 297,
+   "author": "Steve Schoger",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "uiw",
+   "name": "uiw icons",
+   "icons": 214,
+   "author": "liwen0526",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "codex",
+   "name": "CodeX Icons",
+   "icons": 78,
+   "author": "CodeX",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "ei",
+   "name": "Evil Icons",
+   "icons": 70,
+   "author": "Alexander Madyankin and Roman Shamin",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "heroicons",
+   "name": "HeroIcons",
+   "icons": 1288,
+   "author": "Refactoring UI Inc",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "sidekickicons",
+   "name": "SidekickIcons",
+   "icons": 232,
+   "author": "Andri Soone",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "garden",
+   "name": "Garden SVG Icons",
+   "icons": 1491,
+   "author": "Zendesk",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "pepicons-pop",
+   "name": "Pepicons Pop!",
+   "icons": 1275,
+   "author": "CyCraft",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "pepicons-print",
+   "name": "Pepicons Print",
+   "icons": 1275,
+   "author": "CyCraft",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "pepicons-pencil",
+   "name": "Pepicons Pencil",
+   "icons": 1275,
+   "author": "CyCraft",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "f7",
+   "name": "Framework7 Icons",
+   "icons": 1253,
+   "author": "Vladimir Kharlampidi",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "pajamas",
+   "name": "Gitlab SVGs",
+   "icons": 410,
+   "author": "GitLab B.V.",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "streamline",
+   "name": "Streamline",
+   "icons": 3000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-flex",
+   "name": "Flex free icons",
+   "icons": 1500,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa7-solid",
+   "name": "Font Awesome Solid",
+   "icons": 2000,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa7-regular",
+   "name": "Font Awesome Regular",
+   "icons": 272,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "picon",
+   "name": "Pico-icon",
+   "icons": 824,
+   "author": "Picon Contributors",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "ooui",
+   "name": "OOUI",
+   "icons": 421,
+   "author": "OOUI Team",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "oui",
+   "name": "OpenSearch UI",
+   "icons": 437,
+   "author": "OpenSearch Contributors",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "nrk",
+   "name": "NRK Core Icons",
+   "icons": 637,
+   "author": "Norsk rikskringkasting",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "dinkie-icons",
+   "name": "Dinkie Icons",
+   "icons": 1198,
+   "author": "atelierAnchor",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "qlementine-icons",
+   "name": "Qlementine Icons",
+   "icons": 905,
+   "author": "Olivier Cléro",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-ultimate-color",
+   "name": "Ultimate color icons",
+   "icons": 998,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-plump-color",
+   "name": "Plump color icons",
+   "icons": 1000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-freehand-color",
+   "name": "Freehand color icons",
+   "icons": 1000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-kameleon-color",
+   "name": "Kameleon color icons",
+   "icons": 400,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-stickies-color",
+   "name": "Stickies color icons",
+   "icons": 200,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fluent-color",
+   "name": "Fluent UI System Color Icons",
+   "icons": 890,
+   "author": "Microsoft Corporation",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-color",
+   "name": "Streamline color",
+   "icons": 2000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-flex-color",
+   "name": "Flex color icons",
+   "icons": 1000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-sharp-color",
+   "name": "Sharp color icons",
+   "icons": 1000,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-cyber-color",
+   "name": "Cyber color icons",
+   "icons": 500,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "icon-park",
+   "name": "IconPark",
+   "icons": 2658,
+   "author": "ByteDance",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "marketeq",
+   "name": "Marketeq",
+   "icons": 590,
+   "author": "Marketeq",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "vscode-icons",
+   "name": "VSCode Icons",
+   "icons": 1711,
+   "author": "Roberto Huertas",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "codicon",
+   "name": "Codicons",
+   "icons": 656,
+   "author": "Microsoft Corporation",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "material-icon-theme",
+   "name": "Material Icon Theme",
+   "icons": 907,
+   "author": "Material Extensions",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "file-icons",
+   "name": "File Icons",
+   "icons": 930,
+   "author": "John Gardner",
+   "license": "ISC",
+   "usable": true
+  },
+  {
+   "prefix": "devicon",
+   "name": "Devicon",
+   "icons": 1063,
+   "author": "konpa",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "devicon-plain",
+   "name": "Devicon Plain",
+   "icons": 773,
+   "author": "konpa",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "catppuccin",
+   "name": "Catppuccin Icons",
+   "icons": 656,
+   "author": "Catppuccin",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "skill-icons",
+   "name": "Skill Icons",
+   "icons": 400,
+   "author": "tandpfun",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "gcp",
+   "name": "Google Cloud Icons",
+   "icons": 214,
+   "author": "Google Cloud",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "k8s",
+   "name": "Kubernetes Icons",
+   "icons": 38,
+   "author": "The Kubernetes Authors",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "unjs",
+   "name": "UnJS Logos",
+   "icons": 63,
+   "author": "UnJS",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "simple-icons",
+   "name": "Simple Icons",
+   "icons": 3466,
+   "author": "Simple Icons Collaborators",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "logos",
+   "name": "SVG Logos",
+   "icons": 2016,
+   "author": "Gil Barbara",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-logos",
+   "name": "Logos free icons",
+   "icons": 1362,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "cib",
+   "name": "CoreUI Brands",
+   "icons": 830,
+   "author": "creativeLabs Łukasz Holeczek",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa7-brands",
+   "name": "Font Awesome Brands",
+   "icons": 608,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "bxl",
+   "name": "Boxicons Brands",
+   "icons": 295,
+   "author": "Boxicons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "nonicons",
+   "name": "Nonicons",
+   "icons": 69,
+   "author": "yamatsum",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "arcticons",
+   "name": "Arcticons",
+   "icons": 15322,
+   "author": "Donnnno",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "thesvg",
+   "name": "theSVG",
+   "icons": 3760,
+   "author": "thesvg.org",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "thesvg-color",
+   "name": "theSVG Color",
+   "icons": 5147,
+   "author": "thesvg.org",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "selfhst",
+   "name": "selfh.st/icons",
+   "icons": 7272,
+   "author": "selfh.st",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "cbi",
+   "name": "Custom Brand Icons",
+   "icons": 1757,
+   "author": "Emanuele & rchiileea",
+   "license": "CC-BY-NC-SA-4.0",
+   "usable": false
+  },
+  {
+   "prefix": "brandico",
+   "name": "Brandico",
+   "icons": 45,
+   "author": "Fontello",
+   "license": "CC-BY-SA-3.0",
+   "usable": true
+  },
+  {
+   "prefix": "entypo-social",
+   "name": "Entypo+ Social",
+   "icons": 76,
+   "author": "Daniel Bruce",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "token",
+   "name": "Web3 Icons",
+   "icons": 1788,
+   "author": "0xa3k5",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "token-branded",
+   "name": "Web3 Icons Branded",
+   "icons": 4085,
+   "author": "0xa3k5",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "cryptocurrency",
+   "name": "Cryptocurrency Icons",
+   "icons": 483,
+   "author": "Christopher Downer",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "cryptocurrency-color",
+   "name": "Cryptocurrency Color Icons",
+   "icons": 483,
+   "author": "Christopher Downer",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "openmoji",
+   "name": "OpenMoji",
+   "icons": 4544,
+   "author": "OpenMoji",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "twemoji",
+   "name": "Twitter Emoji",
+   "icons": 3988,
+   "author": "Twitter",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "noto",
+   "name": "Noto Emoji",
+   "icons": 3729,
+   "author": "Google Inc",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "fluent-emoji-flat",
+   "name": "Fluent Emoji Flat",
+   "icons": 3145,
+   "author": "Microsoft Corporation",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "fluent-emoji-high-contrast",
+   "name": "Fluent Emoji High Contrast",
+   "icons": 1595,
+   "author": "Microsoft Corporation",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "noto-v1",
+   "name": "Noto Emoji (v1)",
+   "icons": 2162,
+   "author": "Google Inc",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "emojione",
+   "name": "Emoji One (Colored)",
+   "icons": 1834,
+   "author": "Emoji One",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "emojione-monotone",
+   "name": "Emoji One (Monotone)",
+   "icons": 1403,
+   "author": "Emoji One",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "emojione-v1",
+   "name": "Emoji One (v1)",
+   "icons": 1262,
+   "author": "Emoji One",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fxemoji",
+   "name": "Firefox OS Emoji",
+   "icons": 1034,
+   "author": "Mozilla",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "streamline-emojis",
+   "name": "Streamline Emojis",
+   "icons": 787,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "circle-flags",
+   "name": "Circle Flags",
+   "icons": 444,
+   "author": "HatScripts",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "flag",
+   "name": "Flag Icons",
+   "icons": 542,
+   "author": "Panayiotis Lipiridis",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "flagpack",
+   "name": "Flagpack",
+   "icons": 254,
+   "author": "Yummygum",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "cif",
+   "name": "CoreUI Flags",
+   "icons": 199,
+   "author": "creativeLabs Łukasz Holeczek",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "pinhead",
+   "name": "Pinhead Map Icons",
+   "icons": 2747,
+   "author": "Quincy Morgan",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "roentgen",
+   "name": "Röntgen",
+   "icons": 574,
+   "author": "Sergey Vartanov",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "maki",
+   "name": "Maki",
+   "icons": 215,
+   "author": "Mapbox",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "temaki",
+   "name": "Temaki",
+   "icons": 557,
+   "author": "Bryan Housel",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "gis",
+   "name": "Font-GIS",
+   "icons": 367,
+   "author": "Jean-Marc Viglino",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "map",
+   "name": "Map Icons",
+   "icons": 167,
+   "author": "Scott de Jonge",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "geo",
+   "name": "GeoGlyphs",
+   "icons": 30,
+   "author": "Sam Matthews",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "osmic",
+   "name": "OSM Icons",
+   "icons": 169,
+   "author": "GMGeo",
+   "license": "CC0-1.0",
+   "usable": true
+  },
+  {
+   "prefix": "game-icons",
+   "name": "Game Icons",
+   "icons": 4133,
+   "author": "GameIcons",
+   "license": "CC-BY-3.0",
+   "usable": true
+  },
+  {
+   "prefix": "fad",
+   "name": "FontAudio",
+   "icons": 155,
+   "author": "@fefanto",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "academicons",
+   "name": "Academicons",
+   "icons": 158,
+   "author": "James Walsh",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "wi",
+   "name": "Weather Icons",
+   "icons": 219,
+   "author": "Erik Flowers",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "meteocons",
+   "name": "Meteocons",
+   "icons": 447,
+   "author": "Bas Milius",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "healthicons",
+   "name": "Health Icons",
+   "icons": 2062,
+   "author": "Resolve to Save Lives",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "medical-icon",
+   "name": "Medical Icons",
+   "icons": 144,
+   "author": "Samuel Frémondière",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "covid",
+   "name": "Covid Icons",
+   "icons": 142,
+   "author": "Streamline",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "ginetex",
+   "name": "Ginetex Care Symbols",
+   "icons": 50,
+   "author": "YESSIR Organization",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "la",
+   "name": "Line Awesome",
+   "icons": 1544,
+   "author": "Icons8",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "eva",
+   "name": "Eva Icons",
+   "icons": 490,
+   "author": "Akveo",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "dashicons",
+   "name": "Dashicons",
+   "icons": 342,
+   "author": "WordPress",
+   "license": "GPL-2.0-or-later",
+   "usable": false
+  },
+  {
+   "prefix": "flat-color-icons",
+   "name": "Flat Color Icons",
+   "icons": 329,
+   "author": "Icons8",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "entypo",
+   "name": "Entypo+",
+   "icons": 321,
+   "author": "Daniel Bruce",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "foundation",
+   "name": "Foundation",
+   "icons": 283,
+   "author": "Zurb",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "raphael",
+   "name": "Raphael",
+   "icons": 266,
+   "author": "Dmitry Baranovskiy",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "icons8",
+   "name": "Icons8 Windows 10 Icons",
+   "icons": 234,
+   "author": "Icons8",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "iwwa",
+   "name": "Innowatio Font",
+   "icons": 105,
+   "author": "Innowatio",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "gala",
+   "name": "Gala Icons",
+   "icons": 51,
+   "author": "Jake Wells",
+   "license": "GPL-3.0",
+   "usable": false
+  },
+  {
+   "prefix": "heroicons-outline",
+   "name": "HeroIcons v1 Outline",
+   "icons": 230,
+   "author": "Refactoring UI Inc",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "heroicons-solid",
+   "name": "HeroIcons v1 Solid",
+   "icons": 230,
+   "author": "Refactoring UI Inc",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "bx",
+   "name": "BoxIcons v2",
+   "icons": 814,
+   "author": "Boxicons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "bxs",
+   "name": "BoxIcons v2 Solid",
+   "icons": 665,
+   "author": "Boxicons",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "fa6-solid",
+   "name": "Font Awesome 6 Solid",
+   "icons": 1402,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa6-regular",
+   "name": "Font Awesome 6 Regular",
+   "icons": 163,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa6-brands",
+   "name": "Font Awesome 6 Brands",
+   "icons": 495,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa-solid",
+   "name": "Font Awesome 5 Solid",
+   "icons": 1001,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa-regular",
+   "name": "Font Awesome 5 Regular",
+   "icons": 151,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa-brands",
+   "name": "Font Awesome 5 Brands",
+   "icons": 457,
+   "author": "Dave Gandy",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fa",
+   "name": "Font Awesome 4",
+   "icons": 678,
+   "author": "Dave Gandy",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "fluent-mdl2",
+   "name": "Fluent UI MDL2",
+   "icons": 1735,
+   "author": "Microsoft Corporation",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "fontisto",
+   "name": "Fontisto",
+   "icons": 615,
+   "author": "Kenan Gündoğan",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "icomoon-free",
+   "name": "IcoMoon Free",
+   "icons": 491,
+   "author": "Keyamoon",
+   "license": "GPL-3.0-or-later",
+   "usable": false
+  },
+  {
+   "prefix": "subway",
+   "name": "Subway Icon Set",
+   "icons": 306,
+   "author": "Mariusz Ostrowski",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "oi",
+   "name": "Open Iconic",
+   "icons": 223,
+   "author": "Iconic",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "wpf",
+   "name": "Icons8 Windows 8 Icons",
+   "icons": 200,
+   "author": "Icons8",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "simple-line-icons",
+   "name": "Simple line icons",
+   "icons": 189,
+   "author": "Sabbir Ahmed",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "et",
+   "name": "Elegant",
+   "icons": 100,
+   "author": "Kenny Sing",
+   "license": "GPL-3.0-or-later",
+   "usable": false
+  },
+  {
+   "prefix": "el",
+   "name": "Elusive Icons",
+   "icons": 304,
+   "author": "Team Redux",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "vaadin",
+   "name": "Vaadin Icons",
+   "icons": 636,
+   "author": "Vaadin",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "grommet-icons",
+   "name": "Grommet Icons",
+   "icons": 636,
+   "author": "Grommet",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "whh",
+   "name": "WebHostingHub Glyphs",
+   "icons": 2125,
+   "author": "WebHostingHub",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "si-glyph",
+   "name": "SmartIcons Glyph",
+   "icons": 799,
+   "author": "SmartIcons",
+   "license": "CC-BY-SA-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "zmdi",
+   "name": "Material Design Iconic Font",
+   "icons": 777,
+   "author": "MDI Community",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "ls",
+   "name": "Ligature Symbols",
+   "icons": 348,
+   "author": "Kazuyuki Motoyama",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "bpmn",
+   "name": "BPMN",
+   "icons": 112,
+   "author": "Camunda Services GmbH",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "flat-ui",
+   "name": "Flat UI Icons",
+   "icons": 100,
+   "author": "Designmodo, Inc.",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "vs",
+   "name": "Vesper Icons",
+   "icons": 159,
+   "author": "TableCheck",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "topcoat",
+   "name": "TopCoat Icons",
+   "icons": 89,
+   "author": "TopCoat",
+   "license": "Apache-2.0",
+   "usable": true
+  },
+  {
+   "prefix": "il",
+   "name": "Icalicons",
+   "icons": 84,
+   "author": "Icalia Labs",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "websymbol",
+   "name": "Web Symbols Liga",
+   "icons": 85,
+   "author": "Just Be Nice studio",
+   "license": "OFL-1.1",
+   "usable": true
+  },
+  {
+   "prefix": "fontelico",
+   "name": "Fontelico",
+   "icons": 34,
+   "author": "Fontello",
+   "license": "CC-BY-SA-3.0",
+   "usable": true
+  },
+  {
+   "prefix": "ps",
+   "name": "PrestaShop Icons",
+   "icons": 479,
+   "author": "PrestaShop",
+   "license": "CC-BY-NC-4.0",
+   "usable": false
+  },
+  {
+   "prefix": "feather",
+   "name": "Feather Icons",
+   "icons": 286,
+   "author": "Cole Bemis",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "mono-icons",
+   "name": "Mono Icons",
+   "icons": 180,
+   "author": "Mono",
+   "license": "MIT",
+   "usable": true
+  },
+  {
+   "prefix": "pepicons",
+   "name": "Pepicons",
+   "icons": 428,
+   "author": "CyCraft",
+   "license": "CC-BY-4.0",
+   "usable": true
+  },
+  {
+   "prefix": "fluent-emoji",
+   "name": "Fluent Emoji",
+   "icons": 3126,
+   "author": "Microsoft Corporation",
+   "license": "MIT",
+   "usable": true
+  }
+ ]
+}

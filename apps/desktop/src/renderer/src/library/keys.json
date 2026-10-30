@@ -1,0 +1,168 @@
+{
+  "sampleRate": 48000,
+  "onset": 96,
+  "source": "Keyboard Soundpack #1 (single keystrokes) by unicaegames, opengameart.org, CC0 1.0",
+  "gain": 1.3433285804383135,
+  "takes": [
+    {
+      "name": "Keypress 1",
+      "start": 0,
+      "length": 10254
+    },
+    {
+      "name": "Keypress 2",
+      "start": 10254,
+      "length": 10163
+    },
+    {
+      "name": "Keypress 3",
+      "start": 20417,
+      "length": 10656
+    },
+    {
+      "name": "Keypress 4",
+      "start": 31073,
+      "length": 9179
+    },
+    {
+      "name": "Keypress 5",
+      "start": 40252,
+      "length": 10618
+    },
+    {
+      "name": "Keypress 6",
+      "start": 50870,
+      "length": 9551
+    },
+    {
+      "name": "Keypress 7",
+      "start": 60421,
+      "length": 8214
+    },
+    {
+      "name": "Keypress 8",
+      "start": 68635,
+      "length": 9740
+    },
+    {
+      "name": "Keypress 9",
+      "start": 78375,
+      "length": 10049
+    },
+    {
+      "name": "Keypress 10",
+      "start": 88424,
+      "length": 9738
+    },
+    {
+      "name": "Keypress 11",
+      "start": 98162,
+      "length": 9721
+    },
+    {
+      "name": "Keypress 12",
+      "start": 107883,
+      "length": 10656
+    },
+    {
+      "name": "Keypress 13",
+      "start": 118539,
+      "length": 8881
+    },
+    {
+      "name": "Keypress 14",
+      "start": 127420,
+      "length": 10656
+    },
+    {
+      "name": "Keypress 15",
+      "start": 138076,
+      "length": 10656
+    },
+    {
+      "name": "Keypress 16",
+      "start": 148732,
+      "length": 9112
+    },
+    {
+      "name": "Keypress 17",
+      "start": 157844,
+      "length": 9502
+    },
+    {
+      "name": "Keypress 18",
+      "start": 167346,
+      "length": 10522
+    },
+    {
+      "name": "Keypress 19",
+      "start": 177868,
+      "length": 8496
+    },
+    {
+      "name": "Keypress 20",
+      "start": 186364,
+      "length": 10656
+    },
+    {
+      "name": "Keypress 21",
+      "start": 197020,
+      "length": 10156
+    },
+    {
+      "name": "Keypress 22",
+      "start": 207176,
+      "length": 10218
+    },
+    {
+      "name": "Keypress 23",
+      "start": 217394,
+      "length": 9208
+    },
+    {
+      "name": "Keypress 24",
+      "start": 226602,
+      "length": 9365
+    },
+    {
+      "name": "Keypress 25",
+      "start": 235967,
+      "length": 9719
+    },
+    {
+      "name": "Keypress 26",
+      "start": 245686,
+      "length": 9280
+    },
+    {
+      "name": "Keypress 27",
+      "start": 254966,
+      "length": 10107
+    },
+    {
+      "name": "Keypress 28",
+      "start": 265073,
+      "length": 10437
+    },
+    {
+      "name": "Keypress 29",
+      "start": 275510,
+      "length": 8565
+    },
+    {
+      "name": "Keypress 30",
+      "start": 284075,
+      "length": 10095
+    },
+    {
+      "name": "Keypress 31",
+      "start": 294170,
+      "length": 10241
+    },
+    {
+      "name": "Keypress 32",
+      "start": 304411,
+      "length": 9332
+    }
+  ]
+}

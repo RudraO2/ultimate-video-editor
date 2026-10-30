@@ -1,0 +1,82 @@
+{
+  "01-title-card": {
+    "model": "sonnet",
+    "seconds": 40,
+    "turns": 13,
+    "costUsd": 0.27387839999999997,
+    "exported": true,
+    "sheet": "01-title-card.jpg",
+    "toolErrors": [],
+    "reply": "I made a 5-second, 1920×1080, 30 fps title card on a deep navy background with a faint amber glow in the lower right. \"EPISODE 03\" in amber caps sits above \"The Quiet Coast\" in a large cream serif, followed by a short amber rule and the italic subtitle \"Where the tide keeps time\". All of it is left-aligned on a 160 px margin. The four elements fade and rise in one after another, from about 0.2 s to 1.8 s, and the card then holds still until 5 s.\n\nI exported it to `01-title-card.mp4` and saved the project as `01-title-card.uve`, both in the bench folder you gave. I didn't view the final frames after moving the kicker slightly up for spacing, so that last adjustment was exported unchecked. There was nothing I couldn't do."
+  },
+  "02-lower-third": {
+    "model": "sonnet",
+    "seconds": 44,
+    "turns": 18,
+    "costUsd": 0.2866264,
+    "exported": true,
+    "sheet": "02-lower-third.jpg",
+    "toolErrors": [
+      "<tool_use_error>Error: No such tool available: api_batch</tool_use_error>"
+    ],
+    "reply": "I added a lower third over the clip in a 1920×1080, 6 s comp. It's a dark card with a teal accent bar, \"Dr. Maya Okafor\" in bold and \"Marine Biologist\" below it. It slides and fades in from 0.5 s, holds fully visible from about 1.0 s to 4.5 s (3.5 s), then fades out by about 4.9 s. It sits bottom left at about 70 px in from the left title-safe edge, with its bottom edge at y=440 against a safe limit of 486.\n\nI split the text onto two lines and dropped the em dash, a deliberate change from your single line. The comp was 10 s by default, so I shortened it to 6 s to match the clip. I checked contact-sheet frames before exporting but didn't play back the exported MP4.\n\nThe export is `02-lower-third.mp4` and the project is `02-lower-third.uve`, both in the bench folder."
+  },
+  "03-kinetic-type": {
+    "model": "sonnet",
+    "seconds": 69,
+    "turns": 16,
+    "costUsd": 0.3408366,
+    "exported": true,
+    "sheet": "03-kinetic-type.jpg",
+    "toolErrors": [
+      "<tool_use_error>Error: No such tool available: api_batch</tool_use_error>"
+    ],
+    "reply": "I made a 6-second, 1080×1920 piece at 30 fps. \"MAKE\", \"EVERY\" and \"SECOND\" each get two beats (1 s) at 120 bpm, in white on black, black on yellow and white on red. Each enters differently: a scale pop, a slide in from the left, and a drop from the top with a tilt. \"COUNT\" takes the last 3 s with a scale slam, then a colour change (yellow, cyan, red) and a white flash on every beat.\n\nI checked it only on contact-sheet stills, not by playing the video, and left the font at the editor default (weight 900). Nothing was left undone.\n\nFiles are in the bench folder:\n- 03-kinetic-type.mp4\n- 03-kinetic-type.uve"
+  },
+  "04-lyric-captions": {
+    "model": "sonnet",
+    "seconds": 66,
+    "turns": 15,
+    "costUsd": 0.3062668,
+    "exported": true,
+    "sheet": "04-lyric-captions.jpg",
+    "toolErrors": [
+      "Contains brace with quote character (expansion obfuscation)"
+    ],
+    "reply": "I made a 1080×1920, 12 s lyric video with `song.wav` on the timeline over a calm navy-to-lavender gradient. The four lyric lines scroll up as each one is sung. The current line is large and white, the next one is dimmer, and sung lines shrink and fade out. The scroll starts 300 ms before each line change and lands 300 ms after it.\n\nI checked frames at 1.5, 3, 4.5, 6, 7.5 and 10.5 s, and the highlighting and scroll look right. I didn't play the audio or watch the exported MP4, so I can't confirm the audio lines up. There was nothing I couldn't do.\n\nFiles:\n- `C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\d3d19efe-d51d-40d2-ab18-13f431635f93\\scratchpad\\bench\\04-lyric-captions.mp4`\n- `C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\d3d19efe-d51d-40d2-ab18-13f431635f93\\scratchpad\\bench\\04-lyric-captions.uve`"
+  },
+  "05-reel": {
+    "model": "sonnet",
+    "seconds": 66,
+    "turns": 21,
+    "costUsd": 0.3038890000000001,
+    "exported": true,
+    "sheet": "05-reel.jpg",
+    "toolErrors": [
+      "Invalid input for comp.update:\n✖ Invalid input: expected string, received undefined\n  → at id\nHint: api.describe {\"command\": \"comp.update\"} shows the input shape."
+    ],
+    "reply": "I made a 10-second, 1080×1920 reel and exported it to `05-reel.mp4`. The project is saved as `05-reel.uve`, both in the bench folder. It has four 2.5 s cuts (2.5–5 s, 6.5–9 s, 13.5–16 s and 17–19.5 s of the source). Each is scaled to fill the frame, the second and fourth push in, there's a caption on each cut, and a title card covers the first second.\n\nThe source is just a colour-bar test pattern, so \"most interesting\" was a judgement call. I kept the stretches where the grey square appears and the moving elements, and I didn't look closely at the last two cuts. The captions and title text are placeholders I wrote. I only looked at contact-sheet frames, not the exported file, and I didn't play the export back, so the audio is unchecked."
+  },
+  "06-promo": {
+    "model": "sonnet",
+    "seconds": 147,
+    "turns": 23,
+    "costUsd": 0.573332,
+    "exported": true,
+    "sheet": "06-promo.jpg",
+    "toolErrors": [],
+    "reply": "I made a 15-second 1080×1920 promo and exported it to `06-promo.mp4`. The project is saved as `06-promo.uve`, both at the paths you gave. I only checked it from contact-sheet stills and didn't watch the exported video.\n\n- **Structure:** it opens with \"FEEL EVERY BEAT.\" in the first 1.5 s, then three 3-second beats for 30-hour battery, active noise cancelling and IPX5 sweat-proof. After that comes \"$79 — launch week only\" with the $79 in yellow, and the closing logo with \"Shop now at aurora.audio\".\n- **Pacing:** each beat starts with a white flash, the text pops in on a 500 ms beat grid, and the backgrounds push in slowly.\n- **Offer text:** I put a line break after \"$79\", so it reads as two lines.\n- **Product photos and logo:** the three \"product photos\" are plain colour gradients and the logo is a flat purple square, so the photos serve as backgrounds and the logo as the end mark. I added an \"AURORA\" wordmark beside the logo.\n- **Music:** there is no music or audio, because I only used the uve tools and found none for adding it. The pacing is built for a 120 BPM track you can add later."
+  },
+  "07-logo-reveal": {
+    "model": "sonnet",
+    "seconds": 73,
+    "turns": 15,
+    "costUsd": 0.37513170000000007,
+    "exported": true,
+    "sheet": "07-logo-reveal.jpg",
+    "toolErrors": [
+      "\"count\" does not appear in the text.\nHint: The text is \"NORTHWIND STUDIO\"."
+    ],
+    "reply": "I made a 4-second 1920×1080 logo reveal for \"Northwind Studio\" on a near-black background with one orange accent. The circle outline draws on, then the diagonal slash. The circle fills with a soft glow, a shine sweeps across it, and \"NORTHWIND STUDIO\" fades in letter by letter, with \"STUDIO\" in the accent colour.\n\nI checked it with contact sheets of frames across the animation and a close-up of the final frame, but I didn't play the exported MP4.\n\nTwo choices of mine: the slash is off-white rather than orange so it stays visible on the filled circle, and the letters only fade in rather than also sliding up.\n\nFiles are at `07-logo-reveal.mp4` and `07-logo-reveal.uve` in the bench folder, both written to the paths you gave. There was nothing I couldn't do."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "01-title-card": {
+    "model": "sonnet",
+    "seconds": 65,
+    "turns": 11,
+    "costUsd": 0.31306999999999996,
+    "exported": true,
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\01-title-card.sheet.png",
+    "toolErrors": [
+      "<tool_use_error>Error: No such tool available: api_batch</tool_use_error>"
+    ],
+    "reply": "I made a 5-second, 1920×1080 title card at 30 fps on a deep navy background with a soft amber glow in the lower right. On the left margin it has an amber \"EPISODE 03\" kicker, \"The Quiet Coast\" in cream Georgia, a short amber rule, and the italic subtitle \"Where the tide keeps time\". The kicker fades up first, the title words unblur upward in sequence, the rule draws out, then the subtitle fades up. Everything is still from about 1.8 s. I checked frames across the animation and a close-up at 2.5 s, but did not watch the exported MP4 itself.\n\nBoth files are in `C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\`:\n- `01-title-card.mp4`\n- `01-title-card.uve`\n\nThere was nothing I couldn't do."
+  },
+  "02-lower-third": {
+    "model": "sonnet",
+    "seconds": 71,
+    "turns": 27,
+    "costUsd": 0.45304059999999996,
+    "exported": true,
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\02-lower-third.sheet.png",
+    "toolErrors": [
+      "<tool_use_error>Error: No such tool available: api_batch</tool_use_error>"
+    ],
+    "reply": "I added a lower third reading \"Dr. Maya Okafor\" with \"Marine Biologist\" beneath it. It sits bottom left on a dark rounded panel, inside the title-safe area, over the full 6 s, 1920×1080 clip. It slides in at 0.5 s, holds fully visible from about 1.1 s to 5.1 s (about 4 s), then fades out by 5.5 s. I checked contact-sheet frames across the timeline and a close-up of the card before exporting, and it reads clearly.\n\nI couldn't do anything wrong that I know of, but I changed two things you didn't specify: the comp defaulted to 10 s, so I set it to 6 s to match the clip, and I scaled the 1280×720 clip to 1.5× to fill the frame.\n\nFiles are in the bench-a9 folder:\n- `02-lower-third.mp4`\n- `02-lower-third.uve`"
+  },
+  "03-kinetic-type": {
+    "model": "sonnet",
+    "seconds": 69,
+    "turns": 17,
+    "costUsd": 0.37884339999999994,
+    "exported": true,
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\03-kinetic-type.sheet.png",
+    "toolErrors": [],
+    "reply": "I made a 6-second, 1080×1920, 30 fps piece at 120 bpm. \"Make\", \"every\" and \"second\" each get one second (two beats) on their own background, with a different entrance each: letters sliding up, a whip, and a drop. \"count\" holds for the last three seconds with a punch-in. Its text colour and background flash on every beat, in yellow, pink, cyan, white and blue on black. I exported it to `03-kinetic-type.mp4` (180 frames) and saved the project as `03-kinetic-type.uve`, both in the bench-a9 folder you named.\n\nThere was nothing I couldn't do. The words fill roughly 70–85% of the frame width, so they're big but not edge to edge. I also never played the exported MP4 back. I only checked frame contact sheets of the comp before exporting."
+  },
+  "04-lyric-captions": {
+    "model": "sonnet",
+    "seconds": 62,
+    "turns": 12,
+    "costUsd": 0.344243,
+    "exported": true,
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\04-lyric-captions.sheet.png",
+    "toolErrors": [],
+    "reply": "I made a 1080×1920, 12-second lyric video with the song under it. It has a calm navy-to-violet gradient, and each line gets its 3-second window as the large white current line. The next line sits dimmer below it and sung lines fade out above. The block scrolls up over about 0.5 s at each line change. I checked the frames at several points, including the scroll transitions, and they looked right. I did not play the exported MP4 or listen to the audio in it.\n\nThe longer lines wrap onto two lines at that size. I couldn't do a word-by-word sweep within a line. The highlight is per line, as you described.\n\nFiles:\n- `C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\04-lyric-captions.mp4`\n- `C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\0c1a4365-dd13-4aed-9a62-317ba0f4216d\\scratchpad\\bench-a9\\04-lyric-captions.uve`"
+  },
+  "05-reel": {
+    "model": "sonnet",
+    "seconds": 44,
+    "turns": 24,
+    "costUsd": 0.3277496,
+    "exported": false,
+    "sheet": null,
+    "toolErrors": [],
+    "reply": "You've hit your session limit · resets 11:30pm (Asia/Kolkata)"
+  },
+  "06-promo": {
+    "model": "sonnet",
+    "seconds": 4,
+    "turns": 1,
+    "costUsd": 0,
+    "exported": false,
+    "sheet": null,
+    "toolErrors": [],
+    "reply": "You've hit your session limit · resets 11:30pm (Asia/Kolkata)"
+  },
+  "07-logo-reveal": {
+    "model": "sonnet",
+    "seconds": 4,
+    "turns": 1,
+    "costUsd": 0,
+    "exported": false,
+    "sheet": null,
+    "toolErrors": [],
+    "reply": "You've hit your session limit · resets 11:30pm (Asia/Kolkata)"
+  }
+}

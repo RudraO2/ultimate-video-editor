@@ -1,0 +1,3883 @@
+{
+  "source": "AtomCut text looks (103), extracted as data with the owner's reported permission from AtomCut 4.9.0 and checked against 4.17.0; see docs/research/atomcut-inspiration.md. Each look: palette, type, effects, entrance, sound and (captions) a focus state.",
+  "textLooks": [
+    {
+      "id": "hero-pop",
+      "name": "Hero Pop",
+      "category": "Titles",
+      "tags": [
+        "bold",
+        "opener"
+      ],
+      "tagline": "Big, bold, lands with weight",
+      "sampleText": "BIG MOMENT",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#F5B843",
+        "shade": "#131316"
+      },
+      "style": {
+        "fontFamily": "Archivo Black",
+        "fontSize": 140,
+        "fontWeight": 800,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "pop-in",
+          "unit": "word",
+          "staggerMs": 120
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.4
+      }
+    },
+    {
+      "id": "title-card",
+      "name": "Title Card",
+      "category": "Titles",
+      "tags": [
+        "opener",
+        "clean"
+      ],
+      "tagline": "Centred, spaced, settles once",
+      "sampleText": "Chapter One",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#C9A227",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Cormorant Garamond",
+        "fontSize": 128,
+        "fontWeight": 300,
+        "letterSpacing": 10,
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "settle",
+          "unit": "line",
+          "durationMs": 1100,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-quart"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "lower-third",
+      "name": "Lower Third",
+      "category": "Titles",
+      "tags": [
+        "broadcast",
+        "name"
+      ],
+      "tagline": "Name bar that slides in from the left",
+      "sampleText": "Ada Lovelace",
+      "palette": {
+        "ink": "#0B0B0D",
+        "accent": "#37D399",
+        "shade": "#FFFFFF"
+      },
+      "style": {
+        "fontFamily": "Barlow Condensed",
+        "fontSize": 76,
+        "fontWeight": 600,
+        "letterSpacing": 1,
+        "align": "left",
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 4,
+          "paddingX": 18,
+          "paddingY": 10
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-right",
+          "unit": "line",
+          "durationMs": 520,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-expo"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "stacked-headline",
+      "name": "Stacked",
+      "category": "Titles",
+      "tags": [
+        "editorial",
+        "poster"
+      ],
+      "tagline": "Line after line, each one landing",
+      "sampleText": "BUILT\nTO MOVE",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#FF5A36",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Anton",
+        "fontSize": 116,
+        "fontWeight": 400,
+        "lineHeight": 0.92,
+        "letterSpacing": 1,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-down",
+          "unit": "line",
+          "staggerMs": 130,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.35
+      }
+    },
+    {
+      "id": "underline-title",
+      "name": "Underline",
+      "category": "Titles",
+      "tags": [
+        "clean",
+        "rule"
+      ],
+      "tagline": "A rule draws itself under the words",
+      "sampleText": "The Brief",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#4CC3E0",
+        "shade": "#101013"
+      },
+      "style": {
+        "fontFamily": "Sora",
+        "fontSize": 96,
+        "fontWeight": 600,
+        "decoration": "underline",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "trace",
+          "unit": "line",
+          "durationMs": 780
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "badge-title",
+      "name": "Badge",
+      "category": "Titles",
+      "tags": [
+        "pill",
+        "tag"
+      ],
+      "tagline": "Caps in a rounded chip",
+      "sampleText": "EPISODE 04",
+      "palette": {
+        "ink": "#FF5A36",
+        "accent": "#FFFFFF",
+        "shade": "#FFFFFF"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 46,
+        "fontWeight": 700,
+        "letterSpacing": 4,
+        "textCase": "upper",
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 999,
+          "paddingX": 20,
+          "paddingY": 10
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "scale-in",
+          "unit": "line",
+          "durationMs": 420,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "split-title",
+      "name": "Split",
+      "category": "Titles",
+      "tags": [
+        "duotone",
+        "two-colour"
+      ],
+      "tagline": "Heavy caps with a colour shadow behind",
+      "sampleText": "DOUBLE UP",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#B18CFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Archivo Black",
+        "fontSize": 124,
+        "fontWeight": 800,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@accent",
+            "x": 8,
+            "y": 8,
+            "blur": 0,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-through",
+          "unit": "word",
+          "staggerMs": 90
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "title-reveal",
+      "name": "Curtain",
+      "category": "Titles",
+      "tags": [
+        "reveal",
+        "mask"
+      ],
+      "tagline": "Wipes open a line at a time",
+      "sampleText": "Now Showing",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#C9A227",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Playfair Display",
+        "fontSize": 108,
+        "fontWeight": 600,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "shutter",
+          "unit": "line",
+          "staggerMs": 140,
+          "durationMs": 640
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "hero-blur",
+      "name": "Arrival",
+      "category": "Titles",
+      "tags": [
+        "blur",
+        "soft"
+      ],
+      "tagline": "Sharpens into place, word by word",
+      "sampleText": "clarity first",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#4CC3E0",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 112,
+        "fontWeight": 700,
+        "letterSpacing": -1,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "unblur-up",
+          "unit": "word",
+          "staggerMs": 80,
+          "durationMs": 720
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "social-caption",
+      "name": "Subtitle",
+      "category": "Captions",
+      "tags": [
+        "social",
+        "subtitle"
+      ],
+      "tagline": "Bold captions with a pop per word",
+      "sampleText": "wait for it",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#F5B843",
+        "shade": "#000000"
+      },
+      "style": {
+        "fontFamily": "Montserrat",
+        "fontSize": 84,
+        "fontWeight": 800,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "stroke",
+          "color": "@shade",
+          "width": 6,
+          "placement": "outside"
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "pop-in",
+          "unit": "word",
+          "staggerMs": 90
+        },
+        "out": null
+      },
+      "focus": {
+        "props": {
+          "color": "@accent"
+        },
+        "scale": 1.1
+      }
+    },
+    {
+      "id": "tiktok-punch",
+      "name": "Punch",
+      "category": "Captions",
+      "tags": [
+        "social",
+        "vertical"
+      ],
+      "tagline": "Word-by-word slam with a hard shadow",
+      "sampleText": "READ THIS NOW",
+      "palette": {
+        "ink": "#F5B843",
+        "accent": "#FFFFFF",
+        "shade": "#000000"
+      },
+      "style": {
+        "fontFamily": "Anton",
+        "fontSize": 110,
+        "fontWeight": 400,
+        "letterSpacing": 1,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@shade/80",
+            "x": 0,
+            "y": 6,
+            "blur": 0,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "pop-in",
+          "unit": "word",
+          "staggerMs": 130,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.35
+      },
+      "focus": {
+        "props": {
+          "color": "@accent"
+        },
+        "scale": 1.12
+      }
+    },
+    {
+      "id": "karaoke-pill",
+      "name": "Karaoke",
+      "category": "Captions",
+      "tags": [
+        "highlight",
+        "lyrics"
+      ],
+      "tagline": "Each word lights its own pill",
+      "sampleText": "sing it back",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#FFFFFF",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Poppins",
+        "fontSize": 78,
+        "fontWeight": 700,
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 12,
+          "paddingX": 14,
+          "paddingY": 6
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "scale-in",
+          "unit": "word",
+          "staggerMs": 150,
+          "durationMs": 260
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.28
+      },
+      "focus": {
+        "props": {
+          "highlight.color": "@accent",
+          "highlight.radius": 12,
+          "highlight.paddingX": 14,
+          "highlight.paddingY": 6
+        },
+        "scale": 1.06
+      }
+    },
+    {
+      "id": "clean-sub",
+      "name": "Clean Sub",
+      "category": "Captions",
+      "tags": [
+        "subtitle",
+        "quiet"
+      ],
+      "tagline": "Legible, understated, no drama",
+      "sampleText": "and then she said",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#B9B5AC",
+        "shade": "#000000"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 62,
+        "fontWeight": 500,
+        "align": "center",
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@shade/70",
+            "x": 0,
+            "y": 2,
+            "blur": 8,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 240
+        },
+        "out": null
+      },
+      "focus": {
+        "props": {
+          "fontWeight": 700
+        }
+      }
+    },
+    {
+      "id": "boxed-caption",
+      "name": "Boxed",
+      "category": "Captions",
+      "tags": [
+        "subtitle",
+        "solid"
+      ],
+      "tagline": "Solid block behind every line",
+      "sampleText": "on the record",
+      "palette": {
+        "ink": "#0B0B0D",
+        "accent": "#F5B843",
+        "shade": "#FFFFFF"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 64,
+        "fontWeight": 600,
+        "align": "center",
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 2,
+          "paddingX": 16,
+          "paddingY": 8
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "line",
+          "durationMs": 300
+        },
+        "out": null
+      },
+      "focus": {
+        "props": {
+          "color": "@accent"
+        }
+      }
+    },
+    {
+      "id": "shout-caption",
+      "name": "Shout",
+      "category": "Captions",
+      "tags": [
+        "social",
+        "loud"
+      ],
+      "tagline": "Every word arrives bigger than it should",
+      "sampleText": "NO WAY",
+      "palette": {
+        "ink": "#FF3B6B",
+        "accent": "#FFFFFF",
+        "shade": "#000000"
+      },
+      "style": {
+        "fontFamily": "Luckiest Guy",
+        "fontSize": 104,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "stroke",
+          "color": "@shade",
+          "width": 8,
+          "placement": "outside"
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "punch",
+          "unit": "word",
+          "staggerMs": 110
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.4
+      },
+      "focus": {
+        "props": {
+          "color": "@accent"
+        },
+        "scale": 1.15
+      }
+    },
+    {
+      "id": "ticker-caption",
+      "name": "Ticker",
+      "category": "Captions",
+      "tags": [
+        "news",
+        "band"
+      ],
+      "tagline": "News band, one word at a time",
+      "sampleText": "BREAKING · LIVE",
+      "palette": {
+        "ink": "#E5484D",
+        "accent": "#FFFFFF",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Barlow Condensed",
+        "fontSize": 58,
+        "fontWeight": 600,
+        "letterSpacing": 2,
+        "textCase": "upper",
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 0,
+          "paddingX": 14,
+          "paddingY": 8
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-right",
+          "unit": "word",
+          "staggerMs": 60,
+          "durationMs": 320
+        },
+        "out": null
+      },
+      "focus": {
+        "props": {
+          "color": "@accent"
+        }
+      }
+    },
+    {
+      "id": "whisper-caption",
+      "name": "Whisper",
+      "category": "Captions",
+      "tags": [
+        "quiet",
+        "soft"
+      ],
+      "tagline": "Light type that breathes in",
+      "sampleText": "barely there",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#B9B5AC",
+        "shade": "#000000"
+      },
+      "style": {
+        "fontFamily": "Lexend",
+        "fontSize": 60,
+        "fontWeight": 300,
+        "letterSpacing": 1,
+        "color": "@ink",
+        "opacity": 0.92
+      },
+      "animations": {
+        "in": {
+          "preset": "soft-focus",
+          "unit": "word",
+          "staggerMs": 70,
+          "durationMs": 520
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "soft",
+        "volume": 0.2
+      },
+      "focus": {
+        "props": {
+          "fontWeight": 500,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "id": "soft-wave",
+      "name": "Wave",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "flow"
+      ],
+      "tagline": "Gentle rise, letter by letter",
+      "sampleText": "flow with it",
+      "palette": {
+        "ink": "#B9B5AC",
+        "accent": "#4CC3E0",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Space Grotesk",
+        "fontSize": 96,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "wave",
+          "unit": "letter",
+          "staggerMs": 40
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "soft",
+        "volume": 0.26
+      }
+    },
+    {
+      "id": "cascade-drop",
+      "name": "Cascade",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "fall"
+      ],
+      "tagline": "Letters fall in like dominoes",
+      "sampleText": "one by one",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#F5B843",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Montserrat",
+        "fontSize": 92,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "cascade",
+          "unit": "letter",
+          "staggerMs": 45
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "mechanical",
+        "volume": 0.24
+      }
+    },
+    {
+      "id": "ripple-text",
+      "name": "Ripple",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "wave"
+      ],
+      "tagline": "A pulse travels through the line",
+      "sampleText": "pass it on",
+      "palette": {
+        "ink": "#4CC3E0",
+        "accent": "#FFFFFF",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Outfit",
+        "fontSize": 96,
+        "fontWeight": 600,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "ripple",
+          "unit": "letter",
+          "staggerMs": 38
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "swing-in",
+      "name": "Swing",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "pendulum"
+      ],
+      "tagline": "Each letter swings down and settles",
+      "sampleText": "hang on",
+      "palette": {
+        "ink": "#F5B843",
+        "accent": "#FFFFFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Fredoka",
+        "fontSize": 104,
+        "fontWeight": 600,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "swing",
+          "unit": "letter",
+          "staggerMs": 65
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.24
+      }
+    },
+    {
+      "id": "roll-letters",
+      "name": "Roll",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "spin"
+      ],
+      "tagline": "Rolls in on its own baseline",
+      "sampleText": "keep rolling",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#B18CFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Rubik",
+        "fontSize": 92,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "roll-in",
+          "unit": "letter",
+          "staggerMs": 50
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "rubber-band",
+      "name": "Rubber",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "elastic"
+      ],
+      "tagline": "Stretches past and snaps back",
+      "sampleText": "boing",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#FFFFFF",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Baloo 2",
+        "fontSize": 112,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "rubber",
+          "unit": "letter",
+          "staggerMs": 55,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-elastic"
+          }
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "flip-letters",
+      "name": "Flip",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "3d"
+      ],
+      "tagline": "Letters flip up on their edge",
+      "sampleText": "turn it over",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#4CC3E0",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Manrope",
+        "fontSize": 92,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "flip-up",
+          "unit": "letter",
+          "staggerMs": 55
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "scatter-in",
+      "name": "Scatter",
+      "category": "Kinetic",
+      "tags": [
+        "letters",
+        "chaos"
+      ],
+      "tagline": "Thrown in from everywhere, lands exact",
+      "sampleText": "gather round",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#FF5A36",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Space Grotesk",
+        "fontSize": 88,
+        "fontWeight": 600,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fly-in",
+          "unit": "letter",
+          "staggerMs": 30,
+          "scatterPx": 120,
+          "scatterDeg": 24
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "pendulum-words",
+      "name": "Pendulum",
+      "category": "Kinetic",
+      "tags": [
+        "words",
+        "swing"
+      ],
+      "tagline": "Words sway into rest",
+      "sampleText": "back and forth",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#C9A227",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Josefin Sans",
+        "fontSize": 96,
+        "fontWeight": 500,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "pendulum",
+          "unit": "word",
+          "staggerMs": 120
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "breathe-loop",
+      "name": "Breathe",
+      "category": "Kinetic",
+      "tags": [
+        "loop",
+        "calm"
+      ],
+      "tagline": "Slow in, slow settle",
+      "sampleText": "in · out",
+      "palette": {
+        "ink": "#B9B5AC",
+        "accent": "#4CC3E0",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Lexend",
+        "fontSize": 88,
+        "fontWeight": 300,
+        "letterSpacing": 6,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "breathe",
+          "unit": "line",
+          "durationMs": 1400
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "minimal-kicker",
+      "name": "Kicker",
+      "category": "Minimal",
+      "tags": [
+        "caps",
+        "tracking"
+      ],
+      "tagline": "Tiny caps, wide track, clean fade",
+      "sampleText": "NOW STREAMING",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#4CC3E0",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 52,
+        "fontWeight": 600,
+        "letterSpacing": 8,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "line",
+          "durationMs": 600
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "clean-blur",
+      "name": "Focus",
+      "category": "Minimal",
+      "tags": [
+        "blur",
+        "clean"
+      ],
+      "tagline": "Sharpens into focus from blur",
+      "sampleText": "clarity",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#4CC3E0",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 112,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "blur-in",
+          "unit": "word",
+          "staggerMs": 80
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "hairline",
+      "name": "Hairline",
+      "category": "Minimal",
+      "tags": [
+        "thin",
+        "quiet"
+      ],
+      "tagline": "The thinnest weight the face has",
+      "sampleText": "less, but better",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#B9B5AC",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Raleway",
+        "fontSize": 92,
+        "fontWeight": 200,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 800
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "label-tag",
+      "name": "Label",
+      "category": "Minimal",
+      "tags": [
+        "ui",
+        "mono"
+      ],
+      "tagline": "Interface-sized, mono, matter-of-fact",
+      "sampleText": "STATUS · OK",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#B9B5AC",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": 40,
+        "fontWeight": 500,
+        "letterSpacing": 3,
+        "textCase": "upper",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 200
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "nudge-note",
+      "name": "Nudge",
+      "category": "Minimal",
+      "tags": [
+        "subtle",
+        "small"
+      ],
+      "tagline": "Barely moves — and that is the point",
+      "sampleText": "a small note",
+      "palette": {
+        "ink": "#B9B5AC",
+        "accent": "#F4F2ED",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 56,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "nudge",
+          "unit": "line",
+          "durationMs": 340
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "wide-caps",
+      "name": "Wide",
+      "category": "Minimal",
+      "tags": [
+        "tracking",
+        "caps"
+      ],
+      "tagline": "Caps opened right out",
+      "sampleText": "S P A C E",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#C9A227",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Figtree",
+        "fontSize": 64,
+        "fontWeight": 500,
+        "letterSpacing": 18,
+        "textCase": "upper",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-through",
+          "unit": "letter",
+          "staggerMs": 55
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "rule-above",
+      "name": "Rule",
+      "category": "Minimal",
+      "tags": [
+        "line",
+        "editorial"
+      ],
+      "tagline": "Struck through, then cleared",
+      "sampleText": "revised",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#E5484D",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Inter",
+        "fontSize": 76,
+        "fontWeight": 500,
+        "decoration": "strikethrough",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "trace",
+          "unit": "line",
+          "durationMs": 620
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "elegant-serif",
+      "name": "Editorial",
+      "category": "Editorial",
+      "tags": [
+        "serif",
+        "magazine"
+      ],
+      "tagline": "Slow serif fade, magazine calm",
+      "sampleText": "A quiet headline",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#C9A227",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Playfair Display",
+        "fontSize": 110,
+        "fontWeight": 500,
+        "italic": {
+          "expr": "!0"
+        },
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "line",
+          "durationMs": 900,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-quart"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "elegant-flip",
+      "name": "Reveal",
+      "category": "Editorial",
+      "tags": [
+        "serif",
+        "flip"
+      ],
+      "tagline": "Serif flips up line by line",
+      "sampleText": "The Grand Reveal",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#C9A227",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Playfair Display",
+        "fontSize": 104,
+        "fontWeight": 600,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "flip-up",
+          "unit": "line",
+          "staggerMs": 120
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "pull-quote",
+      "name": "Pull Quote",
+      "category": "Editorial",
+      "tags": [
+        "serif",
+        "quote"
+      ],
+      "tagline": "Italic serif that drifts up",
+      "sampleText": "“it changed everything”",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#B9B5AC",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Crimson Pro",
+        "fontSize": 92,
+        "fontWeight": 400,
+        "italic": {
+          "expr": "!0"
+        },
+        "lineHeight": 1.25,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "drift",
+          "unit": "line",
+          "durationMs": 900
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "masthead",
+      "name": "Masthead",
+      "category": "Editorial",
+      "tags": [
+        "serif",
+        "display"
+      ],
+      "tagline": "Big display serif, one clean move",
+      "sampleText": "The Review",
+      "palette": {
+        "ink": "#0E0E10",
+        "accent": "#C9A227",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "DM Serif Display",
+        "fontSize": 132,
+        "fontWeight": 400,
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 0,
+          "paddingX": 22,
+          "paddingY": 12
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-down",
+          "unit": "line",
+          "durationMs": 640,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-expo"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "byline",
+      "name": "Byline",
+      "category": "Editorial",
+      "tags": [
+        "small",
+        "credit"
+      ],
+      "tagline": "Small caps credit line",
+      "sampleText": "WORDS BY ADA L.",
+      "palette": {
+        "ink": "#B9B5AC",
+        "accent": "#C9A227",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Libre Baskerville",
+        "fontSize": 38,
+        "fontWeight": 400,
+        "letterSpacing": 4,
+        "textCase": "upper",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 500,
+          "delayMs": 200
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "deck-serif",
+      "name": "Deck",
+      "category": "Editorial",
+      "tags": [
+        "serif",
+        "sub"
+      ],
+      "tagline": "The line under the headline",
+      "sampleText": "and what it means for you",
+      "palette": {
+        "ink": "#B9B5AC",
+        "accent": "#F4F2ED",
+        "shade": "#0E0E10"
+      },
+      "style": {
+        "fontFamily": "Newsreader",
+        "fontSize": 62,
+        "fontWeight": 300,
+        "italic": {
+          "expr": "!0"
+        },
+        "lineHeight": 1.3,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "word",
+          "staggerMs": 45,
+          "durationMs": 520
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "column-drop",
+      "name": "Drop Cap",
+      "category": "Editorial",
+      "tags": [
+        "serif",
+        "print"
+      ],
+      "tagline": "Lands like ink on paper",
+      "sampleText": "Once upon a time",
+      "palette": {
+        "ink": "#0E0E10",
+        "accent": "#8C3B2E",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "EB Garamond",
+        "fontSize": 96,
+        "fontWeight": 500,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "drop",
+          "unit": "word",
+          "staggerMs": 90
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "vintage",
+        "volume": 0.22
+      }
+    },
+    {
+      "id": "film-title",
+      "name": "Feature",
+      "category": "Cinematic",
+      "tags": [
+        "credits",
+        "film"
+      ],
+      "tagline": "Wide-tracked caps that simply appear",
+      "sampleText": "THE LONG WAY",
+      "palette": {
+        "ink": "#EFEBE3",
+        "accent": "#8C7B5A",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Cinzel",
+        "fontSize": 96,
+        "fontWeight": 400,
+        "letterSpacing": 14,
+        "textCase": "upper",
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 1600,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-in-out"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "end-credits",
+      "name": "Credits",
+      "category": "Cinematic",
+      "tags": [
+        "credits",
+        "roll"
+      ],
+      "tagline": "Names rising through the dark",
+      "sampleText": "Directed by",
+      "palette": {
+        "ink": "#DFDBD3",
+        "accent": "#8C7B5A",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Marcellus",
+        "fontSize": 56,
+        "fontWeight": 400,
+        "letterSpacing": 4,
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-up",
+          "unit": "line",
+          "staggerMs": 220,
+          "durationMs": 900
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "cold-open",
+      "name": "Cold Open",
+      "category": "Cinematic",
+      "tags": [
+        "mono",
+        "stamp"
+      ],
+      "tagline": "Location stamp, hard cut",
+      "sampleText": "BERLIN — 04:12",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#E5484D",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Share Tech Mono",
+        "fontSize": 52,
+        "fontWeight": 400,
+        "letterSpacing": 3,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@shade/70",
+            "x": 0,
+            "y": 2,
+            "blur": 6,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 120
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "trailer-slam",
+      "name": "Trailer",
+      "category": "Cinematic",
+      "tags": [
+        "slam",
+        "loud"
+      ],
+      "tagline": "One line, all at once, no mercy",
+      "sampleText": "THIS SUMMER",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#E5484D",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Oswald",
+        "fontSize": 132,
+        "fontWeight": 700,
+        "letterSpacing": 6,
+        "textCase": "upper",
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "punch",
+          "unit": "line",
+          "durationMs": 260
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.5
+      }
+    },
+    {
+      "id": "letterbox-note",
+      "name": "Interstitial",
+      "category": "Cinematic",
+      "tags": [
+        "quiet",
+        "serif"
+      ],
+      "tagline": "A held beat between scenes",
+      "sampleText": "three days later",
+      "palette": {
+        "ink": "#DFDBD3",
+        "accent": "#8C7B5A",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Cormorant Garamond",
+        "fontSize": 82,
+        "fontWeight": 300,
+        "italic": {
+          "expr": "!0"
+        },
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-through",
+          "unit": "line",
+          "durationMs": 1200
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "doc-lower",
+      "name": "Documentary",
+      "category": "Cinematic",
+      "tags": [
+        "name",
+        "broadcast"
+      ],
+      "tagline": "Interview name and role",
+      "sampleText": "Ada Lovelace\nMathematician",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#C9A227",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Barlow Condensed",
+        "fontSize": 62,
+        "fontWeight": 500,
+        "lineHeight": 1.15,
+        "align": "left",
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@shade/60",
+            "x": 0,
+            "y": 2,
+            "blur": 10,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "line",
+          "staggerMs": 120,
+          "durationMs": 480
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "widescreen",
+      "name": "Widescreen",
+      "category": "Cinematic",
+      "tags": [
+        "grain",
+        "warm"
+      ],
+      "tagline": "Grainy, warm, projected",
+      "sampleText": "reel one",
+      "palette": {
+        "ink": "#E8DCC3",
+        "accent": "#8C7B5A",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Vollkorn",
+        "fontSize": 92,
+        "fontWeight": 500,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "grain",
+          "amount": 0.3,
+          "size": 1.4,
+          "chroma": 0.1
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "soft-focus",
+          "unit": "line",
+          "durationMs": 1000
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "impact-stack",
+      "name": "Impact",
+      "category": "Impact",
+      "tags": [
+        "condensed",
+        "slam"
+      ],
+      "tagline": "Condensed caps, slams per word",
+      "sampleText": "EVERY WORD HITS",
+      "palette": {
+        "ink": "#F5B843",
+        "accent": "#FFFFFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Anton",
+        "fontSize": 120,
+        "fontWeight": 400,
+        "letterSpacing": 1,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-down",
+          "unit": "word",
+          "staggerMs": 160,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.45
+      }
+    },
+    {
+      "id": "outline-stroke",
+      "name": "Outline",
+      "category": "Impact",
+      "tags": [
+        "hollow",
+        "stroke"
+      ],
+      "tagline": "Hollow stroke, bounces in",
+      "sampleText": "HOLLOW",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#F5B843",
+        "shade": "#131316"
+      },
+      "style": {
+        "fontFamily": "Montserrat",
+        "fontSize": 132,
+        "fontWeight": 800,
+        "color": "@shade"
+      },
+      "effects": [
+        {
+          "type": "stroke",
+          "color": "@ink",
+          "width": 3,
+          "placement": "outside"
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "bounce-in",
+          "unit": "letter",
+          "staggerMs": 60
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "bold-slam",
+      "name": "Headline",
+      "category": "Impact",
+      "tags": [
+        "news",
+        "pill"
+      ],
+      "tagline": "Heavy grotesk on a hard band",
+      "sampleText": "BREAKING NEWS",
+      "palette": {
+        "ink": "#F5B843",
+        "accent": "#FFFFFF",
+        "shade": "#131316"
+      },
+      "style": {
+        "fontFamily": "Archivo Black",
+        "fontSize": 116,
+        "fontWeight": 800,
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 0,
+          "paddingX": 14,
+          "paddingY": 6
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-down",
+          "unit": "word",
+          "staggerMs": 100,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "sport-score",
+      "name": "Scoreboard",
+      "category": "Impact",
+      "tags": [
+        "sport",
+        "numbers"
+      ],
+      "tagline": "Italic condensed, built for numbers",
+      "sampleText": "72 — 68",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#37D399",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Teko",
+        "fontSize": 148,
+        "fontWeight": 600,
+        "italic": {
+          "expr": "!0"
+        },
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "whip",
+          "unit": "word",
+          "staggerMs": 80
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.32
+      }
+    },
+    {
+      "id": "extrude-block",
+      "name": "Extrude",
+      "category": "Impact",
+      "tags": [
+        "3d",
+        "poster"
+      ],
+      "tagline": "Blocks pushed back into depth",
+      "sampleText": "DEPTH",
+      "palette": {
+        "ink": "#FF5A36",
+        "accent": "#B18CFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Archivo Black",
+        "fontSize": 128,
+        "fontWeight": 800,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "extrude",
+            "color": "@accent",
+            "angle": 45,
+            "length": 26,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "scale-in",
+          "unit": "letter",
+          "staggerMs": 60,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "long-shadow",
+      "name": "Long Shadow",
+      "category": "Impact",
+      "tags": [
+        "flat",
+        "poster"
+      ],
+      "tagline": "One light source, one long trail",
+      "sampleText": "FLAT OUT",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#4CC3E0",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Bebas Neue",
+        "fontSize": 140,
+        "fontWeight": 400,
+        "letterSpacing": 4,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "longShadow",
+          "color": "@accent",
+          "angle": 45,
+          "length": 180,
+          "fade": 0.4
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "slide-left",
+          "unit": "line",
+          "durationMs": 560,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-expo"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "sticker-slab",
+      "name": "Slab",
+      "category": "Impact",
+      "tags": [
+        "slab",
+        "poster"
+      ],
+      "tagline": "Fat slab serif, one heavy landing",
+      "sampleText": "HEAVY",
+      "palette": {
+        "ink": "#0B0B0D",
+        "accent": "#F5B843",
+        "shade": "#FFFFFF"
+      },
+      "style": {
+        "fontFamily": "Alfa Slab One",
+        "fontSize": 124,
+        "fontWeight": 400,
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 8,
+          "paddingX": 20,
+          "paddingY": 10
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "drop",
+          "unit": "line",
+          "durationMs": 480
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.5
+      }
+    },
+    {
+      "id": "grow-shout",
+      "name": "Grow",
+      "category": "Impact",
+      "tags": [
+        "scale",
+        "loud"
+      ],
+      "tagline": "Comes at you from nothing",
+      "sampleText": "LOUDER",
+      "palette": {
+        "ink": "#E5484D",
+        "accent": "#FFFFFF",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Passion One",
+        "fontSize": 138,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "grow",
+          "unit": "line",
+          "durationMs": 420,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-back"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "fashion-caps",
+      "name": "Fashion",
+      "category": "Luxury",
+      "tags": [
+        "tracking",
+        "caps"
+      ],
+      "tagline": "Thin caps, opened right up",
+      "sampleText": "MAISON",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#C9A227",
+        "shade": "#0A0A0B"
+      },
+      "style": {
+        "fontFamily": "Italiana",
+        "fontSize": 108,
+        "fontWeight": 400,
+        "letterSpacing": 22,
+        "textCase": "upper",
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-through",
+          "unit": "letter",
+          "staggerMs": 90,
+          "durationMs": 900
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "gold-foil",
+      "name": "Foil",
+      "category": "Luxury",
+      "tags": [
+        "gold",
+        "glow"
+      ],
+      "tagline": "Warm metal catching a light",
+      "sampleText": "Reserve",
+      "palette": {
+        "ink": "#C9A227",
+        "accent": "#FFF3C4",
+        "shade": "#0A0A0B"
+      },
+      "style": {
+        "fontFamily": "Bodoni Moda",
+        "fontSize": 116,
+        "fontWeight": 500,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@accent",
+            "radius": 16,
+            "intensity": 0.9,
+            "opacity": 0.7
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "soft-focus",
+          "unit": "word",
+          "staggerMs": 120,
+          "durationMs": 900
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "boutique",
+      "name": "Boutique",
+      "category": "Luxury",
+      "tags": [
+        "serif",
+        "quiet"
+      ],
+      "tagline": "Quiet high serif, no hurry",
+      "sampleText": "Atelier No. 9",
+      "palette": {
+        "ink": "#EFEBE3",
+        "accent": "#A88C4A",
+        "shade": "#0A0A0B"
+      },
+      "style": {
+        "fontFamily": "Cormorant Garamond",
+        "fontSize": 104,
+        "fontWeight": 300,
+        "letterSpacing": 4,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "drift",
+          "unit": "line",
+          "durationMs": 1100
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "monogram",
+      "name": "Monogram",
+      "category": "Luxury",
+      "tags": [
+        "initials",
+        "mark"
+      ],
+      "tagline": "Initials, framed by space",
+      "sampleText": "A · C",
+      "palette": {
+        "ink": "#C9A227",
+        "accent": "#F4F2ED",
+        "shade": "#0A0A0B"
+      },
+      "style": {
+        "fontFamily": "Cinzel",
+        "fontSize": 152,
+        "fontWeight": 600,
+        "letterSpacing": 12,
+        "align": "center",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "scale-in",
+          "unit": "letter",
+          "staggerMs": 220,
+          "durationMs": 700
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "invite",
+      "name": "Invitation",
+      "category": "Luxury",
+      "tags": [
+        "script",
+        "formal"
+      ],
+      "tagline": "Copperplate script, written on",
+      "sampleText": "You are invited",
+      "palette": {
+        "ink": "#EFEBE3",
+        "accent": "#C9A227",
+        "shade": "#0A0A0B"
+      },
+      "style": {
+        "fontFamily": "Pinyon Script",
+        "fontSize": 118,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 70,
+          "durationMs": 180
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "soft",
+        "volume": 0.18
+      }
+    },
+    {
+      "id": "champagne",
+      "name": "Champagne",
+      "category": "Luxury",
+      "tags": [
+        "glow",
+        "soft"
+      ],
+      "tagline": "Pale gold with a soft bloom",
+      "sampleText": "Sparkle",
+      "palette": {
+        "ink": "#E8D7A8",
+        "accent": "#FFFFFF",
+        "shade": "#0A0A0B"
+      },
+      "style": {
+        "fontFamily": "Gloock",
+        "fontSize": 118,
+        "fontWeight": 400,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 22,
+            "intensity": 0.8,
+            "opacity": 0.6
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "blur-in",
+          "unit": "letter",
+          "staggerMs": 60,
+          "durationMs": 700
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "marker-highlight",
+      "name": "Marker",
+      "category": "Handwritten",
+      "tags": [
+        "highlight",
+        "hand"
+      ],
+      "tagline": "Hand-drawn highlight sweep",
+      "sampleText": "the important part",
+      "palette": {
+        "ink": "#F5B843",
+        "accent": "#FF5A36",
+        "shade": "#191307"
+      },
+      "style": {
+        "fontFamily": "Caveat",
+        "fontSize": 96,
+        "fontWeight": 700,
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 6,
+          "paddingX": 12,
+          "paddingY": 2
+        }
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "word",
+          "staggerMs": 90
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "lobster-love",
+      "name": "Script",
+      "category": "Handwritten",
+      "tags": [
+        "script",
+        "warm"
+      ],
+      "tagline": "Warm script, drifts up softly",
+      "sampleText": "hello there",
+      "palette": {
+        "ink": "#F58F43",
+        "accent": "#FFFFFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Lobster",
+        "fontSize": 120,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade-up",
+          "unit": "word",
+          "staggerMs": 110
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "notebook",
+      "name": "Notebook",
+      "category": "Handwritten",
+      "tags": [
+        "pen",
+        "casual"
+      ],
+      "tagline": "Biro on the back of a page",
+      "sampleText": "don't forget",
+      "palette": {
+        "ink": "#2B3A67",
+        "accent": "#E5484D",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "Patrick Hand",
+        "fontSize": 86,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 42,
+          "durationMs": 90,
+          "jitterMs": 28
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "soft",
+        "volume": 0.2
+      }
+    },
+    {
+      "id": "brush-script",
+      "name": "Brush",
+      "category": "Handwritten",
+      "tags": [
+        "script",
+        "signature"
+      ],
+      "tagline": "Signed in one stroke",
+      "sampleText": "with love",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#E5484D",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Great Vibes",
+        "fontSize": 132,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "trace",
+          "unit": "line",
+          "durationMs": 1400
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "sharpie",
+      "name": "Sharpie",
+      "category": "Handwritten",
+      "tags": [
+        "marker",
+        "loud"
+      ],
+      "tagline": "Thick marker, written fast",
+      "sampleText": "SOLD OUT",
+      "palette": {
+        "ink": "#131316",
+        "accent": "#E5484D",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "Permanent Marker",
+        "fontSize": 106,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "whip",
+          "unit": "word",
+          "staggerMs": 100
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "chalk",
+      "name": "Chalk",
+      "category": "Handwritten",
+      "tags": [
+        "board",
+        "casual"
+      ],
+      "tagline": "Scratched onto a board",
+      "sampleText": "today's special",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#8FBF9F",
+        "shade": "#1B2420"
+      },
+      "style": {
+        "fontFamily": "Gochi Hand",
+        "fontSize": 98,
+        "fontWeight": 400,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@ink",
+            "radius": 4,
+            "intensity": 0.5,
+            "opacity": 0.35
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "word",
+          "staggerMs": 110,
+          "durationMs": 300
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "postcard",
+      "name": "Postcard",
+      "category": "Handwritten",
+      "tags": [
+        "script",
+        "travel"
+      ],
+      "tagline": "Sent from somewhere warm",
+      "sampleText": "greetings from",
+      "palette": {
+        "ink": "#8C3B2E",
+        "accent": "#E8DCC3",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "Sacramento",
+        "fontSize": 124,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "drift",
+          "unit": "word",
+          "staggerMs": 140,
+          "durationMs": 800
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "playful-bounce",
+      "name": "Bubbly",
+      "category": "Playful",
+      "tags": [
+        "round",
+        "bounce"
+      ],
+      "tagline": "Rounded, colourful, bounces per letter",
+      "sampleText": "yay!!",
+      "palette": {
+        "ink": "#B18CFF",
+        "accent": "#FFFFFF",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Pacifico",
+        "fontSize": 128,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "bounce-in",
+          "unit": "letter",
+          "staggerMs": 70
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "comic-pow",
+      "name": "Comic",
+      "category": "Playful",
+      "tags": [
+        "comic",
+        "outline"
+      ],
+      "tagline": "Panel lettering with a hard outline",
+      "sampleText": "POW!",
+      "palette": {
+        "ink": "#F5B843",
+        "accent": "#E5484D",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Bangers",
+        "fontSize": 148,
+        "fontWeight": 400,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "stroke",
+          "color": "@shade",
+          "width": 7,
+          "placement": "outside"
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "punch",
+          "unit": "word",
+          "staggerMs": 120
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.42
+      }
+    },
+    {
+      "id": "sticker",
+      "name": "Sticker",
+      "category": "Playful",
+      "tags": [
+        "pill",
+        "cute"
+      ],
+      "tagline": "Peeled off and stuck on",
+      "sampleText": "new!",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#FFFFFF",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Fredoka",
+        "fontSize": 96,
+        "fontWeight": 600,
+        "color": "@shade",
+        "highlight": {
+          "color": "@ink",
+          "radius": 999,
+          "paddingX": 24,
+          "paddingY": 12
+        }
+      },
+      "effects": [
+        {
+          "type": "stroke",
+          "color": "@shade",
+          "width": 4,
+          "placement": "outside"
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "rubber",
+          "unit": "line",
+          "durationMs": 520,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-elastic"
+          }
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.35
+      }
+    },
+    {
+      "id": "candy",
+      "name": "Candy",
+      "category": "Playful",
+      "tags": [
+        "sweet",
+        "round"
+      ],
+      "tagline": "Soft, round and sugary",
+      "sampleText": "sweet stuff",
+      "palette": {
+        "ink": "#FF6FB5",
+        "accent": "#FFE066",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Baloo 2",
+        "fontSize": 112,
+        "fontWeight": 700,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@accent",
+            "x": 0,
+            "y": 6,
+            "blur": 0,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "bounce-in",
+          "unit": "letter",
+          "staggerMs": 60
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "cartoon-title",
+      "name": "Cartoon",
+      "category": "Playful",
+      "tags": [
+        "kids",
+        "bold"
+      ],
+      "tagline": "Saturday morning title card",
+      "sampleText": "ADVENTURE",
+      "palette": {
+        "ink": "#4CC3E0",
+        "accent": "#FFE066",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Titan One",
+        "fontSize": 116,
+        "fontWeight": 400,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "extrude",
+            "color": "@accent",
+            "angle": 90,
+            "length": 14,
+            "opacity": 1
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "stroke",
+          "color": "@shade",
+          "width": 6,
+          "placement": "outside"
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "swing",
+          "unit": "letter",
+          "staggerMs": 55
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "wobble",
+      "name": "Wobble",
+      "category": "Playful",
+      "tags": [
+        "silly",
+        "loop"
+      ],
+      "tagline": "Never quite sits still",
+      "sampleText": "wibble wobble",
+      "palette": {
+        "ink": "#FFE066",
+        "accent": "#FF6FB5",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Chewy",
+        "fontSize": 106,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "wave",
+          "unit": "letter",
+          "staggerMs": 36,
+          "scatterDeg": 8
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "party",
+      "name": "Party",
+      "category": "Playful",
+      "tags": [
+        "confetti",
+        "loud"
+      ],
+      "tagline": "Thrown in from every direction",
+      "sampleText": "surprise!",
+      "palette": {
+        "ink": "#FF6FB5",
+        "accent": "#4CC3E0",
+        "shade": "#0C0C0E"
+      },
+      "style": {
+        "fontFamily": "Sigmar One",
+        "fontSize": 108,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fly-in",
+          "unit": "letter",
+          "staggerMs": 42,
+          "scatterPx": 160,
+          "scatterDeg": 40
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "pop",
+        "volume": 0.34
+      }
+    },
+    {
+      "id": "kids-blocks",
+      "name": "Blocks",
+      "category": "Playful",
+      "tags": [
+        "kids",
+        "chunky"
+      ],
+      "tagline": "Chunky letters dropping into place",
+      "sampleText": "A B C",
+      "palette": {
+        "ink": "#FF5A36",
+        "accent": "#4CC3E0",
+        "shade": "#FFFFFF"
+      },
+      "style": {
+        "fontFamily": "Rowdies",
+        "fontSize": 124,
+        "fontWeight": 700,
+        "letterSpacing": 6,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "drop",
+          "unit": "letter",
+          "staggerMs": 110
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "thock",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "retro-chrome",
+      "name": "Chrome",
+      "category": "Retro",
+      "tags": [
+        "80s",
+        "miami"
+      ],
+      "tagline": "80s condensed caps, slides in",
+      "sampleText": "MIAMI NIGHTS",
+      "palette": {
+        "ink": "#E5484D",
+        "accent": "#4CC3E0",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Oswald",
+        "fontSize": 128,
+        "fontWeight": 600,
+        "letterSpacing": 3,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@accent",
+            "x": 4,
+            "y": 4,
+            "blur": 0,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-down",
+          "unit": "line",
+          "durationMs": 700
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "vhs-tape",
+      "name": "VHS",
+      "category": "Retro",
+      "tags": [
+        "tape",
+        "90s"
+      ],
+      "tagline": "Tracking error and all",
+      "sampleText": "PLAY ▶",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#4CC3E0",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "VT323",
+        "fontSize": 92,
+        "fontWeight": 400,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "rgbSplit",
+          "angle": 0,
+          "distance": 4
+        },
+        {
+          "type": "scanlines",
+          "pitch": 5,
+          "amount": 0.35,
+          "boost": 0.3
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "flicker-on",
+          "unit": "line",
+          "durationMs": 620
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "vintage",
+        "volume": 0.24
+      }
+    },
+    {
+      "id": "arcade",
+      "name": "Arcade",
+      "category": "Retro",
+      "tags": [
+        "pixel",
+        "game"
+      ],
+      "tagline": "Insert coin",
+      "sampleText": "HIGH SCORE",
+      "palette": {
+        "ink": "#FFE066",
+        "accent": "#FF3B6B",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Press Start 2P",
+        "fontSize": 56,
+        "fontWeight": 400,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 70,
+          "durationMs": 0
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "sunset-grid",
+      "name": "Synthwave",
+      "category": "Retro",
+      "tags": [
+        "80s",
+        "neon"
+      ],
+      "tagline": "Sunset gradient energy, glowing",
+      "sampleText": "OUTRUN",
+      "palette": {
+        "ink": "#FF3B6B",
+        "accent": "#4CC3E0",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Monoton",
+        "fontSize": 118,
+        "fontWeight": 400,
+        "letterSpacing": 4,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@accent",
+            "radius": 26,
+            "intensity": 1.4,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "zoom-out",
+          "unit": "line",
+          "durationMs": 900,
+          "easing": {
+            "kind": "preset",
+            "name": "ease-out-expo"
+          }
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "typewriter-page",
+      "name": "Typed",
+      "category": "Retro",
+      "tags": [
+        "paper",
+        "mono"
+      ],
+      "tagline": "Struck onto the page, key by key",
+      "sampleText": "Dear reader,",
+      "palette": {
+        "ink": "#2B2620",
+        "accent": "#8C3B2E",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "Special Elite",
+        "fontSize": 76,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 62,
+          "durationMs": 0,
+          "jitterMs": 45
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "mechanical",
+        "volume": 0.34
+      }
+    },
+    {
+      "id": "diner",
+      "name": "Diner",
+      "category": "Retro",
+      "tags": [
+        "50s",
+        "sign"
+      ],
+      "tagline": "Roadside sign lettering",
+      "sampleText": "OPEN 24H",
+      "palette": {
+        "ink": "#E5484D",
+        "accent": "#FFE066",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "Bungee",
+        "fontSize": 104,
+        "fontWeight": 400,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@accent",
+            "x": 3,
+            "y": 3,
+            "blur": 0,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "swing",
+          "unit": "line",
+          "durationMs": 700
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "polaroid",
+      "name": "Polaroid",
+      "category": "Retro",
+      "tags": [
+        "faded",
+        "warm"
+      ],
+      "tagline": "Faded ink on an old print",
+      "sampleText": "summer '94",
+      "palette": {
+        "ink": "#8C7B5A",
+        "accent": "#E8DCC3",
+        "shade": "#F4F2ED"
+      },
+      "style": {
+        "fontFamily": "Homemade Apple",
+        "fontSize": 84,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "grain",
+          "amount": 0.22,
+          "size": 1.2
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "durationMs": 900
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "bulletin",
+      "name": "Bulletin",
+      "category": "Retro",
+      "tags": [
+        "news",
+        "mono"
+      ],
+      "tagline": "Wire service, straight off the printer",
+      "sampleText": "-- BULLETIN --",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#B9B5AC",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "Share Tech Mono",
+        "fontSize": 62,
+        "fontWeight": 400,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 34,
+          "durationMs": 0
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "mechanical",
+        "volume": 0.26
+      }
+    },
+    {
+      "id": "neon-sign",
+      "name": "Neon",
+      "category": "Neon",
+      "tags": [
+        "sign",
+        "glow"
+      ],
+      "tagline": "Glowing tube, flickers alive",
+      "sampleText": "OPEN LATE",
+      "palette": {
+        "ink": "#4CC3E0",
+        "accent": "#FF3B6B",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Bebas Neue",
+        "fontSize": 150,
+        "fontWeight": 400,
+        "letterSpacing": 6,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 30,
+            "intensity": 1.6,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "flicker-on",
+          "unit": "letter",
+          "staggerMs": 60
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "neon-script",
+      "name": "Neon Script",
+      "category": "Neon",
+      "tags": [
+        "sign",
+        "script"
+      ],
+      "tagline": "Bar sign in cursive tube",
+      "sampleText": "cocktails",
+      "palette": {
+        "ink": "#FF6FB5",
+        "accent": "#B18CFF",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Yellowtail",
+        "fontSize": 128,
+        "fontWeight": 400,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 26,
+            "intensity": 1.5,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "trace",
+          "unit": "line",
+          "durationMs": 1500
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "laser",
+      "name": "Laser",
+      "category": "Neon",
+      "tags": [
+        "glow",
+        "tech"
+      ],
+      "tagline": "Cut out of light",
+      "sampleText": "PRECISION",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#FFFFFF",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Michroma",
+        "fontSize": 82,
+        "fontWeight": 400,
+        "letterSpacing": 8,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 18,
+            "intensity": 1.8,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "slide-through",
+          "unit": "letter",
+          "staggerMs": 45
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.26
+      }
+    },
+    {
+      "id": "hologram",
+      "name": "Hologram",
+      "category": "Neon",
+      "tags": [
+        "scifi",
+        "split"
+      ],
+      "tagline": "Projected, and not quite stable",
+      "sampleText": "TRANSMISSION",
+      "palette": {
+        "ink": "#4CC3E0",
+        "accent": "#B18CFF",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Orbitron",
+        "fontSize": 78,
+        "fontWeight": 600,
+        "letterSpacing": 6,
+        "color": "@ink",
+        "opacity": 0.9,
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 20,
+            "intensity": 1.3,
+            "opacity": 1
+          }
+        ]
+      },
+      "effects": [
+        {
+          "type": "scanlines",
+          "pitch": 3,
+          "amount": 0.4,
+          "softness": 0.9
+        },
+        {
+          "type": "rgbSplit",
+          "distance": 3
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "strobe",
+          "unit": "line",
+          "durationMs": 800
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "ember",
+      "name": "Ember",
+      "category": "Neon",
+      "tags": [
+        "warm",
+        "glow"
+      ],
+      "tagline": "Still hot from the fire",
+      "sampleText": "burning",
+      "palette": {
+        "ink": "#FF7A2F",
+        "accent": "#FFE066",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Anybody",
+        "fontSize": 116,
+        "fontWeight": 700,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@accent",
+            "radius": 28,
+            "intensity": 1.4,
+            "opacity": 1
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "unblur-up",
+          "unit": "letter",
+          "staggerMs": 55,
+          "durationMs": 700
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "ice",
+      "name": "Ice",
+      "category": "Neon",
+      "tags": [
+        "cold",
+        "glow"
+      ],
+      "tagline": "Cold light through glass",
+      "sampleText": "SUB ZERO",
+      "palette": {
+        "ink": "#BFEFFF",
+        "accent": "#FFFFFF",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Chakra Petch",
+        "fontSize": 106,
+        "fontWeight": 600,
+        "letterSpacing": 5,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 22,
+            "intensity": 1.1,
+            "opacity": 0.85
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "blur-in",
+          "unit": "letter",
+          "staggerMs": 50,
+          "durationMs": 640
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "glitch-split",
+      "name": "Glitch",
+      "category": "Glitch",
+      "tags": [
+        "digital",
+        "rgb"
+      ],
+      "tagline": "Channels tearing apart",
+      "sampleText": "CORRUPTED",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#FF3B6B",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Chakra Petch",
+        "fontSize": 108,
+        "fontWeight": 700,
+        "letterSpacing": 3,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "rgbSplit",
+          "angle": 0,
+          "distance": 9
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "glitch",
+          "unit": "letter",
+          "staggerMs": 40
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "datamosh",
+      "name": "Datamosh",
+      "category": "Glitch",
+      "tags": [
+        "smear",
+        "digital"
+      ],
+      "tagline": "Frames dragged into each other",
+      "sampleText": "ERROR 404",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#FF3B6B",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Major Mono Display",
+        "fontSize": 88,
+        "fontWeight": 400,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "rgbSplit",
+          "angle": 90,
+          "distance": 6
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "smear",
+          "unit": "word",
+          "staggerMs": 70
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "strobe-cut",
+      "name": "Strobe",
+      "category": "Glitch",
+      "tags": [
+        "flash",
+        "hard"
+      ],
+      "tagline": "On, off, on — then it stays",
+      "sampleText": "SIGNAL",
+      "palette": {
+        "ink": "#FFFFFF",
+        "accent": "#FFE066",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Anybody",
+        "fontSize": 112,
+        "fontWeight": 800,
+        "letterSpacing": 2,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "strobe",
+          "unit": "line",
+          "durationMs": 640
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.34
+      }
+    },
+    {
+      "id": "static-noise",
+      "name": "Static",
+      "category": "Glitch",
+      "tags": [
+        "noise",
+        "tv"
+      ],
+      "tagline": "Pulled out of the snow",
+      "sampleText": "NO SIGNAL",
+      "palette": {
+        "ink": "#F4F2ED",
+        "accent": "#B9B5AC",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Silkscreen",
+        "fontSize": 76,
+        "fontWeight": 400,
+        "letterSpacing": 3,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "noise",
+          "scale": 24,
+          "mix": 0.4
+        },
+        {
+          "type": "scanlines",
+          "pitch": 3,
+          "amount": 0.45
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "flicker-on",
+          "unit": "line",
+          "durationMs": 700
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "shift-slice",
+      "name": "Slice",
+      "category": "Glitch",
+      "tags": [
+        "cut",
+        "offset"
+      ],
+      "tagline": "Cut into bands and offset",
+      "sampleText": "DISPLACED",
+      "palette": {
+        "ink": "#4CC3E0",
+        "accent": "#FF3B6B",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Tourney",
+        "fontSize": 104,
+        "fontWeight": 700,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "shadow",
+            "color": "@accent",
+            "x": -6,
+            "y": 0,
+            "blur": 0,
+            "opacity": 0.8
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "glitch",
+          "unit": "word",
+          "staggerMs": 80
+        },
+        "out": null
+      }
+    },
+    {
+      "id": "terminal-crash",
+      "name": "Crash",
+      "category": "Glitch",
+      "tags": [
+        "error",
+        "mono"
+      ],
+      "tagline": "Something went very wrong",
+      "sampleText": "FATAL: 0x00",
+      "palette": {
+        "ink": "#FF3B6B",
+        "accent": "#FFFFFF",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Roboto Mono",
+        "fontSize": 72,
+        "fontWeight": 700,
+        "color": "@ink"
+      },
+      "effects": [
+        {
+          "type": "rgbSplit",
+          "distance": 5
+        }
+      ],
+      "animations": {
+        "in": {
+          "preset": "glitch",
+          "unit": "letter",
+          "staggerMs": 26
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.36
+      }
+    },
+    {
+      "id": "typewriter-terminal",
+      "name": "Terminal",
+      "category": "Terminal",
+      "tags": [
+        "code",
+        "mono"
+      ],
+      "tagline": "Monospace typewriter with clicks",
+      "sampleText": "> npm run ship",
+      "palette": {
+        "ink": "#7BD88F",
+        "accent": "#4CC3E0",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": 64,
+        "fontWeight": 500,
+        "align": "left",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 55,
+          "durationMs": 0
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "mechanical",
+        "volume": 0.3
+      }
+    },
+    {
+      "id": "code-comment",
+      "name": "Comment",
+      "category": "Terminal",
+      "tags": [
+        "code",
+        "quiet"
+      ],
+      "tagline": "The line above the function",
+      "sampleText": "// TODO: ship it",
+      "palette": {
+        "ink": "#7A8290",
+        "accent": "#7BD88F",
+        "shade": "#0B0B0D"
+      },
+      "style": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": 52,
+        "fontWeight": 400,
+        "italic": {
+          "expr": "!0"
+        },
+        "align": "left",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 30,
+          "durationMs": 0,
+          "jitterMs": 20
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "soft",
+        "volume": 0.18
+      }
+    },
+    {
+      "id": "boot-log",
+      "name": "Boot",
+      "category": "Terminal",
+      "tags": [
+        "log",
+        "lines"
+      ],
+      "tagline": "System coming up, line by line",
+      "sampleText": "loading modules…",
+      "palette": {
+        "ink": "#B9B5AC",
+        "accent": "#37D399",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "IBM Plex Mono",
+        "fontSize": 48,
+        "fontWeight": 400,
+        "align": "left",
+        "lineHeight": 1.5,
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "line",
+          "staggerMs": 240,
+          "durationMs": 100
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.22
+      }
+    },
+    {
+      "id": "prompt-blink",
+      "name": "Prompt",
+      "category": "Terminal",
+      "tags": [
+        "shell",
+        "green"
+      ],
+      "tagline": "Green on black, nothing else",
+      "sampleText": "$ whoami",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#FFFFFF",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Share Tech Mono",
+        "fontSize": 68,
+        "fontWeight": 400,
+        "align": "left",
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 10,
+            "intensity": 0.8,
+            "opacity": 0.6
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "typewriter",
+          "unit": "letter",
+          "staggerMs": 48,
+          "durationMs": 0
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "mechanical",
+        "volume": 0.28
+      }
+    },
+    {
+      "id": "hex-dump",
+      "name": "Hex",
+      "category": "Terminal",
+      "tags": [
+        "data",
+        "mono"
+      ],
+      "tagline": "Raw bytes, arriving fast",
+      "sampleText": "4F 4B 20 47 4F",
+      "palette": {
+        "ink": "#4CC3E0",
+        "accent": "#B9B5AC",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Roboto Mono",
+        "fontSize": 56,
+        "fontWeight": 500,
+        "letterSpacing": 2,
+        "align": "left",
+        "color": "@ink"
+      },
+      "animations": {
+        "in": {
+          "preset": "fade",
+          "unit": "letter",
+          "staggerMs": 18,
+          "durationMs": 80
+        },
+        "out": null
+      },
+      "sound": {
+        "pack": "digital",
+        "volume": 0.2
+      }
+    },
+    {
+      "id": "matrix-rain",
+      "name": "Matrix",
+      "category": "Terminal",
+      "tags": [
+        "scifi",
+        "green"
+      ],
+      "tagline": "Falls in out of the dark",
+      "sampleText": "wake up",
+      "palette": {
+        "ink": "#37D399",
+        "accent": "#7BD88F",
+        "shade": "#08080A"
+      },
+      "style": {
+        "fontFamily": "Share Tech Mono",
+        "fontSize": 82,
+        "fontWeight": 400,
+        "color": "@ink",
+        "textEffects": [
+          {
+            "type": "glow",
+            "color": "@text",
+            "radius": 14,
+            "intensity": 1.2,
+            "opacity": 0.75
+          }
+        ]
+      },
+      "animations": {
+        "in": {
+          "preset": "cascade",
+          "unit": "letter",
+          "staggerMs": 55,
+          "durationMs": 520
+        },
+        "out": null
+      }
+    }
+  ]
+}

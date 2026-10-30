@@ -1,0 +1,12 @@
+{
+  "08-hopping-logo": {
+    "model": "sonnet",
+    "seconds": 120,
+    "turns": 17,
+    "costUsd": 0.5194909,
+    "exported": true,
+    "sheet": "08-hopping-logo.jpg",
+    "toolErrors": [],
+    "reply": "I made the 4-second 1920×1080 sting on a warm off-white background with one orange-red accent. The ball drops in from the upper left, lands, then bounces three more times across the floor, each bounce lower and shorter, with a small squash on each landing and a soft floor shadow. It rests at centre just above \"HOPSCOTCH\", which rises in letter by letter under it. The orange-red paper plane glides in from the right, flies a full loop through three points in the sky, and settles above the wordmark to the right of the ball.\n\nI checked contact sheets of the animation but didn't play the exported video back. I added no sound. I skipped nothing from the brief, though I counted the first landing as the start of the three bounces."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "ultimate-video-editor",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A desktop motion and video editor that any AI agent can drive.",
+  "type": "module",
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @uve/desktop dev",
+    "build": "pnpm --filter @uve/desktop build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

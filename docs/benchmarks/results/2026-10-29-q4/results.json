@@ -1,0 +1,50 @@
+{
+  "01-title-card": {
+    "model": "sonnet",
+    "seconds": 60,
+    "turns": 19,
+    "costUsd": 0.5322387000000001,
+    "exported": true,
+    "sound": {
+      "hasAudio": true,
+      "integratedLufs": -14.4,
+      "truePeakDbtp": -1
+    },
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\6b69211c-9d17-4f8d-b113-af11cb0bf571\\scratchpad\\bench\\01-title-card.sheet.png",
+    "toolErrors": [],
+    "reply": "I made the 5-second 1920×1080 title card: a deep navy ground with a soft amber glow, and a left-aligned stack on a 144 px margin. The stack is the amber \"EPISODE 03\" kicker, \"The Quiet Coast\" in Fraunces, the subtitle \"Where the tide keeps time\" in Inter, and a short amber accent rule. Each part enters in turn (kicker, title words, subtitle, then the rule drawing out) and everything is at rest from about 2 s. `music-documentary.mp3` runs underneath with a fade in and out, and the export measured −14.3 LUFS with a true peak of −1.0 dBTP.\n\nI did not add a closing animation. The text just holds to the end while the music fades out. I also didn't add sound effects on the motion, only the music bed.\n\nFiles are in the bench folder:\n- 01-title-card.mp4\n- 01-title-card.uve"
+  },
+  "03-kinetic-type": {
+    "model": "sonnet",
+    "seconds": 80,
+    "turns": 20,
+    "costUsd": 0.4490633,
+    "exported": true,
+    "sound": {
+      "hasAudio": true,
+      "integratedLufs": -14,
+      "truePeakDbtp": -1
+    },
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\6b69211c-9d17-4f8d-b113-af11cb0bf571\\scratchpad\\bench\\03-kinetic-type.sheet.png",
+    "toolErrors": [],
+    "reply": "I made a 6-second 1080×1920 piece with one word per layer, huge and centred, in Anton on 500 ms beats at 120 bpm: MAKE, EVERY, SECOND, then COUNT. The backgrounds change per word (black, yellow, blue, black) and each word has its own entrance. COUNT holds for the last three seconds, flashing yellow, pink and white on every beat with a scale pulse. The music is cut to 6 s with short fades, with a quiet pop on each entrance. The export measures −14 LUFS with a −1 dBTP peak.\n\nI didn't check by ear that the music's beats land on my 500 ms grid. I assumed it starts on the downbeat at 120 bpm, as you said. Everything else in the brief was done.\n\nFiles are in the bench folder:\n- `03-kinetic-type.mp4`\n- `03-kinetic-type.uve`"
+  },
+  "06-promo": {
+    "model": "sonnet",
+    "seconds": 237,
+    "turns": 44,
+    "costUsd": 0.8875436999999999,
+    "exported": true,
+    "sound": {
+      "hasAudio": true,
+      "integratedLufs": -15.1,
+      "truePeakDbtp": -0.8
+    },
+    "sheet": "C:\\Users\\rpxi1\\AppData\\Local\\Temp\\claude\\C--Users-rpxi1-OneDrive-Documents-Desktop-Ultimate-Video-Editor\\6b69211c-9d17-4f8d-b113-af11cb0bf571\\scratchpad\\bench\\06-promo.sheet.png",
+    "toolErrors": [
+      "report_issue needs fault, severity, tried, happened, expected.",
+      "report_issue needs category, title."
+    ],
+    "reply": "I made the 15 s 1080×1920 promo and exported it to `06-promo.mp4`, with the project saved as `06-promo.uve` in the same folder.\n\n- **Edit:** it opens on \"FREE YOUR SOUND\" (the three-word hook), then runs the three feature beats on whip-pan cuts. After that comes the \"$79\" offer with the price in the accent purple, and the end card with the logo and \"Shop now at aurora.audio\". The six voiceover lines sit one per beat, with the music underneath, ducked under the voice and faded in and out.\n- **Not verified:** I couldn't transcribe the voiceover or detect the music's beat. So I didn't check the hook wording against the spoken line, and the cuts aren't synced to the music tempo.\n- **Not fixed:**\n  - The three product photos are abstract gradient squares and the logo is a plain purple square, so no earbuds show on screen.\n  - The export reads −15.1 LUFS, but its true peak is −0.9 dBTP, 0.1 dB over the −1 target."
+  }
+}

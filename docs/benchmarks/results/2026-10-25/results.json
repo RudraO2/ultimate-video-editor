@@ -1,0 +1,65 @@
+{
+  "01-title-card": {
+    "model": "sonnet",
+    "seconds": 63,
+    "turns": 21,
+    "costUsd": 0.30648039999999993,
+    "exported": true,
+    "sheet": "01-title-card.jpg",
+    "reply": "I made a 5-second, 1920×1080, 30 fps title card on a deep navy ground (#0A1829). Left-aligned on a 160 px margin, it reads \"EPISODE 03\" in amber, \"The Quiet Coast\" in cream DM Serif Display, a short amber rule, then \"Where the tide keeps time\" in soft blue-grey. The elements arrive one after another (kicker, title, rule, subtitle) with short fades, slight rises and an expo-eased rule wipe. Everything is settled by about 1.7 s and holds still to the end.\n\nBoth files are saved: `01-title-card.mp4` (150 frames, exported with overwrite) and `01-title-card.uve`, in the bench folder you gave.\n\nI couldn't left-align text by anchoring it, because text layers centre on their x position. I measured each line's width and set its x so the left edges line up, and I checked the resting frame by eye. I didn't view the exported MP4 itself."
+  },
+  "02-lower-third": {
+    "model": "sonnet",
+    "seconds": 56,
+    "turns": 15,
+    "costUsd": 0.2326694,
+    "exported": true,
+    "sheet": "02-lower-third.jpg",
+    "reply": "I added a bottom-left lower third over the clip. It's a dark panel with a teal accent bar, with \"Dr. Maya Okafor\" on one line and \"Marine Biologist\" below it in place of the em dash. It slides in at 0.5 s, holds fully visible for about 3.2 s (1.26 s to 4.5 s), and fades and slides out by about 4.85 s. The comp is now 1920×1080 and 6 s, with the clip scaled to fill the frame, and the graphic sits inside the title-safe area (left edge at 96 px, bottom at about 1015 px). I only looked at stills and a contact sheet, not the exported file itself.\n\nI exported it to `...\\bench\\02-lower-third.mp4` and saved the project to `...\\bench\\02-lower-third.uve`. There was nothing I couldn't do."
+  },
+  "03-kinetic-type": {
+    "model": "sonnet",
+    "seconds": 62,
+    "turns": 18,
+    "costUsd": 0.2699708,
+    "exported": true,
+    "sheet": "03-kinetic-type.jpg",
+    "reply": "I made a 6-second, 1080×1920, 30 fps piece and exported it to `03-kinetic-type.mp4`. The project is saved as `03-kinetic-type.uve`, both in the bench folder.\n\nAt 120 bpm, \"Make\", \"every\" and \"second\" get one second each (two beats), and every cut lands on a beat. They enter differently: \"Make\" slams down from oversized, \"every\" slides in from the left, and \"second\" drops in with a tilt and overshoot. \"count\" then holds for the last three seconds. It pops in elastically and pulses on each beat while the backdrop and text colour hard-flash between magenta, yellow, cyan and black. The palette is black, white, yellow, hot pink and cyan.\n\nI checked it only through contact sheets and still frames, not by playing the export. The words fill the width, and \"Make\" runs to the edge at its widest. There's no audio track, so the beat is visual timing only."
+  },
+  "04-lyric-captions": {
+    "model": "sonnet",
+    "seconds": 89,
+    "turns": 17,
+    "costUsd": 0.34475100000000003,
+    "exported": true,
+    "sheet": "04-lyric-captions.jpg",
+    "reply": "I made a 1080×1920, 12 s lyric video with the song audio. The four lines switch at 0, 3, 6 and 9 s. The current line is large and bright, the next one is dimmer and smaller, and sung lines fade out. The block scrolls up over 0.5 s at each change, on a soft indigo-to-teal background. I checked sample frames across the video but didn't play the exported file. I exported it to `04-lyric-captions.mp4` and saved the project to `04-lyric-captions.uve`.\n\nThis build has no gradient fill, so the gradient is 24 stacked colour strips. I also split each lyric over two lines to fit the width, so the text isn't a single line per lyric."
+  },
+  "05-reel": {
+    "model": "sonnet",
+    "seconds": 77,
+    "turns": 25,
+    "costUsd": 0.30768189999999995,
+    "exported": true,
+    "sheet": "05-reel.jpg",
+    "reply": "I made a 10-second, 1080×1920 reel at 30 fps and exported it to `05-reel.mp4`. I also saved the project as `05-reel.uve`, both in the bench folder. It has five 2-second cuts of the source, filled to the vertical frame with a centre crop. The 2nd and 4th cuts have a punch-in that slowly pushes in. A \"COLOR BAR REEL\" title card runs for the first second and fades out, and a caption sits on a dark bar under each cut.\n\nI couldn't judge which parts were \"most interesting\". The source is a repeating colour-bar test pattern with a moving line, and I can't hear its audio. I spread the cuts evenly across it (1–3 s, 5–7 s, 9–11 s, 13–15 s, 17–19 s). The captions are placeholder text I made up (\"Watch this\", \"Closer…\", and so on).\n\nI checked the result with contact-sheet frames but did not play back the exported file."
+  },
+  "06-promo": {
+    "model": "sonnet",
+    "seconds": 179,
+    "turns": 28,
+    "costUsd": 0.5776655999999999,
+    "exported": true,
+    "sheet": "06-promo.jpg",
+    "reply": "I made the 15-second 1080×1920 promo. It opens with \"FEEL EVERY BEAT\", fully on screen by 0.75 s. Then come the 30-hour battery, active noise cancelling and IPX5 sweat-proof beats, the \"$79\" with \"— launch week only\" and the price in yellow, and the logo with a \"Shop now at aurora.audio\" button. Each scene is 2.4 s (a 100 BPM bar), cut on the beat with a white flash and a zoom punch, and the text pops in staggered.\n\nWhat I couldn't do:\n- **Music:** no audio tool is available, so the export is silent.\n- **Photos and logo:** the three product photos are plain colour gradients and the logo is a flat purple square. I used the photos as scene backgrounds and the logo as-is, with an \"AURORA\" wordmark added beneath it.\n\nFiles are in the bench folder:\n- 06-promo.mp4\n- 06-promo.uve"
+  },
+  "07-logo-reveal": {
+    "model": "sonnet",
+    "seconds": 107,
+    "turns": 19,
+    "costUsd": 0.3817093,
+    "exported": true,
+    "sheet": "07-logo-reveal.jpg",
+    "reply": "I made the 4-second, 1920×1080, 30 fps reveal on a near-black background with an orange accent. A ring pops in and a white diagonal line grows through it. An orange disc then fills the circle, a soft light band sweeps across it, and \"NORTHWIND STUDIO\" appears letter by letter. It's exported to `07-logo-reveal.mp4` and saved as `07-logo-reveal.uve`, both in the bench folder. I checked frames across the timeline and the final frame, but didn't watch the exported MP4 itself.\n\nTwo things differ from what you asked:\n- **Draw-on:** the build has no stroke trim, so the ring and line don't draw along their paths. The ring scales and fades in and the line grows from its centre.\n- **Shine:** there is no masking, so the light band isn't clipped to the circle and is faintly visible beside it as it passes."
+  }
+}

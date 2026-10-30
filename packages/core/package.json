@@ -1,0 +1,19 @@
+{
+  "name": "@uve/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Document model, commands and time utilities for Ultimate Video Editor.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@jitl/quickjs-singlefile-mjs-release-sync": "0.32.0",
+    "immer": "^11.2.9",
+    "quickjs-emscripten-core": "0.32.0",
+    "zod": "^4.6.7"
+  }
+}

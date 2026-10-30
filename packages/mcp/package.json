@@ -1,0 +1,16 @@
+{
+  "name": "@uve/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The MCP server that lets any agent harness drive Ultimate Video Editor, and its stdio shim.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "uve-mcp": "./bin/uve-mcp.mjs"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

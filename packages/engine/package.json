@@ -1,0 +1,24 @@
+{
+  "name": "@uve/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Renders Ultimate Video Editor comps: a Canvas2D compositor with a WebGL2 projector for layers with depth.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./dynamics": "./src/dynamics.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@uve/core": "workspace:*",
+    "opentype.js": "2.0.0",
+    "planck": "1.5.1",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@types/opentype.js": "1.3.10",
+    "@types/three": "0.186.0"
+  }
+}
