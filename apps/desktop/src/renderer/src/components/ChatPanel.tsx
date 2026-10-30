@@ -25,6 +25,7 @@ import { useEditor } from '../store'
 // header, composer at the bottom.
 
 const EXAMPLES = [
+  'Cut the pauses and ums from my clip, then add the screen recording as B-roll',
   "Make a 6-second title card for 'Ship Happens' with a whoosh",
   'Add captions to the selected clip',
   'Turn this comp into a 3D shot',

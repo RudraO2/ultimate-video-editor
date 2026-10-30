@@ -68,6 +68,7 @@ Times: analysis is in media time; a layer maps it to comp time by `startMs + (me
 ### F1 progress
 
 - F1a, F1b, F1c done (code; live check at F1f): format 19 (`media.footage`, comp `markers`), `core/src/footage.ts` (+ tests), core commands `media.footage`, `media.describe_shots`, `timeline.markers` (`commands/footage.ts`); desktop `agent/footageCommands.ts` (`media.analyze`, `media.remove_pauses`, `media.search`, `timeline.place_broll`), `agent/footageInspect.ts` (host tool `media_inspect`), `media/footageFrames.ts` (scene scores, stills); Sarvam STT `mode: verbatim` (main change: restart `pnpm dev`), `media.transcribe {mode}`.
+- F1d done: Inspector ▸ Footage (`components/FootageSection.tsx`: Analyse, Generous/Balanced/Tight, As new frame, Mark cuts, Cut); review marks on the timeline ruler (`Ruler {markers}`, cut red, flag amber, note violet; hover for the reason); chat example "Cut the pauses and ums from my clip, then add the screen recording as B-roll".
 
 ## Last chunk: M1, Easy and Advanced modes, speaking to the chat (2026-10-30)
 

@@ -65,6 +65,7 @@ import { enterNested, findLayer, propertyEdit, run, useActiveComp, useEditor, us
 import { AnimatePanel } from './AnimatePanel'
 import { CaptionSection } from './CaptionSection'
 import { EffectsPanel } from './EffectsPanel'
+import { FootageSection } from './FootageSection'
 import { MixPanel } from './MixPanel'
 import { SoundPanel } from './SoundPanel'
 import { type Axis, AxisRow, ColorProp, NumberProp, patch, Section, setter, Switch } from './inspectorParts'
@@ -1165,6 +1166,7 @@ function LayerInspector({ layer }: { layer: Layer }) {
       {(layer.kind === 'image' || layer.kind === 'video' || layer.kind === 'audio') && (
         <MediaSection layer={layer} timeMs={timeMs} />
       )}
+      {(layer.kind === 'video' || layer.kind === 'audio') && <FootageSection key={layer.id} layer={layer} />}
       {!world && <CharacterSection key={layer.id} layer={layer} comp={comp} />}
       {layer.kind === 'group' && <SwitchSection layer={layer} comp={comp} timeMs={timeMs} />}
       {layer.kind === 'group' && <BonesSection layer={layer} timeMs={timeMs} />}

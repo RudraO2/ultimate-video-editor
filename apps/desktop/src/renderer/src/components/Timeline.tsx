@@ -1,4 +1,4 @@
-import { activeWorkRange, formatTimecode, groupOnLane, laneDepth, layerEnd, MIN_WORK_RANGE_MS, type Track, transitionWindows } from '@uve/core'
+import { activeWorkRange, formatTimecode, groupOnLane, laneDepth, layerEnd, type Marker, MIN_WORK_RANGE_MS, type Track, transitionWindows } from '@uve/core'
 import { ArrowLeftRight, ArrowLeftToLine, AudioLines, BetweenHorizontalStart, Group, Magnet, Maximize2, Minus, Pause, Play, Plus, Repeat, Scissors, SkipBack, Trash2, X } from 'lucide-react'
 import { type DragEvent, type PointerEvent, type ReactNode, type RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { placeSticker } from '../library/stickers'
@@ -281,7 +281,10 @@ export function rulerLabel(ms: number): string {
   return `${minutes}:${String(seconds).padStart(2, '0')}.${tenths % 10}`
 }
 
-export function Ruler({ endMs, onScrub }: { endMs: number; onScrub: (clientX: number) => void }) {
+/** Colours of review marks: a planned cut, a flag for a person, a note. */
+const MARKER_COLOUR: Record<Marker['kind'], string> = { cut: 'bg-accent', flag: 'bg-clip-image', note: 'bg-clip-text' }
+
+export function Ruler({ endMs, onScrub, markers = [] }: { endMs: number; onScrub: (clientX: number) => void; markers?: readonly Marker[] }) {
   const pxPerSecond = useEditor((s) => s.pxPerSecond)
   const step = RULER_STEPS.find((s) => (s / 1000) * pxPerSecond >= 64) ?? 600_000
   const ticks = Math.floor(endMs / (step / 2)) + 1
@@ -310,6 +313,14 @@ export function Ruler({ endMs, onScrub }: { endMs: number; onScrub: (clientX: nu
           </div>
         )
       })}
+      {markers.map((m) => (
+        <div
+          key={m.id}
+          title={`${rulerLabel(m.startMs)}${m.durationMs > 0 ? `–${rulerLabel(m.startMs + m.durationMs)}` : ''} ${m.label}`.trim()}
+          className={`absolute top-0 h-1.5 rounded-sm opacity-80 hover:opacity-100 ${MARKER_COLOUR[m.kind]}`}
+          style={{ left: (m.startMs / 1000) * pxPerSecond, width: Math.max(3, (m.durationMs / 1000) * pxPerSecond) }}
+        />
+      ))}
     </div>
   )
 }
@@ -581,7 +592,7 @@ export function Timeline({ simple = false }: { simple?: boolean }) {
                 }}
                 onDrop={onDrop}
               >
-                <Ruler endMs={endMs} onScrub={(clientX) => useEditor.getState().seek(geometry.msAt(clientX))} />
+                <Ruler endMs={endMs} markers={comp.markers} onScrub={(clientX) => useEditor.getState().seek(geometry.msAt(clientX))} />
                 <div ref={lanesRef}>
                   {tracks.map((track) => (
                     <div
