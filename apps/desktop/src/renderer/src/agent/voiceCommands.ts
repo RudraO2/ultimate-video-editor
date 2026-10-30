@@ -2,7 +2,7 @@ import { CommandError, type CommandResult, defineCommand, findComp, locateLayer,
 import { alignWords, layoutText, scriptFontsOf, speechSpan, splitWords } from '@uve/engine'
 import { z } from 'zod'
 import { mediaUrl } from '../../../shared/media'
-import { BULBUL_V3_SPEAKERS, BULBUL_V4_FLASH_SPEAKERS, DEFAULT_SPEAKER, languageCode, SARVAM_LANGUAGES, SARVAM_PRICES, STT_MAX_SECONDS, STT_MODES, type SttRequest, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
+import { BULBUL_V3_SPEAKERS, BULBUL_V4_FLASH_SPEAKERS, DEFAULT_SPEAKER, languageCode, SARVAM_LANGUAGES, SARVAM_PRICES, STT_MAX_SECONDS, STT_MODES, CLONE_LIMITS, type SttRequest, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { mediaInput } from '../media/import'
 import { probeMedia } from '../media/probe'
 import { loadFont } from '../library/fonts'
@@ -119,17 +119,52 @@ export interface SpeakOptions {
   temperature?: number
   name?: string
   source?: string | null
+  /** The speaker's own voice (a WAV of ≤ 15 s, from voiceReference): the take is spoken in it (Sarvam instant voice cloning). */
+  reference?: Uint8Array
+}
+
+/** Seconds of a speaker's own voice sent as the cloning reference (Sarvam takes up to 15; 10–15 is best). */
+const REFERENCE_MS = 12_000
+
+/**
+ * A clip of a speaker's own voice for cloning: the 12 s of the take (`id`, a
+ * layer or media id) with the most speech in it (from its analysed speech
+ * spans when it has them), or from startMs (ms in the file) when given.
+ */
+export async function voiceReference(project: Parameters<typeof locateLayer>[0], id: string, startMs?: number): Promise<Uint8Array> {
+  const { media } = soundOf(project, id)
+  const samples = await decodeMono(media.path)
+  const fileMs = Math.round((samples.length / DECODE_RATE) * 1000)
+  let from = startMs ?? 0
+  const spans = media.footage?.speech ?? (media.speech ? [{ startMs: media.speech.startMs, endMs: media.speech.endMs }] : [])
+  if (startMs === undefined && spans.length > 0) {
+    // The window richest in speech, starting where speech starts.
+    let best = -1
+    for (const s of spans) {
+      const end = s.startMs + REFERENCE_MS
+      const heard = spans.reduce((sum, t) => sum + Math.max(0, Math.min(end, t.endMs) - Math.max(s.startMs, t.startMs)), 0)
+      if (heard > best) {
+        best = heard
+        from = s.startMs
+      }
+    }
+  }
+  from = Math.max(0, Math.min(from, fileMs - Math.min(fileMs, REFERENCE_MS)))
+  const a = Math.floor((from / 1000) * DECODE_RATE)
+  const b = Math.min(samples.length, a + Math.floor((REFERENCE_MS / 1000) * DECODE_RATE))
+  if (b - a < DECODE_RATE * 3) throw new CommandError(`${media.name} has under 3 seconds of voice to clone.`, 'Give a longer take of the speaker.')
+  return encodeWav(samples.subarray(a, b), DECODE_RATE)
 }
 
 /** One take: Sarvam speaks the text, the file becomes project media with its words timed. */
 export async function speak(options: SpeakOptions, call: Call): Promise<Take> {
-  const voice = options.voice ?? DEFAULT_SPEAKER
+  const voice = options.reference ? 'clone' : (options.voice ?? DEFAULT_SPEAKER)
   const result = await sarvam(() =>
     window.uve.sarvam.tts({
       text: options.text,
       language: options.language,
-      speaker: voice,
-      ...(options.model ? { model: options.model } : {}),
+      ...(options.reference ? { reference: options.reference } : { speaker: voice }),
+      ...(options.model && !options.reference ? { model: options.model } : {}),
       ...(options.pace !== undefined ? { pace: options.pace } : {}),
       ...(options.temperature !== undefined ? { temperature: options.temperature } : {}),
     }),
@@ -140,7 +175,7 @@ export async function speak(options: SpeakOptions, call: Call): Promise<Take> {
     text: options.text,
     language: options.language,
     voice,
-    provider: `sarvam:${options.model ?? 'bulbul:v3'}`,
+    provider: options.reference ? 'sarvam:voice-clone' : `sarvam:${options.model ?? 'bulbul:v3'}`,
     ...(options.pace !== undefined ? { pace: options.pace } : {}),
     ...timeWords(samples, options.text),
     source: options.source ?? null,
@@ -206,7 +241,9 @@ export const generateSpeech = defineCommand({
       text: z.string().min(1).max(2500).optional(),
       lines: z.array(z.string().min(1).max(2500)).min(1).max(50).optional(),
       language: languageField.optional(),
-      voice: z.string().min(1).optional().describe('A speaker from voices_list (default shubh; with model bulbul:v4-flash, a v4 voice or a narrator of the language)'),
+      voice: z.string().min(1).optional().describe('A speaker from voices_list (default shubh; with model bulbul:v4-flash, a v4 voice or a narrator of the language), or "clone": the voice of reference'),
+      reference: z.string().min(1).optional().describe('voice "clone": a layer or media id of the speaker’s own voice (12 s of it are the sample; analyse footage first so the clearest stretch is picked)'),
+      referenceStartMs: z.number().min(0).optional().describe('Where in the reference file the sample starts, ms (default: the stretch with the most speech)'),
       model: z.enum(TTS_MODELS).optional(),
       pace: z.number().min(0.5).max(2).optional(),
       temperature: z.number().min(0.01).max(1).optional().describe('Lower is steadier, higher more expressive (default 0.6)'),
@@ -225,13 +262,20 @@ export const generateSpeech = defineCommand({
     const place = input.place === true ? {} : input.place || null
     const compId = place ? findComp(ctx.project, place.compId ?? useEditor.getState().activeCompId).id : null
     let cursor = place?.startMs ?? useEditor.getState().timeMs
+    let reference: Uint8Array | undefined
+    if (input.voice === 'clone') {
+      if (!input.reference) throw new CommandError('voice "clone" needs reference: a layer or media id of the speaker’s own voice.', 'Use only a voice the person has agreed to have cloned (their own).')
+      const long = lines.find((l) => l.length > CLONE_LIMITS.maxChars)
+      if (long) throw new CommandError(`A cloned voice speaks ${CLONE_LIMITS.maxChars} characters at a time; one line has ${long.length}.`, 'Split it with lines.')
+      reference = await voiceReference(ctx.project, input.reference, input.referenceStartMs)
+    }
     const takes = []
     for (const [i, text] of lines.entries()) {
       const take = await speak(
         {
           text,
           language,
-          ...(input.voice ? { voice: input.voice } : {}),
+          ...(reference ? { reference } : input.voice ? { voice: input.voice } : {}),
           ...(input.model ? { model: input.model } : {}),
           ...(input.pace !== undefined ? { pace: input.pace } : {}),
           ...(input.temperature !== undefined ? { temperature: input.temperature } : {}),

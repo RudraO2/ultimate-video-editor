@@ -2,7 +2,7 @@ import { categoryForFileName, CommandError, compsInside, defineCommand, findComp
 import { z } from 'zod'
 import { languageCode, SARVAM_LANGUAGES, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { useEditor } from '../store'
-import { speak, type Take, translateText } from './voiceCommands'
+import { speak, type Take, translateText, voiceReference } from './voiceCommands'
 
 // A comp in another language (comp_localize): a copy whose text is translated
 // and whose every voice take is spoken again in the new language. Timing comes
@@ -60,6 +60,7 @@ export const compLocalize = defineCommand({
     language: z.string().min(2).describe('Target: hi-IN, ta-IN, bn-IN, te-IN, kn-IN, ml-IN, mr-IN, gu-IN, pa-IN, od-IN or en-IN'),
     from: z.string().optional().describe('The language the comp speaks now; default detected'),
     voice: z.string().min(1).optional(),
+    ownVoice: z.boolean().default(false).describe("Speak each take in its own speaker's voice (Sarvam instant voice cloning from 12 s of the take); only for a voice the person agreed to clone"),
     model: z.enum(TTS_MODELS).optional(),
     pace: z.number().min(0.5).max(2).default(1),
     maxPace: z.number().min(0.5).max(2).default(1.25),
@@ -117,11 +118,13 @@ export const compLocalize = defineCommand({
     const lines = []
     let addedMs = 0
     const speakers: Record<string, Take> = {}
+    const references: Record<string, Uint8Array> = {}
     for (const take of takes) {
       const translated = await translateText(take.speech.text, target, from ?? take.speech.language, input.mode)
       costInr += translated.costInr
       const voice = input.voice ?? (take.speech.provider?.startsWith('sarvam') ? (take.speech.voice ?? undefined) : undefined)
-      const options = { text: translated.text, language: target, ...(voice ? { voice } : {}), ...(input.model ? { model: input.model } : {}), source: take.mediaId }
+      const reference = input.ownVoice ? (references[take.mediaId] ??= await voiceReference(ctx.project, take.mediaId)) : undefined
+      const options = { text: translated.text, language: target, ...(reference ? { reference } : voice ? { voice } : {}), ...(input.model ? { model: input.model } : {}), source: take.mediaId }
       let spoken = await speak({ ...options, pace: input.pace }, call)
       costInr += spoken.costInr
       const slot = slots.get(take.layerId) ?? Number.POSITIVE_INFINITY

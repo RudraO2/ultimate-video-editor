@@ -9,6 +9,7 @@ import {
   type SarvamUsage,
   type SttRequest,
   type SttResult,
+  CLONE_LIMITS,
   STT_MODES,
   TRANSLATE_MODES,
   TTS_MODELS,
@@ -173,7 +174,40 @@ async function addUsage(kind: 'tts' | 'translate' | 'stt', amount: number, costI
 
 // ---- Text to speech ----
 
+/** The text spoken in the voice of a reference clip (instant voice cloning, beta). Cached by text, language and reference. */
+async function cloneSpeak(req: TtsRequest & { reference: Uint8Array }): Promise<TtsResult> {
+  const text = req.text.trim()
+  if (!text) throw new Error('There is no text to speak.')
+  if (text.length > CLONE_LIMITS.maxChars) throw new Error(`A cloned voice speaks ${CLONE_LIMITS.maxChars} characters at a time; this line has ${text.length}.`)
+  const seconds = wavSeconds(req.reference)
+  if (seconds === null) throw new Error('The voice reference must be a WAV file.')
+  if (seconds > CLONE_LIMITS.maxReferenceSeconds + 0.5) throw new Error(`The voice reference must be ${CLONE_LIMITS.maxReferenceSeconds} seconds at most; this is ${Math.round(seconds)}.`)
+  const language = languageCode(req.language) ?? req.language
+  const path = join(dir(), 'voice', `clone ${sha(req.reference, stableKey({ text, language })).slice(0, 12)}.wav`)
+  const chars = text.length
+  if (await fs.stat(path).catch(() => null)) {
+    const [file] = await grant([path])
+    if (file) return { file, cached: true, chars, costInr: 0, requestId: null }
+  }
+  const form = new FormData()
+  form.append('text', text)
+  form.append('language_code', language)
+  form.append('ref_audio', new Blob([req.reference as Uint8Array<ArrayBuffer>], { type: 'audio/wav' }), 'reference.wav')
+  const answer = await call('/voices/clone', form)
+  const audio = typeof answer.audio_b64 === 'string' ? answer.audio_b64 : typeof answer.audio === 'string' ? answer.audio : null
+  if (!audio) throw new Error('Sarvam sent no audio.')
+  const wav = Buffer.from(audio, 'base64')
+  if (wav.subarray(0, 4).toString('latin1') !== 'RIFF') throw new Error('Sarvam sent audio the editor cannot read.')
+  await writeAtomic(path, wav)
+  const [file] = await grant([path])
+  if (!file) throw new Error('The voice file could not be opened.')
+  const costInr = Math.round((chars / 1000) * CLONE_LIMITS.per1000Chars * 100) / 100
+  await addUsage('tts', chars, costInr)
+  return { file, cached: false, chars, costInr, requestId: typeof answer.request_id === 'string' ? answer.request_id : null }
+}
+
 async function tts(req: TtsRequest): Promise<TtsResult> {
+  if (req.reference) return cloneSpeak({ ...req, reference: req.reference })
   const body = ttsBody(req)
   const speaker = String(body.speaker)
   if (!/^[\w-]{1,40}$/.test(speaker)) throw new Error(`Unknown voice "${speaker}".`)
@@ -307,6 +341,7 @@ function parseTts(v: unknown): TtsRequest {
     pace: optNumber(v.pace, 'pace'),
     temperature: optNumber(v.temperature, 'temperature'),
     sampleRate: optNumber(v.sampleRate, 'sampleRate'),
+    ...(v.reference instanceof Uint8Array && v.reference.byteLength <= MAX_WAV_BYTES ? { reference: v.reference } : {}),
   }
 }
 

@@ -169,7 +169,12 @@ export interface TtsRequest {
   /** Variation, 0.01 to 1. */
   temperature?: number
   sampleRate?: number
+  /** A WAV of the speaker's own voice (≤ 15 s): Sarvam's instant voice cloning speaks the text in that voice instead of a stock speaker. */
+  reference?: Uint8Array
 }
+
+/** Instant voice cloning: text per request, the reference clip's length and rupees per 1,000 characters (beta, 2026-10). */
+export const CLONE_LIMITS = { maxChars: 1000, maxReferenceSeconds: 15, per1000Chars: 2 } as const
 
 export interface TtsResult {
   file: GrantedFile
