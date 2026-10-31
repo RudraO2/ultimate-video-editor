@@ -100,6 +100,39 @@ export interface CommandDef<S extends z.ZodType = z.ZodType, R = unknown> {
 }
 
 /** Identity helper that keeps a command's input type tied to its schema. */
+/** The scalar types a field takes, through optional, default, nullable and union wrappers. */
+function scalarTypes(schema: unknown, out = new Set<string>()): Set<string> {
+  const def = (schema as { def?: { type?: string; innerType?: unknown; options?: unknown[] } } | undefined)?.def
+  if (!def?.type) return out
+  if (def.innerType) return scalarTypes(def.innerType, out)
+  if (def.type === 'union') for (const option of def.options ?? []) scalarTypes(option, out)
+  else out.add(def.type)
+  return out
+}
+
+/**
+ * The input with its top-level "true", "false" and numeric strings turned into
+ * the boolean or number its field takes (fields that also take a string keep
+ * theirs); the same object when nothing changes.
+ */
+export function looseScalars(schema: z.ZodType, input: unknown): unknown {
+  if (!(schema instanceof z.ZodObject) || typeof input !== 'object' || input === null || Array.isArray(input)) return input
+  const shape = schema.shape as Record<string, unknown>
+  let out: Record<string, unknown> | null = null
+  for (const [key, value] of Object.entries(input)) {
+    if (typeof value !== 'string' || !(key in shape)) continue
+    const types = scalarTypes(shape[key])
+    if (types.has('string')) continue
+    let next: unknown = value
+    if (types.has('boolean') && (value === 'true' || value === 'false')) next = value === 'true'
+    else if (types.has('number') && /^-?\d+(\.\d+)?$/.test(value.trim())) next = Number(value)
+    if (next === value) continue
+    out ??= { ...(input as Record<string, unknown>) }
+    out[key] = next
+  }
+  return out ?? input
+}
+
 export function defineCommand<S extends z.ZodType, R>(def: CommandDef<S, R>): CommandDef<S, R> {
   return def
 }
@@ -138,7 +171,16 @@ export class CommandRegistry {
   async run(name: string, input: unknown, ctx: CommandContext): Promise<CommandResult> {
     const def = this.get(name)
     if (!def) return { ok: false, error: `Unknown command "${name}".`, hint: this.suggest(name) }
-    const parsed = def.input.safeParse(renameFieldAliases(def.input, input ?? {}))
+    let parsed = def.input.safeParse(renameFieldAliases(def.input, input ?? {}))
+    // Some models send flags and numbers as strings ("true", "12"): read them as meant, only when that makes the input valid.
+    if (!parsed.success) {
+      const named = renameFieldAliases(def.input, input ?? {})
+      const loose = looseScalars(def.input, named)
+      if (loose !== named) {
+        const again = def.input.safeParse(loose)
+        if (again.success) parsed = again
+      }
+    }
     if (!parsed.success) {
       return {
         ok: false,

@@ -169,3 +169,19 @@ describe('keyframes.clear and keyframes.inspect', () => {
     expect(audit.heaviest).toEqual([{ layerId: 'layer_1', layerName: 'Rectangle', path: 'transform.rotation', keys: 30, baked: true }])
   })
 })
+
+describe('flags and numbers sent as strings', () => {
+  it('reads them as meant when that makes the input valid', async () => {
+    const { session, ok, layer } = setup()
+    const { id } = await ok('layer.create', { kind: 'text', text: '12', startMs: '500', durationMs: '1000' })
+    expect(layer(id)).toMatchObject({ kind: 'text', text: '12', startMs: 500, durationMs: 1000 })
+    await ok('frame.update', { width: '960', scaleContents: 'true' })
+    expect(session.project.comps[0]?.width).toBe(960)
+    expect(layer(id)?.transform.scaleX).toBe(0.5)
+  })
+
+  it('still refuses input that is wrong either way', async () => {
+    const { fail } = setup()
+    expect(await fail('layer.create', { kind: 'text', startMs: 'soon' })).toMatch(/Invalid input/)
+  })
+})
