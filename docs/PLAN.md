@@ -79,6 +79,8 @@ OpenScreen's features and the in-app harness come after the foundation.
    - No GPL or AGPL libraries in the app core. If one is ever needed, it runs as a separate process.
    - Background-removal models must have permissive weights.
 
+- **Own look (2026-10-31).** The editor no longer copies AtomCut's colours and icons: Cream, a light theme (default), and the dark theme, with Phosphor icons; layout and UX unchanged. Proposals and the rejected rounds are in `docs/design/theme-proposals/`.
+
 ## Architecture
 
 ```mermaid

@@ -6,7 +6,7 @@ A first round (Graphite, Chai, Kesar Night) was turned down on 2026-10-31 and re
 
 `theme-d-white.html`: white panels on a soft grey window (`#f5f5f7`), near-black text (`#1d1d1f`), one red (`#c8001a`) for icons and everything active, hairline lines, softer shadows, rounder corners. Icons: Phosphor Icons 2.1.1, Regular weight (MIT), rounded like SF Symbols.
 
-`theme-f-cream.html` (Cream, 2026-10-31): the light theme to apply. Same finish as D (red for icons and everything active, rounder corners, sentence-case headers, solid red Play and Export, Phosphor icons) but no pure white anywhere, so it is easier on the eyes: cream panels `#f8f4ec` on a soft stone window `#e9e3d7`, warm charcoal text `#2b2620` (not black), warm grey `#655d53`, red `#b8121f`, warm shadows. Lowest contrast pair 4.95:1 (red on its tint).
+`theme-f-cream.html` (Cream, 2026-10-31): applied to the app as its light theme in step T1 (see `docs/HISTORY.md` ▸ T1). Same finish as D (red for icons and everything active, rounder corners, sentence-case headers, solid red Play and Export, Phosphor icons) but no pure white anywhere, so it is easier on the eyes: cream panels `#f8f4ec` on a soft stone window `#e9e3d7`, warm charcoal text `#2b2620` (not black), warm grey `#655d53`, red `#b8121f`, warm shadows. Lowest contrast pair 4.95:1 (red on its tint).
 
 A glass theme (E, after the owner's reference mock-up `ai_studio_code (2).html`) was tried in three takes and turned down on 2026-10-31; it is in git history.
 

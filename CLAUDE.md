@@ -48,6 +48,7 @@ Everything must also work by hand.
 - **M1 done (2026-10-30):** Easy (chat, preview, simple timeline, Export) and Advanced modes, switch remembered (`uve.uiMode`); chat sends editor context (selection, playhead) and takes speech in any language (Sarvam STT). Details in `docs/HISTORY.md` ▸ M1.
 - **F1 done (2026-10-30):** footage read once (`media_analyze`: Sarvam verbatim words fitted to a per-file speech gate, shots), `media_remove_pauses` (reasons, generous/balanced/tight, markers, `variant`), `media_search`, `timeline_place_broll`, `media_inspect`, Inspector ▸ Footage; format 19; skill 0.25.0. OpenCode cut a 79 s talking head to 59 s with B-roll in 101 s. Details in `docs/HISTORY.md` ▸ F1.
 - **H1 (hackathon) done (2026-10-30, 31):** OpenCode runs on Sarvam's API (`sarvam/glm5.3-flash`), Saaras v4 (codemix mic), Bulbul v4 Flash voices, own-voice cloning (`generate_speech {voice: "clone"}`, `comp_localize {ownVoice}`), skill 0.26.0, `docs/pitch.md`. **H1d done (2026-10-31):** demo rehearsed on the owner's clip (cut, Devanagari captions, Tamil in own voice: 47 s cold, 28 s cached, ₹3.40), fixes on that path, backup videos in `~/Videos/UVE demo/`; next B1.
+- **T1 done (2026-10-31):** own look: Cream light theme (default; View menu ▸ Light theme / Dark theme, `uve.theme`, `theme.ts`), the dark theme kept; Phosphor icons through `icons.tsx` (lucide-react removed); new tokens `accent-ink`, `danger`, `warn`, `clip-caption`. Details in `docs/HISTORY.md` ▸ T1.
 - **Still to check by hand:** real Export save dialog (Ctrl+E, each format's filter, PNG sequence folder dialog) and "Show in folder"; project Save/Open dialogs and native close warning (CDP can't drive); adding server to Claude Code with `claude mcp add`.
 - **Git:** private repo `github.com/RudraO2/ultimate-video-editor`, branch `main` (first push 2026-10-30).
 
@@ -127,7 +128,7 @@ Everything must also work by hand.
   - Tracks ordered front (index 0) to back. Layers on one track never overlap.
   - `transform.x/y` place pivot. Pivot (`anchorX`, `anchorY`) is fraction of layer's own box: 0.5 centre, 0 left/top edge, 1 right/bottom edge.
 - **Rotation.** Positive `rotation` clockwise. Positive `rotationX` leans top away. Positive `rotationY` turns right side away.
-- **Look.** Follow AtomCut tokens in `styles.css`: no hard-coded colours. Rounded `rounded-panel`/`rounded-lg` controls, 11 px labels, `active-tint` for anything on. Add rail tab, tool or timeline tab only when its feature works.
+- **Look.** Our own look, not AtomCut's: tokens in `styles.css` (Cream light under `html[data-theme="light"]`, dark in `@theme`), no hard-coded colours (canvas code reads them with `cssColor`); icons only from `icons.tsx` (Phosphor). Check both themes. Rounded `rounded-panel`/`rounded-lg` controls, 11 px labels, `active-tint` for anything on. Add rail tab, tool or timeline tab only when its feature works.
 - **UI state.** Lives in zustand store. Viewport redraws on store changes, max once per animation frame.
 - **Gestures.** Drags (timeline clips, inspector labels, colour picking) use `beginGesture(label)` from store. Its commands apply live; whole drag = one undo step. Always end gesture, incl. on pointer cancel and lost capture.
 - **Media files.** Project stores absolute paths, never copies files. Renderer loads them only via `mediaUrl(path)`, after main process granted path.

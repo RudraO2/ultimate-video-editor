@@ -52,6 +52,7 @@ Owner approved `docs/design/theme-proposals/theme-f-cream.html` as the app's lig
 - T1a done: `theme.ts` (`readTheme`, `applyTheme`, `cssColor`), store `theme`/`setTheme`, applied before first paint in `main.tsx`, View menu ▸ Light theme / Dark theme, Cream tokens and finish under `html[data-theme="light"]` in `styles.css`, new tokens `accent-ink`, `danger`, `warn`, `clip-caption` in both themes, `tool-palette` class on the viewport tools.
 - T1b done: red-*/amber-*/emerald-* classes now `danger`/`warn`/`ok`, text on solid red `text-accent-ink`, caption layers (text with `caption`) get `clip-caption` in `TimelineClip.tsx`, kind tag `text-ink/75`, viewport selection and pen outline read `cssColor('accent')`, Keyframes and Curves take deeper curve colours in light (`LIGHT_COLORS`), selected keys and node wires use `var(--color-accent)`.
 - T1c done: `@phosphor-icons/react` 2.1.10 (MIT) replaces lucide-react (removed); `icons.tsx` exports the 116 icons under their old names (`fill` set → fill weight), `IconComponent` replaces `LucideIcon`; notice in `THIRD_PARTY_NOTICES.md`. Tests (1401), type checks and build pass.
+- T1d done: checked in the app (light and dark, Advanced, Curves, Export dialog, caption clip colour); docs updated (CLAUDE.md, README, PLAN, HISTORY ▸ T1). T1 complete.
 
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
 
