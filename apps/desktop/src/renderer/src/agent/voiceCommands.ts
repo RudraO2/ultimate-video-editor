@@ -427,7 +427,7 @@ export const mediaTranscribe = defineCommand({
   summary:
     'Time every word of a voice take: give its script (free, our own alignment) or let Sarvam Saaras hear it; the words are kept on the media, and captions makes or re-times a word-synced caption.',
   details:
-    'id: an audio or video layer (needed for captions) or a media id. text: the script, which gives exact words (alignment is far more reliable than listening; always give it when you have it). Without text, Sarvam speech to text (₹0.49 a minute) hears it in language (default: detected), phrase by phrase, and the words inside each phrase are aligned. A take from generate_speech already has its words: captions alone uses them. captions: true makes word-synced caption text layers over the take, one per phrase (a new line at a full stop or comma, a pause, or 7 words), on one lane; {id} re-times that one text layer to all the words. Returns text, language, words, phrases (when heard), captionIds, costInr.',
+    'id: an audio or video layer (needed for captions) or a media id. text: the script, which gives exact words (alignment is far more reliable than listening; always give it when you have it). Without text, Sarvam speech to text (₹0.49 a minute) hears it in language (default: detected), phrase by phrase, and the words inside each phrase are aligned. A take from generate_speech already has its words: captions alone uses them. captions: true makes word-synced caption text layers over the take, one per phrase (a new line at a full stop or comma, a pause, or 7 words), on one lane, placed through every piece a cut left of the take; {id} re-times that one text layer to all the words. Captions over a verbatim transcript (from media_analyze, made for cutting) hear the take again as clean text first (codemix for an Indian language: Hindi in Devanagari, English words in English). Returns text, language, words, phrases (when heard), captionIds, costInr.',
   effect: 'write',
   input: z.strictObject({
     id: z.string().min(1).describe('An audio or video layer, or a media id'),
@@ -441,7 +441,15 @@ export const mediaTranscribe = defineCommand({
     const call: Call = (name, value) => ctx.call(name, value)
     const { media, layerId } = soundOf(ctx.project, id)
     if (captions && !layerId) throw new CommandError('Captions need the take on the timeline.', 'Give the audio layer id instead of the media id.')
-    let speech = media.speech && !force && text === undefined ? media.speech : null
+    // A verbatim transcript is for cutting (every filler, Hindi in Latin letters): captions hear the take again as clean text,
+    // in codemix for an Indian language, so Hindi reads in Devanagari and English words stay English.
+    const verbatim = media.speech?.provider?.endsWith(':verbatim') ?? false
+    if (captions && verbatim && text === undefined && !force) {
+      const spoken = media.speech?.language ?? language
+      language ??= spoken ?? undefined
+      mode = spoken && !spoken.startsWith('en') ? 'codemix' : 'transcribe'
+    }
+    let speech = media.speech && !force && text === undefined && !(captions && verbatim) ? media.speech : null
     let phrases: { text: string; startMs: number; endMs: number }[] | undefined
     let costInr = 0
     if (!speech) {
