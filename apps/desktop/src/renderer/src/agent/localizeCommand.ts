@@ -1,8 +1,8 @@
-import { categoryForFileName, CommandError, compsInside, defineCommand, findComp, fitPace, layerEnd, locateLayer, type Project, type SpeechInfo, takeSlots, wordsOnTimeline } from '@uve/core'
+import { categoryForFileName, CommandError, compsInside, defineCommand, findComp, fitPace, layerEnd, locateLayer, type Layer, type Project, type SpeechInfo, takeSlots, wordsOnTimeline } from '@uve/core'
 import { z } from 'zod'
 import { languageCode, SARVAM_LANGUAGES, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { useEditor } from '../store'
-import { placeTake, speak, type Take, takePieces, translateText, voiceReference } from './voiceCommands'
+import { captionTake, placeTake, speak, type Take, takePieces, translateText, voiceReference } from './voiceCommands'
 
 // A comp in another language (comp_localize): a copy whose text is translated
 // and whose every voice take is spoken again in the new language. Timing comes
@@ -28,6 +28,20 @@ interface VoiceTake {
   speech: SpeechInfo
   /** A person on camera: every piece of the video plays this take, and the new voice goes on its own track. */
   footage: boolean
+}
+
+/** Fields of a caption that are its words and timing, not its look. */
+const NOT_LOOK = new Set(['id', 'name', 'kind', 'text', 'ranges', 'startMs', 'durationMs', 'animations', 'caption'])
+
+/** layer.patch ops that give another caption this caption's look: type, box, place, effects, entrance, word states. */
+function lookOf(layer: Layer): { op: 'set'; path: string; value: unknown }[] {
+  const ops = Object.entries(layer)
+    .filter(([key]) => !NOT_LOOK.has(key))
+    .map(([path, value]) => ({ op: 'set' as const, path, value }))
+  if (layer.kind === 'text' && layer.caption) {
+    for (const [key, value] of Object.entries(layer.caption)) if (key !== 'cues') ops.push({ op: 'set', path: `caption.${key}`, value })
+  }
+  return ops
 }
 
 /** A filmed take's words that are still on the timeline, in comp time. */
@@ -159,9 +173,17 @@ export const compLocalize = defineCommand({
       let roomMs = 0
       if (input.fit !== 'none') {
         // Filmed speech cannot be given room (the picture would stop), so it may be read a little faster.
-        const fitted = fitPace(length(spoken), slot, input.pace, take.footage ? Math.max(input.maxPace, FOOTAGE_MAX_PACE) : input.maxPace)
+        const maxPace = take.footage ? Math.max(input.maxPace, FOOTAGE_MAX_PACE) : input.maxPace
+        const fitted = fitPace(length(spoken), slot, input.pace, maxPace)
         if (fitted.pace > input.pace + 0.005) {
           pace = fitted.pace
+          spoken = await speak({ ...options, pace }, call)
+          costInr += spoken.costInr
+        }
+        // A voice does not speed up in proportion to its pace: filmed speech still too long gets one more try.
+        const again = Math.min(maxPace, Math.ceil(((pace * length(spoken)) / slot) * 100) / 100)
+        if (take.footage && length(spoken) > slot && again > pace + 0.005) {
+          pace = again
           spoken = await speak({ ...options, pace }, call)
           costInr += spoken.costInr
         }
@@ -175,9 +197,18 @@ export const compLocalize = defineCommand({
           await must(call('layer.patch', { id: piece.id, ops: [{ op: 'set', path: 'volume', value: 0 }] }))
         }
         const voiceEnd = layerEnd(locateLayer(ctx.project, newLayer).layer)
-        if (voiceEnd > findComp(ctx.project, compId).durationMs) {
-          addedMs += voiceEnd - findComp(ctx.project, compId).durationMs
+        const compEnd = findComp(ctx.project, compId).durationMs
+        if (voiceEnd > compEnd) {
+          addedMs += voiceEnd - compEnd
           await must(call('frame.update', { id: compId, durationMs: voiceEnd }))
+          // The last shot plays on into the file it was cut from, so the picture lasts as long as the voice where it can.
+          const pieces = takePieces(findComp(ctx.project, compId), take.layerId)
+          const last = pieces.reduce<(typeof pieces)[number] | undefined>((a, p) => (!a || layerEnd(p) > layerEnd(a) ? p : a), undefined)
+          const media = ctx.project.media.find((m) => m.id === take.mediaId)
+          if (last && media?.durationMs && layerEnd(last) >= compEnd - 1) {
+            const left = (media.durationMs - (last.sourceStartMs + last.durationMs * last.playbackRate)) / last.playbackRate
+            if (left > 1) await must(call('timeline.trim', { id: last.id, endMs: Math.round(layerEnd(last) + Math.min(left, voiceEnd - compEnd)) }))
+          }
         }
         speakers[take.layerId] = spoken
         lines.push({ layerId: take.layerId, text: translated.text, oldMs: Math.round(at.endMs - at.startMs), newMs: Math.round(length(spoken)), pace, roomMs })
@@ -212,7 +243,23 @@ export const compLocalize = defineCommand({
     const emptied: string[] = []
     const captionsOver = (take: VoiceTake) =>
       [...captionTakes].filter(([, over]) => over.includes(take)).map(([id]) => locateLayer(ctx.project, id).layer).sort((a, b) => a.startMs - b.startMs)
+    // A take under several captions of its own (one per phrase) gets new phrase captions from its new words, in the look of the first.
+    const remade = new Set<string>()
+    for (const take of takes) {
+      const spoken = speakers[take.layerId]
+      const playing = voiceLayer[take.layerId]
+      const shared = captionsOver(take)
+      if (!spoken || !playing || shared.length < 2 || shared.some((c) => (captionTakes.get(c.id)?.length ?? 0) > 1)) continue
+      const look = lookOf(shared[0]!)
+      await must(call('layers.delete', { ids: shared.map((c) => c.id) }))
+      for (const c of shared) remade.add(c.id)
+      for (const id of await captionTake(playing, spoken.speech, call, ctx.project)) {
+        await must(call('layer.patch', { id, ops: look }))
+        captions.push(id)
+      }
+    }
     for (const [captionId, over] of captionTakes) {
+      if (remade.has(captionId)) continue
       const words = over.flatMap((t) => {
         const spoken = speakers[t.layerId]
         const playing = voiceLayer[t.layerId]

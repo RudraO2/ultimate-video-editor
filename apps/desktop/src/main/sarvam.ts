@@ -174,7 +174,7 @@ async function addUsage(kind: 'tts' | 'translate' | 'stt', amount: number, costI
 
 // ---- Text to speech ----
 
-/** The text spoken in the voice of a reference clip (instant voice cloning, beta). Cached by text, language and reference. */
+/** The text spoken in the voice of a reference clip (instant voice cloning, beta), at a pace. Cached by text, language, pace and reference. */
 async function cloneSpeak(req: TtsRequest & { reference: Uint8Array }): Promise<TtsResult> {
   const text = req.text.trim()
   if (!text) throw new Error('There is no text to speak.')
@@ -183,7 +183,10 @@ async function cloneSpeak(req: TtsRequest & { reference: Uint8Array }): Promise<
   if (seconds === null) throw new Error('The voice reference must be a WAV file.')
   if (seconds > CLONE_LIMITS.maxReferenceSeconds + 0.5) throw new Error(`The voice reference must be ${CLONE_LIMITS.maxReferenceSeconds} seconds at most; this is ${Math.round(seconds)}.`)
   const language = languageCode(req.language) ?? req.language
-  const path = join(dir(), 'voice', `clone ${sha(req.reference, stableKey({ text, language })).slice(0, 12)}.wav`)
+  if (req.pace !== undefined && !(req.pace >= 0.5 && req.pace <= 2)) throw new Error('Pace must be between 0.5 and 2.')
+  // A take at another pace is another file (pace 1 keeps the key takes made before had).
+  const pace = req.pace !== undefined && req.pace !== 1 ? { pace: req.pace } : {}
+  const path = join(dir(), 'voice', `clone ${sha(req.reference, stableKey({ text, language, ...pace })).slice(0, 12)}.wav`)
   const chars = text.length
   if (await fs.stat(path).catch(() => null)) {
     const [file] = await grant([path])
@@ -192,6 +195,7 @@ async function cloneSpeak(req: TtsRequest & { reference: Uint8Array }): Promise<
   const form = new FormData()
   form.append('text', text)
   form.append('language_code', language)
+  if (pace.pace !== undefined) form.append('pace', String(pace.pace))
   form.append('ref_audio', new Blob([req.reference as Uint8Array<ArrayBuffer>], { type: 'audio/wav' }), 'reference.wav')
   const answer = await call('/voices/clone', form)
   const audio = typeof answer.audio_b64 === 'string' ? answer.audio_b64 : typeof answer.audio === 'string' ? answer.audio : null
