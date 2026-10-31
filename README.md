@@ -558,6 +558,7 @@ the honest list of what the agent could not do.
 | `docs/` | `PLAN.md` (roadmap), `core-api.md` (the command API), `HANDOFF.md`, `HISTORY.md`, `pitch.md` |
 | `docs/benchmarks/` | The briefs, the runner, and `results.md` — every agent run with its gaps |
 | `docs/research/` | Clean-room behaviour notes on the reference editor, and the asset inventory |
+| `website/` | The landing page: one static page (GSAP, ScrollTrigger, Lenis), real editor screenshots and a real export; published by `.github/workflows/website.yml` ([`website/README.md`](website/README.md)) |
 | `assets/` | The logo and every generated size — app icons (`.icns`, `.ico`), Apple full-bleed squares, favicons, maskable PWA icons, and the palette ([`assets/README.md`](assets/README.md)) |
 
 ## Status and roadmap

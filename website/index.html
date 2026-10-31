@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ultimate Video Editor</title>
+<meta name="description" content="A real desktop motion editor that any AI agent can drive over MCP, and that you can still finish by hand. Voice in eleven Indian languages. Free and open source.">
+<meta name="theme-color" content="#0e0a0b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ultimate Video Editor">
+<meta property="og:description" content="The motion editor AI agents can drive, and you can finish by hand. Free and open source.">
+<meta property="og:image" content="assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/brand/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,300..900&amp;family=Bricolage+Grotesque:opsz,wght@12..96,200..800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Noto+Sans+Devanagari:wght@400;600&amp;family=Noto+Sans+Tamil:wght@400;600&amp;display=swap">
+<link rel="stylesheet" href="css/site.css">
+<script>
+  (function (d) {
+    var r = d.documentElement;
+    r.classList.remove('no-js');
+    r.classList.add('js');
+    try { if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) r.classList.add('motion'); } catch (e) {}
+    // Never leave the intro covering the page if the scripts do not arrive.
+    setTimeout(function () { if (!window.__uveReady) r.classList.remove('motion'); }, 5000);
+  })(document);
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- icon sprite: Phosphor Icons (MIT), plus three marks of our own -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-apple-logo" viewBox="0 0 256 256"><path d="M223.3,169.59a8.07,8.07,0,0,0-2.8-3.4C203.53,154.53,200,134.64,200,120c0-17.67,13.47-33.06,21.5-40.67a8,8,0,0,0,0-11.62C208.82,55.74,187.82,48,168,48a72.2,72.2,0,0,0-40,12.13,71.56,71.56,0,0,0-90.71,9.09A74.63,74.63,0,0,0,16,123.4a127.06,127.06,0,0,0,40.14,89.73A39.8,39.8,0,0,0,83.59,224h87.68a39.84,39.84,0,0,0,29.12-12.57,125,125,0,0,0,17.82-24.6C225.23,174,224.33,172,223.3,169.59Zm-34.63,30.94a23.76,23.76,0,0,1-17.4,7.47H83.59a23.82,23.82,0,0,1-16.44-6.51A111.14,111.14,0,0,1,32,123,58.5,58.5,0,0,1,48.65,80.47,54.81,54.81,0,0,1,88,64h.78A55.45,55.45,0,0,1,123,76.28a8,8,0,0,0,10,0A55.44,55.44,0,0,1,168,64a70.64,70.64,0,0,1,36,10.35c-13,14.52-20,30.47-20,45.65,0,23.77,7.64,42.73,22.18,55.3A105.82,105.82,0,0,1,188.67,200.53ZM128.23,30A40,40,0,0,1,167,0h1a8,8,0,0,1,0,16h-1a24,24,0,0,0-23.24,18,8,8,0,1,1-15.5-4Z"/></symbol><symbol id="i-arrow-counter-clockwise" viewBox="0 0 256 256"><path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/></symbol><symbol id="i-arrow-right" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol><symbol id="i-basketball" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM60,72.17A87.2,87.2,0,0,1,79.63,120H40.37A87.54,87.54,0,0,1,60,72.17ZM136,120V40.37a87.59,87.59,0,0,1,48.68,20.37A103.06,103.06,0,0,0,160.3,120Zm-16,0H95.7A103.06,103.06,0,0,0,71.32,60.74,87.59,87.59,0,0,1,120,40.37ZM79.63,136A87.2,87.2,0,0,1,60,183.83,87.54,87.54,0,0,1,40.37,136Zm16.07,0H120v79.63a87.59,87.59,0,0,1-48.68-20.37A103.09,103.09,0,0,0,95.7,136Zm40.3,0h24.3a103.09,103.09,0,0,0,24.38,59.26A87.59,87.59,0,0,1,136,215.63Zm40.37,0h39.26A87.54,87.54,0,0,1,196,183.83,87.2,87.2,0,0,1,176.37,136Zm0-16A87.2,87.2,0,0,1,196,72.17,87.54,87.54,0,0,1,215.63,120Z"/></symbol><symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-copy" viewBox="0 0 256 256"><path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"/></symbol><symbol id="i-cube" viewBox="0 0 256 256"><path d="M223.68,66.15,135.68,18h0a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32h0l80.34,44L128,120,47.66,76ZM40,90l80,43.78v85.79L40,175.82Zm96,129.57V133.82L216,90v85.78Z"/></symbol><symbol id="i-cursor-click" viewBox="0 0 256 256"><path d="M88,24V16a8,8,0,0,1,16,0v8a8,8,0,0,1-16,0ZM16,104h8a8,8,0,0,0,0-16H16a8,8,0,0,0,0,16ZM124.42,39.16a8,8,0,0,0,10.74-3.58l8-16a8,8,0,0,0-14.31-7.16l-8,16A8,8,0,0,0,124.42,39.16Zm-96,81.69-16,8a8,8,0,0,0,7.16,14.31l16-8a8,8,0,1,0-7.16-14.31ZM219.31,184a16,16,0,0,1,0,22.63l-12.68,12.68a16,16,0,0,1-22.63,0L132.7,168,115,214.09c0,.1-.08.21-.13.32a15.83,15.83,0,0,1-14.6,9.59l-.79,0a15.83,15.83,0,0,1-14.41-11L32.8,52.92A16,16,0,0,1,52.92,32.8L213,85.07a16,16,0,0,1,1.41,29.8l-.32.13L168,132.69ZM208,195.31,156.69,144h0a16,16,0,0,1,4.93-26l.32-.14,45.95-17.64L48,48l52.2,159.86,17.65-46c0-.11.08-.22.13-.33a16,16,0,0,1,11.69-9.34,16.72,16.72,0,0,1,3-.28,16,16,0,0,1,11.3,4.69L195.31,208Z"/></symbol><symbol id="i-diamond" viewBox="0 0 256 256"><path d="M235.33,116.72,139.28,20.66a16,16,0,0,0-22.56,0l-96,96.06a16,16,0,0,0,0,22.56l96.05,96.06h0a16,16,0,0,0,22.56,0l96.05-96.06a16,16,0,0,0,0-22.56ZM128,224h0L32,128,128,32,224,128Z"/></symbol><symbol id="i-download-simple" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></symbol><symbol id="i-export" viewBox="0 0 256 256"><path d="M216,112v96a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V112A16,16,0,0,1,56,96H80a8,8,0,0,1,0,16H56v96H200V112H176a8,8,0,0,1,0-16h24A16,16,0,0,1,216,112ZM93.66,69.66,120,43.31V136a8,8,0,0,0,16,0V43.31l26.34,26.35a8,8,0,0,0,11.32-11.32l-40-40a8,8,0,0,0-11.32,0l-40,40A8,8,0,0,0,93.66,69.66Z"/></symbol><symbol id="i-faders" viewBox="0 0 256 256"><path d="M136,120v96a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm64,72a8,8,0,0,0-8,8v16a8,8,0,0,0,16,0V200A8,8,0,0,0,200,192Zm24-32H208V40a8,8,0,0,0-16,0V160H176a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16ZM56,160a8,8,0,0,0-8,8v48a8,8,0,0,0,16,0V168A8,8,0,0,0,56,160Zm24-32H64V40a8,8,0,0,0-16,0v88H32a8,8,0,0,0,0,16H80a8,8,0,0,0,0-16Zm72-48H136V40a8,8,0,0,0-16,0V80H104a8,8,0,0,0,0,16h48a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-film-strip" viewBox="0 0 256 256"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,88h80v80H40Zm96-16V56h32V72Zm-16,0H88V56h32Zm0,112v16H88V184Zm16,0h32v16H136Zm0-16V88h80v80Zm80-96H184V56h32ZM72,56V72H40V56ZM40,184H72v16H40Zm176,16H184V184h32v16Z"/></symbol><symbol id="i-github-logo" viewBox="0 0 256 256"><path d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"/></symbol><symbol id="i-handle" viewBox="0 0 24 24"><path d="M9.5 6.5 4 12l5.5 5.5zM14.5 6.5 20 12l-5.5 5.5z"/></symbol><symbol id="i-keyboard" viewBox="0 0 256 256"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,144H32V64H224V192Zm-16-64a8,8,0,0,1-8,8H56a8,8,0,0,1,0-16H200A8,8,0,0,1,208,128Zm0-32a8,8,0,0,1-8,8H56a8,8,0,0,1,0-16H200A8,8,0,0,1,208,96ZM72,160a8,8,0,0,1-8,8H56a8,8,0,0,1,0-16h8A8,8,0,0,1,72,160Zm96,0a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,160Zm40,0a8,8,0,0,1-8,8h-8a8,8,0,0,1,0-16h8A8,8,0,0,1,208,160Z"/></symbol><symbol id="i-linux-logo" viewBox="0 0 256 256"><path d="M229,214.25A8,8,0,0,1,217.76,213C216.39,211.27,184,169.86,184,88A56,56,0,0,0,72,88c0,81.86-32.37,123.27-33.75,125a8,8,0,0,1-12.51-10c.15-.2,7.69-9.9,15.13-28.74C47.77,156.8,56,127.64,56,88a72,72,0,0,1,144,0c0,39.64,8.23,68.8,15.13,86.28,7.48,18.94,15.06,28.64,15.14,28.74A8,8,0,0,1,229,214.25ZM100,88a12,12,0,1,0,12,12A12,12,0,0,0,100,88Zm68,12a12,12,0,1,0-12,12A12,12,0,0,0,168,100ZM99.58,128.84a8,8,0,0,0-7.15,14.31l32,16a7.94,7.94,0,0,0,7.15,0l32-16a8,8,0,0,0-7.16-14.31L128,143.05ZM128,176a54.07,54.07,0,0,0-47,28.11,8,8,0,1,0,14,7.78,37.35,37.35,0,0,1,66,0,8,8,0,0,0,14-7.78A54.07,54.07,0,0,0,128,176Z"/></symbol><symbol id="i-list" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-microphone" viewBox="0 0 256 256"><path d="M128,176a48.05,48.05,0,0,0,48-48V64a48,48,0,0,0-96,0v64A48.05,48.05,0,0,0,128,176ZM96,64a32,32,0,0,1,64,0v64a32,32,0,0,1-64,0Zm40,143.6V240a8,8,0,0,1-16,0V207.6A80.11,80.11,0,0,1,48,128a8,8,0,0,1,16,0,64,64,0,0,0,128,0,8,8,0,0,1,16,0A80.11,80.11,0,0,1,136,207.6Z"/></symbol><symbol id="i-package" viewBox="0 0 256 256"><path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"/></symbol><symbol id="i-pointer" viewBox="0 0 24 24"><path d="M4 2.5v16.2l4.4-4.1 3 6.9 2.9-1.3-3-6.8h6.1z" stroke="#120b0c" stroke-width="1.2" stroke-linejoin="round"/></symbol><symbol id="i-robot" viewBox="0 0 256 256"><path d="M200,48H136V16a8,8,0,0,0-16,0V48H56A32,32,0,0,0,24,80V192a32,32,0,0,0,32,32H200a32,32,0,0,0,32-32V80A32,32,0,0,0,200,48Zm16,144a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V80A16,16,0,0,1,56,64H200a16,16,0,0,1,16,16Zm-52-56H92a28,28,0,0,0,0,56h72a28,28,0,0,0,0-56Zm-24,16v24H116V152ZM80,164a12,12,0,0,1,12-12h8v24H92A12,12,0,0,1,80,164Zm84,12h-8V152h8a12,12,0,0,1,0,24ZM72,108a12,12,0,1,1,12,12A12,12,0,0,1,72,108Zm88,0a12,12,0,1,1,12,12A12,12,0,0,1,160,108Z"/></symbol><symbol id="i-text-aa" viewBox="0 0 256 256"><path d="M87.24,52.59a8,8,0,0,0-14.48,0l-64,136a8,8,0,1,0,14.48,6.81L39.9,160h80.2l16.66,35.4a8,8,0,1,0,14.48-6.81ZM47.43,144,80,74.79,112.57,144ZM200,96c-12.76,0-22.73,3.47-29.63,10.32a8,8,0,0,0,11.26,11.36c3.8-3.77,10-5.68,18.37-5.68,13.23,0,24,9,24,20v3.22A42.76,42.76,0,0,0,200,128c-22.06,0-40,16.15-40,36s17.94,36,40,36a42.73,42.73,0,0,0,24-7.25,8,8,0,0,0,16-.75V132C240,112.15,222.06,96,200,96Zm0,88c-13.23,0-24-9-24-20s10.77-20,24-20,24,9,24,20S213.23,184,200,184Z"/></symbol><symbol id="i-tri" viewBox="0 0 24 24"><path d="M6 3.5 20 12 6 20.5Z"/></symbol><symbol id="i-windows-logo" viewBox="0 0 256 256"><path d="M208,136H128a8,8,0,0,0-8,8v57.45a8,8,0,0,0,6.57,7.88l80,14.54A7.61,7.61,0,0,0,208,224a8,8,0,0,0,8-8V144A8,8,0,0,0,208,136Zm-8,70.41-64-11.63V152h64ZM96,136H32a8,8,0,0,0-8,8v40a8,8,0,0,0,6.57,7.87l64,11.64a8.54,8.54,0,0,0,1.43.13,8,8,0,0,0,8-8V144A8,8,0,0,0,96,136Zm-8,50.05-48-8.73V152H88ZM213.13,33.86a8,8,0,0,0-6.56-1.73l-80,14.55A8,8,0,0,0,120,54.55V112a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V40A8,8,0,0,0,213.13,33.86ZM200,104H136V61.22l64-11.63ZM101.13,54.22a8,8,0,0,0-6.56-1.73l-64,11.64A8,8,0,0,0,24,72v40a8,8,0,0,0,8,8H96a8,8,0,0,0,8-8V60.36A8,8,0,0,0,101.13,54.22ZM88,104H40V78.68L88,70Z"/></symbol><symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol></svg>
+
+<div class="loader" aria-hidden="true">
+  <div class="loader__disc"></div>
+  <p class="loader__word"><img src="assets/brand/logo-128.png" alt="" width="64" height="64">Ultimate Video Editor</p>
+</div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#main" aria-label="Ultimate Video Editor, back to top">
+    <img src="assets/brand/logo-64.png" alt="" width="32" height="32">
+    <span>Ultimate Video Editor</span>
+  </a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#features">Features</a>
+    <a href="#agents">Agents</a>
+    <a class="nav__new" href="#voice">Voice<span class="sticker" aria-hidden="true">New!</span></a>
+    <a href="https://github.com/RudraO2/ultimate-video-editor#readme">Docs</a>
+  </nav>
+  <div class="nav__side">
+    <a class="nav__gh" href="https://github.com/RudraO2/ultimate-video-editor"><svg class="icon" aria-hidden="true"><use href="#i-github-logo"/></svg>GitHub</a>
+    <a class="btn-main" href="#download">Download</a>
+  </div>
+  <button class="nav__menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><svg class="icon" aria-hidden="true"><use href="#i-list"/></svg></button>
+</header>
+
+<div class="drawer" id="drawer" hidden>
+  <div class="drawer__backdrop" data-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <button class="nav__menu drawer__close" type="button" aria-label="Close menu" data-close><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <a href="#features">Features</a>
+    <a href="#agents">Agents</a>
+    <a href="#voice">Voice</a>
+    <a href="#by-hand">By hand</a>
+    <a href="https://github.com/RudraO2/ultimate-video-editor#readme">Docs</a>
+    <a href="https://github.com/RudraO2/ultimate-video-editor">GitHub</a>
+    <a class="btn-main btn-main--red" href="#download"><svg class="icon" aria-hidden="true"><use href="#i-download-simple"/></svg>Download</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="glow" aria-hidden="true"></div>
+
+  <main id="main" tabindex="-1">
+    <!-- hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__ring-wrap js-ring" aria-hidden="true"><div class="hero__ring"></div></div>
+
+      <div class="hero__inner wrap">
+        <div class="hero__top">
+          <a class="badge" href="https://github.com/RudraO2/ultimate-video-editor#screen-recording"><span class="badge__new">New</span>Screen recording with auto-zoom</a>
+          <div class="js-title">
+            <h1 class="hero__title" id="hero-title">From <strong>Words</strong> to <strong>Motion</strong></h1>
+          </div>
+          <div class="js-sub">
+            <p class="hero__sub">A real motion editor that any <span class="chip-ai">AI agent</span> can drive, and you can still finish by hand.</p>
+          </div>
+          <div class="js-cta"><div class="cta">
+            <span class="cta__line" aria-hidden="true"></span>
+            <div class="cta__pill">
+              <a class="cta__label" href="#story">Explore the editor</a>
+              <a class="btn-shine" href="#download">Get started</a>
+            </div>
+            <span class="cta__line cta__line--r" aria-hidden="true"></span>
+          </div></div>
+        </div>
+
+        <div class="player-wrap js-player">
+          <figure class="player" aria-label="A title card exported from Ultimate Video Editor">
+            <div class="player__screen">
+              <video id="hero-video" muted loop playsinline preload="metadata" poster="assets/video/title-card-poster.webp" width="1280" height="720" aria-label="The title card animates in word by word, a Hindi caption fades up, and the camera moves into 3D">
+                <source src="assets/video/title-card.webm" type="video/webm">
+                <source src="assets/video/title-card.mp4" type="video/mp4">
+              </video>
+              <span class="player__tag">Exported from the editor</span>
+            </div>
+            <figcaption class="player__bar">
+              <span class="player__tc" aria-hidden="true"><b id="hero-tc">00:00:00:00</b> <span>/ 00:00:07:00</span></span>
+              <span class="player__spec">Title card · 1280 × 720 · 30 fps</span>
+            </figcaption>
+            <div class="tl" aria-hidden="true">
+              <div class="ruler"><span style="left:0%">0s</span><span style="left:14.29%">1s</span><span style="left:28.57%">2s</span><span style="left:42.86%">3s</span><span style="left:57.14%">4s</span><span style="left:71.43%">5s</span><span style="left:85.71%">6s</span><span style="left:100%">7s</span></div>
+              <div class="lanes">
+                <div class="lane"><div class="clip" style="--from:2.6;--to:6;--c:var(--clip-text)">Caption <small>Fade up · word</small></div></div>
+                <div class="lane"><div class="clip" style="--from:0;--to:7;--c:var(--clip-nested)">Title 3D <small>Nested · world</small></div><i class="key" style="--at:3"></i><i class="key" style="--at:5.6"></i></div>
+                <div class="lane"><div class="clip" style="--from:0;--to:7;--c:var(--clip-shape)">Glow <small>Shape · 2 animated</small></div><i class="key" style="--at:0.08"></i><i class="key" style="--at:1.4"></i><i class="key" style="--at:1.8"></i></div>
+              </div>
+              <div class="playhead" id="hero-playhead"></div>
+            </div>
+          </figure>
+        </div>
+
+        <div class="js-works"><div class="works">
+          <p class="works__label">Drive it from</p>
+          <div class="marquee" style="--duration:34s">
+            <ul class="marquee__track">
+              <li>Claude Code</li><li>Codex</li><li>Gemini CLI</li><li>Cursor</li><li>VS Code</li><li>Claude Desktop</li><li>OpenCode <em>built in</em></li><li>Any MCP client</li>
+            </ul>
+            <ul class="marquee__track" aria-hidden="true">
+              <li>Claude Code</li><li>Codex</li><li>Gemini CLI</li><li>Cursor</li><li>VS Code</li><li>Claude Desktop</li><li>OpenCode <em>built in</em></li><li>Any MCP client</li>
+            </ul>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- statement and three cards: the problem, the pain, the way out -->
+    <section class="statement" id="story" aria-labelledby="story-title">
+      <div class="wrap">
+        <div class="section-head js-head">
+          <h2 class="h-section" id="story-title">Say what you want.<br><strong>Keep what you get.</strong></h2>
+          <p class="lede">Ultimate Video Editor turns a sentence into edits on a real timeline. Every layer, key and cut it makes is yours to open, change and undo.</p>
+        </div>
+
+        <div class="stories">
+          <article class="story story--1">
+            <div class="story__text">
+              <h3>Most AI video is a black box.</h3>
+              <p>You type a prompt, wait, and get a file. If one word is wrong, you regenerate the whole thing and hope. There is no timeline, no keyframe and no way in.</p>
+              <p>We have all been there.</p>
+            </div>
+            <div class="story__art" aria-hidden="true">
+              <div class="bbox">
+                <div class="bbox__bar"><span>final_final_v7.mp4</span><span>00:15</span></div>
+                <div class="bbox__frame"><span><span class="bbox__typo">SUMER</span> SALE</span><span class="bbox__lock"><svg class="icon"><use href="#i-x"/></svg>No layers</span></div>
+                <div class="bbox__foot"><span class="bbox__regen"><span class="bbox__spin"></span>Regenerating…</span><span class="bbox__credits">3 credits left</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="story story--2 story--flip">
+            <div class="story__text">
+              <h3>So you open a pro editor.</h3>
+              <p>Graph editors, expressions, forty panels and a render queue. You could spend a month learning one, or pay someone who already did (goodbye, budget).</p>
+              <p>Or wire a chatbot to ffmpeg and squint at whatever comes out.</p>
+            </div>
+            <div class="story__art" aria-hidden="true">
+              <div class="tangle">
+                <svg viewBox="0 0 400 300">
+                  <g class="grid"><line x1="0" y1="75" x2="400" y2="75"/><line x1="0" y1="150" x2="400" y2="150"/><line x1="0" y1="225" x2="400" y2="225"/><line x1="100" y1="0" x2="100" y2="300"/><line x1="200" y1="0" x2="200" y2="300"/><line x1="300" y1="0" x2="300" y2="300"/></g>
+                  <path d="M10 250 C 80 250, 60 40, 140 60 S 230 280, 290 180 S 330 20, 390 40" stroke="#e8452f"/>
+                  <path d="M10 200 C 120 210, 90 120, 170 150 S 250 60, 300 120 S 360 260, 390 230" stroke="#f5ab90"/>
+                  <path d="M10 90 C 60 40, 120 280, 190 220 S 240 40, 320 90 S 350 200, 390 150" stroke="#ffbe7b"/>
+                  <path d="M10 150 C 50 300, 150 0, 220 120 S 320 300, 390 100" stroke="#9d8bff" opacity="0.8"/>
+                </svg>
+                <span class="tag" style="left:-4%;top:6%">Expressions</span>
+                <span class="tag" style="right:-2%;top:2%">Pre-comps</span>
+                <span class="tag" style="left:30%;top:42%">Graph editor</span>
+                <span class="tag" style="left:2%;bottom:6%">Render queue</span>
+                <span class="tag" style="right:4%;bottom:16%">Track mattes</span>
+                <span class="tag tag--note" style="right:-6%;top:40%">Due Friday</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="story story--3">
+            <div class="story__text">
+              <h3>Now there is a third way.</h3>
+              <p>Ultimate Video Editor is a desktop motion editor where every button is also a command, and every command is an agent tool. The agent edits the same project you do, one undo step per request, and you can take over halfway through a sentence.</p>
+              <p>Give it a sentence. Your evenings will thank you.</p>
+            </div>
+            <div class="story__art" aria-hidden="true">
+              <div class="agentcard js-live">
+                <div class="chat">
+                  <div class="chat__you">Make the title red and pop it in letter by letter.</div>
+                  <div class="chat__tool"><svg class="icon"><use href="#i-check"/></svg><code>text_style</code>colour to red</div>
+                  <div class="chat__tool"><svg class="icon"><use href="#i-check"/></svg><code>animation_set</code>pop-in · per letter</div>
+                  <div class="chat__agent">Done. It is one step in your history, so Undo takes it all back.</div>
+                </div>
+                <div class="history">
+                  <div class="history__title">History</div>
+                  <div class="history__row is-new">Agent · Claude Code<span>1 step</span></div>
+                  <div class="history__row">Move Subtitle</div>
+                  <div class="history__row">Trim Caption</div>
+                  <div class="history__row">Add Glow</div>
+                  <div class="history__undo"><svg class="icon"><use href="#i-arrow-counter-clockwise"/></svg>Undo</div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="giant" aria-hidden="true">
+      <div class="giant__track">
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+      </div>
+    </div>
+
+    <!-- made for: pinned while six words pass through one line -->
+    <section class="madefor" aria-labelledby="madefor-label">
+      <div class="madefor__pin">
+        <p class="madefor__label" id="madefor-label">Ultimate Video Editor is made for</p>
+        <div class="madefor__window">
+          <ul class="madefor__words">
+            <li class="madefor__word">Creators</li>
+            <li class="madefor__word">Educators</li>
+            <li class="madefor__word">Founders</li>
+            <li class="madefor__word">Developers</li>
+            <li class="madefor__word madefor__word--accent">Agents</li>
+            <li class="madefor__word">You</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- agents: the tilted product shot, then the grid -->
+    <section class="agents" id="agents" aria-labelledby="agents-title">
+      <div class="wrap">
+        <div class="tilt">
+          <div class="tilt__head section-head js-tilt-head">
+            <h2 class="h-section" id="agents-title">Plug in any agent.<br><strong>Watch it edit.</strong></h2>
+            <p class="lede">128 tools over MCP, one undo step per turn. Use Claude Code, Codex, Gemini CLI or Cursor from your terminal, or OpenCode right inside the app.</p>
+          </div>
+          <div class="tilt__frame js-tilt">
+            <img src="assets/shots/editor-easy-dark.webp" width="2400" height="1500" loading="lazy" decoding="async" alt="Easy mode in the dark theme. On the left the OpenCode chat asked for a title card and shows the script_run and view_frames calls it made; the preview shows the finished title, and the timeline below holds the new layers.">
+          </div>
+        </div>
+
+        <h3 class="sr-only" id="features">Features</h3>
+        <div class="bento">
+          <article class="tile tile--wide">
+            <div class="tile__bg tile__bg--art" aria-hidden="true">
+              <div class="tools-stream">
+                <ul><li>layer_create</li><li>layer_set</li><li>keyframes_set</li><li>animation_set</li><li>effects_add</li><li>text_set</li><li>template_apply</li><li>timeline_split</li><li>timeline_close_gaps</li><li>api_batch</li><li>view_frames</li><li>export_video</li><li>layer_create</li><li>layer_set</li><li>keyframes_set</li><li>animation_set</li><li>effects_add</li><li>text_set</li><li>template_apply</li><li>timeline_split</li><li>timeline_close_gaps</li><li>api_batch</li><li>view_frames</li><li>export_video</li></ul>
+                <ul><li>world_move_into</li><li>world_camera</li><li>world_extrude</li><li>physics_body</li><li>physics_bake</li><li>rig_create</li><li>character_bringToLife</li><li>stickers_use</li><li>icons_use</li><li>script_run</li><li>view_render</li><li>history_undo</li><li>world_move_into</li><li>world_camera</li><li>world_extrude</li><li>physics_body</li><li>physics_bake</li><li>rig_create</li><li>character_bringToLife</li><li>stickers_use</li><li>icons_use</li><li>script_run</li><li>view_render</li><li>history_undo</li></ul>
+                <ul><li>sounds_use</li><li>sound_category</li><li>caption_set</li><li>generate_speech</li><li>media_transcribe</li><li>text_translate</li><li>comp_localize</li><li>media_analyze</li><li>media_remove_pauses</li><li>timeline_place_broll</li><li>screen_record</li><li>media_auto_zoom</li><li>sounds_use</li><li>sound_category</li><li>caption_set</li><li>generate_speech</li><li>media_transcribe</li><li>text_translate</li><li>comp_localize</li><li>media_analyze</li><li>media_remove_pauses</li><li>timeline_place_broll</li><li>screen_record</li><li>media_auto_zoom</li></ul>
+              </div>
+            </div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-robot"/></svg>
+              <h3>128 tools with plain names</h3>
+              <p>Every command the editor runs is also an MCP tool, from <code>layer_create</code> to <code>export_video</code>. A wrong input comes back with a hint instead of a crash.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#drive-it-from-an-agent">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+
+          <article class="tile">
+            <div class="tile__bg" aria-hidden="true"><img src="assets/shots/world-orbit.webp" width="1200" height="675" loading="lazy" decoding="async" alt=""></div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-cube"/></svg>
+              <h3>2D to 3D in place</h3>
+              <p>Move a layer, or a whole frame, into a 3D world without the picture changing by a pixel. Then fly the camera.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#3d-worlds">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+
+          <article class="tile">
+            <div class="tile__bg tile__bg--art" aria-hidden="true">
+              <div class="kinetic"><div class="kinetic__word"><span style="--i:0">K</span><span style="--i:1">i</span><span style="--i:2">n</span><span style="--i:3">e</span><span style="--i:4">t</span><span style="--i:5">i</span><span style="--i:6">c</span></div></div>
+            </div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-text-aa"/></svg>
+              <h3>Kinetic type</h3>
+              <p>44 animation presets, applied per letter, word or line, with stagger, easing and humanize.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#features">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+
+          <article class="tile tile--wide">
+            <div class="tile__bg" aria-hidden="true"><img src="assets/shots/curves.webp" width="1400" height="295" loading="lazy" decoding="async" alt="" style="object-position:left top"></div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-diamond"/></svg>
+              <h3>Keys on every property</h3>
+              <p>A dope sheet, a graph editor and motion paths you drag right on the canvas. Each drag is one undo step.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#using-the-editor-by-hand">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+
+          <article class="tile">
+            <div class="tile__bg tile__bg--art" aria-hidden="true">
+              <div class="drop"><span class="b1" style="--d:0s"></span><span class="b2" style="--d:0.25s"></span><span class="b3" style="--d:0.5s">A</span></div>
+            </div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-basketball"/></svg>
+              <h3>Physics without baking</h3>
+              <p>Text, shapes and stickers fall and collide on their true outlines. Preview and export always agree.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#features">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+
+          <article class="tile">
+            <div class="tile__bg tile__bg--art" aria-hidden="true">
+              <div class="mixer">
+                <div class="mixer__ch"><div class="mixer__meter" style="--t:0.9s;--lo:0.35;--hi:0.88"></div>Dialogue</div>
+                <div class="mixer__ch"><div class="mixer__meter" style="--t:1.4s;--lo:0.2;--hi:0.55"></div>Music</div>
+                <div class="mixer__ch"><div class="mixer__meter" style="--t:0.7s;--lo:0.1;--hi:0.75"></div>Effects</div>
+                <div class="mixer__ch"><div class="mixer__meter" style="--t:1.8s;--lo:0.15;--hi:0.4"></div>Ambience</div>
+              </div>
+              <div class="mixer__readout"><b>−14.0</b>LUFS · −1.0 dBTP</div>
+            </div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-faders"/></svg>
+              <h3>A mixer that finishes</h3>
+              <p>Ducking, a leveler, loudness match to −14 LUFS and a −1 dB true-peak limiter on every export.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#sound-that-sounds-finished">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+
+          <article class="tile">
+            <div class="tile__bg tile__bg--art" aria-hidden="true">
+              <div class="rec">
+                <div class="rec__win">
+                  <span class="rec__dot">REC</span>
+                  <div class="rec__screen"><i></i><i></i><i></i><span class="rec__btn"></span><span class="rec__ripple"></span><svg class="rec__cursor" viewBox="0 0 24 24"><use href="#i-pointer"/></svg></div>
+                </div>
+              </div>
+            </div>
+            <div class="tile__body">
+              <svg class="tile__icon" aria-hidden="true"><use href="#i-cursor-click"/></svg>
+              <h3>Screen recording</h3>
+              <p>Record a display or window with mic and webcam. Zooms land on your clicks as keys you can edit. Windows for now.</p>
+            </div>
+            <a class="tile__more" href="https://github.com/RudraO2/ultimate-video-editor#screen-recording">Learn more <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- voice and Indian languages -->
+    <section class="voice" id="voice" aria-labelledby="voice-title">
+      <div class="wrap">
+        <div class="voice__grid">
+          <div class="voice__copy js-voice-copy">
+            <p class="eyebrow">Voice, by Sarvam AI</p>
+            <h2 class="h-section" id="voice-title">Say it in Hindi.<br><strong>Release it in Tamil.</strong></h2>
+            <p class="lede">Talk to the editor in Hindi, Tamil, Bengali or eight more languages, Hinglish included. Captions land in your script, and a whole comp comes back in another language in your own cloned voice, re-timed to fit.</p>
+            <ul class="langs" aria-label="Languages it speaks">
+              <li lang="hi" title="Hindi">हिन्दी</li><li lang="bn" title="Bengali">বাংলা</li><li lang="ta" title="Tamil">தமிழ்</li><li lang="te" title="Telugu">తెలుగు</li><li lang="kn" title="Kannada">ಕನ್ನಡ</li><li lang="ml" title="Malayalam">മലയാളം</li><li lang="mr" title="Marathi">मराठी</li><li lang="gu" title="Gujarati">ગુજરાતી</li><li lang="pa" title="Punjabi">ਪੰਜਾਬੀ</li><li lang="or" title="Odia">ଓଡ଼ିଆ</li><li lang="en" title="Indian English">English</li>
+            </ul>
+            <p class="voice__note">Voice needs a Sarvam API key. Everything else works without one.</p>
+          </div>
+
+          <div class="said js-said">
+            <div class="said__mic"><span><svg class="icon" aria-hidden="true"><use href="#i-microphone"/></svg></span>Spoken in Hindi<div class="said__wave" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i></div></div>
+            <p class="said__quote" lang="hi">“इसे साफ़ करो, कैप्शन लगाओ, और तमिल में मेरी आवाज़ में बना दो”</p>
+            <p class="said__gloss">“Clean this up, add captions, and make it in Tamil in my voice.”</p>
+            <ol class="steps">
+              <li><div><b>Cut</b><span>Pauses, “matlab” and false starts go, and every cut keeps its reason.</span></div></li>
+              <li><div><b>Captioned</b><span>Word by word, in Devanagari.</span></div></li>
+              <li><div><b>Released in Tamil</b><span>In the speaker’s own cloned voice, with their consent.</span></div></li>
+            </ol>
+            <dl class="receipt">
+              <div><dt>first run</dt><dd>47 s</dd></div>
+              <div><dt>warm</dt><dd>28 s</dd></div>
+              <div><dt>spent</dt><dd>₹3.40</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="vs">
+          <div class="vs__scroll">
+            <table>
+              <caption>Brief 06, English to Hindi and Tamil, against Sarvam’s own Dubbing API</caption>
+              <thead><tr><th scope="col"><span class="sr-only">Measure</span></th><th scope="col">Sarvam Dubbing</th><th scope="col">In the editor</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Cost (16 s, 2 languages)</th><td class="vs__money">₹21.33</td><td class="vs__money">₹6.47</td></tr>
+                <tr><th scope="row">On-screen text</th><td>Left in English</td><td>Translated, in Noto Devanagari and Tamil</td></tr>
+                <tr><th scope="row">Fixable by hand afterwards</th><td>No</td><td>Every line, every cut</td></tr>
+                <tr><th scope="row">Timing</th><td>Fills the original length with continuous speech</td><td>Keeps each scene’s moment, adds room where a line runs long</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="vs__note">Dubbing still wins for a long finished film in one pass. The editor wins when the words on screen matter and a human needs the last word.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- the cream sheet -->
+    <div class="sheet-wrap">
+      <section class="sheet" id="by-hand" aria-labelledby="hand-title">
+        <div class="wrap">
+          <div class="section-head js-sheet-head">
+            <p class="eyebrow">Easy and Advanced</p>
+            <h2 class="h-section" id="hand-title">Every tool works<br><strong>by hand, too.</strong></h2>
+            <p class="lede">Easy mode is chat, preview and a simple timeline. Advanced mode is every panel. Both edit the same project, in Cream or Dark.</p>
+          </div>
+
+          <div class="compare js-compare">
+            <img src="assets/shots/editor-adv-light.webp" width="2400" height="1500" loading="lazy" decoding="async" alt="Advanced mode in the Cream theme: layers on the left, the preview with the title selected, the inspector on the right and the timeline below.">
+            <div class="compare__b"><img src="assets/shots/editor-adv-dark.webp" width="2400" height="1500" loading="lazy" decoding="async" alt="The same project in the Dark theme."></div>
+            <div class="compare__handle" aria-hidden="true"><span class="compare__knob"><svg class="icon"><use href="#i-handle"/></svg></span></div>
+            <span class="compare__tag compare__tag--a" aria-hidden="true">Cream</span>
+            <span class="compare__tag compare__tag--b" aria-hidden="true">Dark</span>
+            <input class="compare__range" id="theme-compare" type="range" min="0" max="100" value="50" aria-label="Show more of the Cream or the Dark theme">
+          </div>
+          <p class="compare__hint">Drag across the picture to switch themes.</p>
+
+          <ul class="feats">
+            <li class="feat"><span class="feat__icon"><svg class="icon" aria-hidden="true"><use href="#i-github-logo"/></svg></span><div><h3>Free and open source</h3><p>MIT licensed. Download it once and it is yours.</p></div></li>
+            <li class="feat"><span class="feat__icon"><svg class="icon" aria-hidden="true"><use href="#i-arrow-counter-clockwise"/></svg></span><div><h3>One undo step per request</h3><p>An agent’s whole turn is one history entry. A failed command leaves the project as it was.</p></div></li>
+            <li class="feat"><span class="feat__icon"><svg class="icon" aria-hidden="true"><use href="#i-diamond"/></svg></span><div><h3>Keys on everything</h3><p>Every property animates, with a dope sheet, a graph editor and motion paths.</p></div></li>
+            <li class="feat"><span class="feat__icon"><svg class="icon" aria-hidden="true"><use href="#i-package"/></svg></span><div><h3>Assets included</h3><p>4,555 CC0 sounds, about 3,300 stickers, about 413,000 icons and 1,946 font families.</p></div></li>
+            <li class="feat"><span class="feat__icon"><svg class="icon" aria-hidden="true"><use href="#i-export"/></svg></span><div><h3>Nine export formats</h3><p>MP4, MOV master, WebM, GIF, PNG sequence, stills and WAV. Exports with sound report their loudness.</p></div></li>
+            <li class="feat"><span class="feat__icon"><svg class="icon" aria-hidden="true"><use href="#i-film-strip"/></svg></span><div><h3>Preview matches export</h3><p>One renderer for both, physics without baking and seeded scripts, so the file is the frame you saw.</p></div></li>
+          </ul>
+          <div class="sheet__cta"><a class="btn-main" href="#download">Get started <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- things you can say -->
+    <section class="prompts" aria-labelledby="prompts-title">
+      <div class="wrap section-head js-prompts-head">
+        <h2 class="h-section" id="prompts-title">Things you can<br><strong>just say.</strong></h2>
+      </div>
+      <div class="prompts__rows">
+        <div class="marquee marquee--pause" style="--duration:60s">
+          <ul class="marquee__track">
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Cut the pauses and ums from my clip, then add the screen recording as B-roll.</q><div class="prompt__tools"><code>media_remove_pauses</code><code>timeline_place_broll</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-microphone"/></svg><span class="prompt__lang">हिन्दी</span></div><q lang="hi">इसे साफ़ करो, कैप्शन लगाओ, और तमिल में मेरी आवाज़ में बना दो</q><div class="prompt__tools"><code>media_remove_pauses</code><code>caption_set</code><code>comp_localize</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Make the title fall and bounce off the floor.</q><div class="prompt__tools"><code>physics_scene</code><code>physics_body</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-microphone"/></svg><span class="prompt__lang">Hinglish</span></div><q>Isko Tamil mein bhi bana do, meri awaaz mein.</q><div class="prompt__tools"><code>comp_localize</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Turn this comp into a 3D shot and fly the camera in.</q><div class="prompt__tools"><code>world_move_into</code><code>world_camera</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Make a 6-second title card for “Ship Happens” with a whoosh.</q><div class="prompt__tools"><code>layer_create</code><code>animation_set</code><code>sounds_use</code></div></li>
+          </ul>
+          <ul class="marquee__track" aria-hidden="true">
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Cut the pauses and ums from my clip, then add the screen recording as B-roll.</q><div class="prompt__tools"><code>media_remove_pauses</code><code>timeline_place_broll</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-microphone"/></svg><span class="prompt__lang">हिन्दी</span></div><q lang="hi">इसे साफ़ करो, कैप्शन लगाओ, और तमिल में मेरी आवाज़ में बना दो</q><div class="prompt__tools"><code>media_remove_pauses</code><code>caption_set</code><code>comp_localize</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Make the title fall and bounce off the floor.</q><div class="prompt__tools"><code>physics_scene</code><code>physics_body</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-microphone"/></svg><span class="prompt__lang">Hinglish</span></div><q>Isko Tamil mein bhi bana do, meri awaaz mein.</q><div class="prompt__tools"><code>comp_localize</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Turn this comp into a 3D shot and fly the camera in.</q><div class="prompt__tools"><code>world_move_into</code><code>world_camera</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Make a 6-second title card for “Ship Happens” with a whoosh.</q><div class="prompt__tools"><code>layer_create</code><code>animation_set</code><code>sounds_use</code></div></li>
+          </ul>
+        </div>
+        <div class="marquee marquee--pause marquee--reverse" style="--duration:66s">
+          <ul class="marquee__track">
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Zoom in wherever I clicked in the screen recording.</q><div class="prompt__tools"><code>media_auto_zoom</code><code>screen_frame</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Bring this emoji to life and make it talk along with my voice line.</q><div class="prompt__tools"><code>character_detect</code><code>character_bringToLife</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-microphone"/></svg><span class="prompt__lang">हिन्दी</span></div><q lang="hi">कैप्शन देवनागरी में शब्द-दर-शब्द लगाओ</q><div class="prompt__tools"><code>media_transcribe</code><code>caption_set</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Extrude the logo and put it on a mirror floor.</q><div class="prompt__tools"><code>world_extrude</code><code>world_look</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Duck the music under my voice and match the loudness to −14 LUFS.</q><div class="prompt__tools"><code>sound_category</code><code>frame_update</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon" aria-hidden="true"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Export it at 1080p and tell me how loud it is.</q><div class="prompt__tools"><code>export_video</code></div></li>
+          </ul>
+          <ul class="marquee__track" aria-hidden="true">
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Zoom in wherever I clicked in the screen recording.</q><div class="prompt__tools"><code>media_auto_zoom</code><code>screen_frame</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Bring this emoji to life and make it talk along with my voice line.</q><div class="prompt__tools"><code>character_detect</code><code>character_bringToLife</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-microphone"/></svg><span class="prompt__lang">हिन्दी</span></div><q lang="hi">कैप्शन देवनागरी में शब्द-दर-शब्द लगाओ</q><div class="prompt__tools"><code>media_transcribe</code><code>caption_set</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Extrude the logo and put it on a mirror floor.</q><div class="prompt__tools"><code>world_extrude</code><code>world_look</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Duck the music under my voice and match the loudness to −14 LUFS.</q><div class="prompt__tools"><code>sound_category</code><code>frame_update</code></div></li>
+            <li class="prompt"><div class="prompt__meta"><svg class="icon"><use href="#i-keyboard"/></svg><span class="prompt__lang">English</span></div><q>Export it at 1080p and tell me how loud it is.</q><div class="prompt__tools"><code>export_video</code></div></li>
+          </ul>
+        </div>
+        <div class="prompts__fade prompts__fade--l" aria-hidden="true"></div>
+        <div class="prompts__fade prompts__fade--r" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- closing -->
+    <section class="psst" aria-labelledby="psst-title">
+      <div class="psst__inner js-psst">
+        <h2 id="psst-title"><span>Psst…</span> <span>Just say it.</span><br><span><strong>It’s free</strong> 🤫</span></h2>
+        <a class="btn-main btn-main--red" href="#download"><svg class="icon" aria-hidden="true"><use href="#i-download-simple"/></svg>Download for free</a>
+      </div>
+    </section>
+
+    <section class="download" id="download" aria-labelledby="download-title">
+      <div class="wrap">
+        <h2 class="sr-only" id="download-title">Download</h2>
+        <div class="download__grid">
+          <a class="os" href="https://github.com/RudraO2/ultimate-video-editor/releases/latest"><svg class="icon" aria-hidden="true"><use href="#i-windows-logo"/></svg><b>Windows</b><span>Installer (.exe), x64. Screen recording works here.</span><em>Latest release <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></em></a>
+          <a class="os" href="https://github.com/RudraO2/ultimate-video-editor/releases/latest"><svg class="icon" aria-hidden="true"><use href="#i-apple-logo"/></svg><b>macOS</b><span>Disk image (.dmg) for Apple silicon or Intel. Unsigned, so right-click and Open the first time.</span><em>Latest release <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></em></a>
+          <a class="os" href="https://github.com/RudraO2/ultimate-video-editor/releases/latest"><svg class="icon" aria-hidden="true"><use href="#i-linux-logo"/></svg><b>Linux</b><span>AppImage or .deb, x64.</span><em>Latest release <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></em></a>
+        </div>
+        <div class="source">
+          <p>Or build it from source, with Node.js 22.12+ and pnpm 10.</p>
+          <div class="source__cmd">
+            <pre id="source-cmd"><code>pnpm install &amp;&amp; pnpm dev</code></pre>
+            <button class="copy" type="button" data-copy="#source-cmd"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="giant" aria-hidden="true">
+      <div class="giant__track">
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+        <span>Ultimate</span><span class="o">Video</span><span>Editor</span><svg class="tri"><use href="#i-tri"/></svg>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer class="footer" id="footer">
+  <div class="wrap footer__inner">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <p class="footer__name">Ultimate Video Editor<span>.</span></p>
+        <p class="footer__tag">Everyone who can speak can now publish, in every language, in their own voice.</p>
+      </div>
+      <div class="footer__cols">
+        <nav class="footer__col" aria-labelledby="f-product"><h3 id="f-product">Product</h3><a href="#features">Features</a><a href="#agents">Agents</a><a href="#voice">Voice</a><a href="#download">Download</a></nav>
+        <nav class="footer__col" aria-labelledby="f-project"><h3 id="f-project">Project</h3><a href="https://github.com/RudraO2/ultimate-video-editor">GitHub</a><a href="https://github.com/RudraO2/ultimate-video-editor/releases">Releases</a><a href="https://github.com/RudraO2/ultimate-video-editor/blob/main/CHANGELOG.md">Changelog</a><a href="https://github.com/RudraO2/ultimate-video-editor/blob/main/CONTRIBUTING.md">Contributing</a></nav>
+        <nav class="footer__col" aria-labelledby="f-policies"><h3 id="f-policies">Policies</h3><a href="https://github.com/RudraO2/ultimate-video-editor/blob/main/LICENSE">MIT licence</a><a href="https://github.com/RudraO2/ultimate-video-editor/blob/main/PRIVACY.md">Privacy</a><a href="https://github.com/RudraO2/ultimate-video-editor/blob/main/SECURITY.md">Security</a><a href="https://github.com/RudraO2/ultimate-video-editor/blob/main/THIRD_PARTY_NOTICES.md">Third-party notices</a></nav>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <a href="https://github.com/RudraO2/ultimate-video-editor"><svg class="icon" aria-hidden="true"><use href="#i-github-logo"/></svg>RudraO2/ultimate-video-editor</a>
+      <span>Made by Rudra Pratap Singh, Aryan Jangra and Palak Rawat</span>
+      <span>© <span id="year">2026</span> · MIT licence</span>
+    </div>
+  </div>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js" integrity="sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly" crossorigin="anonymous"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js" integrity="sha384-wl5TeDVvOWt30Pbf8aSo2ZrzsOjddu3avOBvHe+p+OhJt9gP6w9YXmDkN5DK2/dF" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" integrity="sha384-jqpi9VmOdhyLoLURgjCn7EpnG9BbnHW57ibIZoeaIU+erWDH3k8fQQg0xH2ySjnw" crossorigin="anonymous"></script>
+<script defer src="js/site.js"></script>
+</body>
+</html>

@@ -86,3 +86,11 @@ Not shipped: the sticker library reads local copies in `~/uve-assets` (see `apps
 ## Phosphor Icons
 
 The editor's interface icons are **Phosphor Icons** (`@phosphor-icons/react` 2.1.10, <https://phosphoricons.com>), MIT License, Copyright (c) 2023 Phosphor Icons. They are used unmodified through `apps/desktop/src/renderer/src/icons.tsx`.
+
+## Website
+
+The landing page in `website/` inlines 23 **Phosphor Icons** (`@phosphor-icons/core` 2.1.1, MIT, as above) unmodified, and loads the rest at run time without shipping it:
+
+- **GSAP** 3.15.0 with **ScrollTrigger** (<https://gsap.com>), from cdnjs, under GreenSock's standard no-charge licence.
+- **Lenis** 1.3.26 (<https://github.com/darkroomengineering/lenis>), from jsDelivr, MIT License, Copyright (c) darkroom.engineering.
+- **Bricolage Grotesque**, **Anybody**, **JetBrains Mono**, **Noto Sans Devanagari** and **Noto Sans Tamil**, from Google Fonts, under the SIL Open Font License 1.1.

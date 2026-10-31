@@ -1,0 +1,45 @@
+name: Website
+
+# Publishes website/ (a static page, no build step) to GitHub Pages.
+# One-time setup: Settings > Pages > Source: GitHub Actions. Then either run this workflow by hand
+# (Actions > Website > Run workflow), or set the repository variable WEBSITE_PAGES to "true" so every
+# push to main that touches website/ deploys it. Without that variable, pushes skip the job instead of
+# failing while Pages is still switched off.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/**"
+      - ".github/workflows/website.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name == 'workflow_dispatch' || vars.WEBSITE_PAGES == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: website
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
