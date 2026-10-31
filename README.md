@@ -590,6 +590,7 @@ command so it becomes an agent tool, and the acceptance criteria a change has to
 |---|---|
 | **Rudra Pratap Singh** | [GitHub](https://github.com/RudraO2) |
 | **Aryan Techie** (Aryan Jangra) | [GitHub](https://github.com/aryan-techie) · [LinkedIn](https://www.linkedin.com/in/aryantechie) |
+| **Palak Rawat** | |
 
 ---
 
