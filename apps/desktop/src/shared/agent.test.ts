@@ -13,7 +13,9 @@ describe('agent setup', () => {
     const setups = Object.fromEntries(agentSetups(status).map((s) => [s.id, s.code]))
     // The shim reads the URL and token each time, so a moved port keeps working.
     expect(setups['claude-code']).toBe(`claude mcp add -s user uve -- node "${status.shimPath}"`)
-    expect(setups.codex).toBe(`codex mcp add uve -- node "${status.shimPath}"`)
+    // A TOML literal string keeps Windows backslashes; the approval line lets `codex exec` call tools.
+    expect(setups.codex).toContain(`args = ['${status.shimPath}']`)
+    expect(setups.codex).toContain('default_tools_approval_mode = "approve"')
     expect(JSON.parse(setups.cursor ?? '')).toEqual({ mcpServers: { uve: { command: 'node', args: [status.shimPath] } } })
     expect(JSON.parse(setups.opencode ?? '').mcp.uve.command).toEqual(['node', status.shimPath])
     expect(setups.other).toContain('Authorization: Bearer secret')

@@ -73,8 +73,9 @@ export function agentSetups(status: Pick<AgentStatus, 'url' | 'token' | 'shimPat
     {
       id: 'codex',
       label: 'Codex',
-      hint: 'Run this in a terminal, then start a new Codex session.',
-      code: `codex mcp add uve -- node "${shimPath}"`,
+      // Without the approval line Codex asks before every editor call, and `codex exec` refuses them all.
+      hint: 'Add this to ~/.codex/config.toml, then start a new Codex session. The last line lets Codex use the editor without asking each time (every edit can be undone).',
+      code: `[mcp_servers.uve]\ncommand = "node"\nargs = ['${shimPath}']\ndefault_tools_approval_mode = "approve"`,
     },
     {
       id: 'gemini',
