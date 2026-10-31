@@ -52,6 +52,9 @@ Source: getopenscreen/openscreen (MIT, commit f789451 of 2026-10-31), where Open
 ### B1 progress
 
 - B1a done: OpenScreen's helpers vendored in `apps/desktop/native/wgc-capture/` (MIT notice, README), `apps/desktop/scripts/build-wgc.mjs` builds them with VS 2019 Build Tools (C++/WinRT 2.0.210806.1 generated from the system's metadata; newer generators crash cl 14.29; `src/sdk_compat.h` for SDK 19041), prebuilt `wgc-capture.exe` (572 KB) and `cursor-sampler.exe` (300 KB) in `native/bin/win32-x64/`. Smoke test: 1920x1080 30 fps H.264 + AAC system sound, fragmented MP4, cursor drawn by Windows (`cursor-capture applied`).
+- B1b done: `shared/recording.ts` (contract, OpenScreen's sample normalisation, `CursorCollector`, helper config; 19 tests), `main/recorder.ts` (`recorder:sources|start|stop|state`, events `recorder:state` and `recorder:finished`; editor minimised for a display; sampler then helper; HUD with timer and Stop kept out of the capture by `setContentProtection`; sidecar on stop; stop on quit), preload `window.uve.recorder`.
+- B1c done: Record button under Export on the right rail (both modes; pulses red while recording, click stops), `RecordDialog` (sources with thumbnails, computer sound, microphone, webcam), `recording/recorder.ts` imports each finished recording at the playhead (an empty comp takes its size).
+- B1d done: `screen_record` host tool (`durationMs` required, `source` by name or id via `matchSource`, `systemAudio`, `microphone`, `webcam`, `place`, `library`), skill 0.27.0 "Screen recordings". Tests 1425, type checks pass. Next: B1e (live check by hand and through OpenCode, docs).
 
 ## Last chunk: M2, outside agents drive the editor over MCP (2026-10-31)
 

@@ -7,10 +7,13 @@ import { EXPORT_FORMATS, isStillFormat, parseExportFormat } from '../export/form
 import { defaultExportFormat, exportCompTo, exportSpan } from '../export/job'
 import { EXPORT_QUALITIES } from '../export/options'
 import { installFonts } from '../library/installFonts'
-import { layerInput, mediaInput } from '../media/import'
+import { MAX_RECORDING_MS } from '../../../shared/recording'
+import { layerInput, mediaInput, type Placement } from '../media/import'
 import { modelFormatOfName, probeModelFile } from '../media/model'
 import { ProbeError, probeMedia } from '../media/probe'
 import { hasUnsavedChanges, newProject, openProjectFrom, saveProjectTo } from '../project/file'
+import { matchSource } from '../recording/matchSource'
+import { startRecording, waitForRecording } from '../recording/recorder'
 import { activeComp, session, useEditor } from '../store'
 import { editorView, registerDesktopCommands } from './commands'
 import { captureConsole } from './console'
@@ -61,6 +64,25 @@ const MediaImportInput = z.strictObject({
     })
     .optional()
     .describe('Also put it on the timeline. Omitted: only add it to the media library'),
+})
+
+const ScreenRecordInput = z.strictObject({
+  source: z
+    .string()
+    .optional()
+    .describe('A screen or window: its name (case-insensitive, part of it is enough) or id. Omitted, or "screen", "display" or "main": the main display'),
+  durationMs: z.number().min(1000).max(MAX_RECORDING_MS).describe('How long to record, in milliseconds (1000 to 3600000). Required: say how long'),
+  systemAudio: z.boolean().default(true).describe("Record the computer's sound"),
+  microphone: z.boolean().default(false).describe('Record the default microphone'),
+  webcam: z.boolean().default(false).describe('Add the default webcam as a picture-in-picture, bottom-right'),
+  place: z
+    .strictObject({
+      compId: z.string().optional(),
+      startMs: z.number().min(0).optional().describe('Comp time; default the playhead'),
+    })
+    .optional()
+    .describe('Where the clip lands: the comp (default the open one) and the time (default the playhead)'),
+  library: z.boolean().default(false).describe('true: only add the recording to the media library, not the timeline'),
 })
 
 const FontInstallInput = z.strictObject({
@@ -246,6 +268,13 @@ const HOST_TOOLS: HostTool[] = [
       'Bring a video, image or audio file into the project by its path on this computer (the file stays where it is), and optionally put it on the timeline. Returns the media id and, when placed, the layer id.',
     input: MediaImportInput,
     run: mediaImport,
+  },
+  {
+    name: 'screen_record',
+    description:
+      "Record the screen (or one window) for durationMs, with Windows' own cursor; the cursor positions and clicks are saved beside the file as <file>.cursor.json. The editor minimises while a display records and comes back after. The clip lands on the timeline at the playhead (or place), or only in the library with library: true. The person can stop early with the Stop button on screen. Waits until the recording is written and imported; returns mediaId, layerId, path, cursorPath, the length, the click count and the cursor sample count.",
+    input: ScreenRecordInput,
+    run: screenRecord,
   },
 ]
 
@@ -633,6 +662,39 @@ async function mediaImport(args: z.output<typeof MediaImportInput>, call: AgentC
     return json({ mediaId, reused: reused ?? false, ...(created.value as object) })
   } catch (error) {
     return text(error instanceof ProbeError ? error.message : `Could not import ${file.name}: ${String(error)}`, true)
+  }
+}
+
+async function screenRecord(args: z.output<typeof ScreenRecordInput>): Promise<McpToolResult> {
+  try {
+    const picked = matchSource(await window.uve.recorder.sources(), args.source)
+    if (!picked.ok) return text(picked.error, true)
+    let placement: Placement | null = null
+    if (!args.library) {
+      const comp = compFor(args.place?.compId)
+      placement = { compId: comp.id, startMs: args.place?.startMs ?? useEditor.getState().timeMs }
+    }
+    // Wait from before the start, so a recording that ends quickly is not missed.
+    const finished = waitForRecording()
+    const started = await startRecording(
+      { sourceId: picked.source.id, systemAudio: args.systemAudio, microphone: args.microphone, webcam: args.webcam, durationMs: args.durationMs },
+      placement,
+    )
+    if (!started.ok) return text(started.hint ? `${started.error}\nHint: ${started.hint}` : started.error, true)
+    const { outcome, mediaId, layerId } = await finished
+    if (!outcome.ok) return text(outcome.hint ? `${outcome.error}\nHint: ${outcome.hint}` : outcome.error, true)
+    return json({
+      mediaId,
+      layerId,
+      path: outcome.path,
+      cursorPath: outcome.cursorPath,
+      durationMs: outcome.elapsedMs,
+      clicks: outcome.clicks,
+      cursorSamples: outcome.cursorSamples,
+      note: 'The cursor positions and clicks are saved beside the file as <file>.cursor.json.',
+    })
+  } catch (error) {
+    return thrown(error)
   }
 }
 

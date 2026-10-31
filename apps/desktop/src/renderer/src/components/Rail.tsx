@@ -1,7 +1,8 @@
-import { AudioLines, Clapperboard, Download, Image as ImageIcon, Layers, LibraryBig, type IconComponent, MessageCircle, Puzzle, Redo2, SlidersHorizontal, Sparkles, SquareCode, Undo2, Volume2, Wand2, Waypoints } from '../icons'
+import { AudioLines, CircleDot, Clapperboard, Download, Image as ImageIcon, Layers, LibraryBig, type IconComponent, MessageCircle, Puzzle, Redo2, SlidersHorizontal, Sparkles, SquareCode, Undo2, Volume2, Wand2, Waypoints } from '../icons'
 import type { ReactNode } from 'react'
 import { openExportSetup } from './ExportSetupDialog'
 import { MainMenu } from './MainMenu'
+import { openRecordDialog, stopRecording, useRecorder } from '../recording/recorder'
 import { type LeftTab, MODE_TABS, type RightTab, session, type UiMode, useEditor } from '../store'
 
 const TABS: { id: LeftTab; label: string; icon: IconComponent }[] = [
@@ -126,7 +127,25 @@ function RightTabButton({ tab, label, icon: Icon }: { tab: RightTab; label: stri
   )
 }
 
-/** The right rail: Export, and the tabs that pick what the inspector shows (Design or Project, and Animate for a layer); Easy mode has Export only. */
+/** Opens the record dialog; while a recording runs it shows that and stops it. */
+function RecordButton() {
+  const recording = useRecorder((s) => s.state.state !== 'idle')
+  const stopping = useRecorder((s) => s.state.state === 'stopping')
+  return (
+    <button
+      type="button"
+      onClick={() => (recording ? void stopRecording() : openRecordDialog())}
+      disabled={stopping}
+      aria-label={recording ? 'Stop recording' : 'Record screen'}
+      title={recording ? 'Stop recording' : 'Record the screen'}
+      className={`flex size-9 items-center justify-center rounded-panel hover:bg-hover disabled:opacity-50 ${recording ? 'bg-danger/15 text-danger' : 'text-muted hover:text-ink'}`}
+    >
+      <CircleDot size={17} className={recording ? 'animate-pulse' : ''} />
+    </button>
+  )
+}
+
+/** The right rail: Export, Record, and the tabs that pick what the inspector shows (Design or Project, and Animate for a layer); Easy mode has Export only. */
 export function RightRail() {
   const exporting = useEditor((s) => s.exportJob !== null)
   const advanced = useEditor((s) => s.uiMode === 'advanced')
@@ -144,6 +163,7 @@ export function RightRail() {
       >
         <Download size={17} />
       </button>
+      <RecordButton />
       {advanced && (
         <>
           <RightTabButton tab="design" label={label} icon={SlidersHorizontal} />

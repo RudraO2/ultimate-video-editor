@@ -13,6 +13,7 @@ import { handleCutouts } from './cutouts'
 import { handleSarvam } from './sarvam'
 import { guardProjectWindow, handleProjectRequests } from './project'
 import { handleOpenCode, stopOpenCode } from './opencode'
+import { handleRecorder, isRecording, stopRecordingForQuit } from './recorder'
 
 // Opt-in remote debugging so agents and tests can inspect the renderer
 // (for example through the Chrome DevTools MCP server on port 9222).
@@ -82,13 +83,20 @@ app.whenReady().then(() => {
   handleIcons()
   void startAgentServer()
   handleOpenCode()
+  handleRecorder()
   createWindow()
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
 })
 
-app.on('will-quit', () => {
+app.on('will-quit', (event) => {
+  // A recording that is still running is stopped first (up to about 3 s), so its file is kept.
+  if (isRecording()) {
+    event.preventDefault()
+    void stopRecordingForQuit().finally(() => app.quit())
+    return
+  }
   stopOpenCode()
   void stopAgentServer()
 })

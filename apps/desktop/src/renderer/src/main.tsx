@@ -18,6 +18,7 @@ import { loadPackTakes } from './library/sounds'
 import { importFiles } from './media/import'
 import { preview } from './media/preview'
 import { startProjectTracking } from './project/file'
+import { initRecorder } from './recording/recorder'
 import { session, useEditor } from './store'
 import { applyTheme } from './theme'
 import './styles.css'
@@ -34,6 +35,7 @@ configureModels({ urlOf: mediaUrl, dracoPath: new URL('./draco/', document.baseU
 // The recorded keys pack, so its first hits are heard.
 void loadPackTakes()
 startAgentHost()
+initRecorder()
 startOpenCodeChat()
 startProjectTracking()
 // Text layers draw in their own fonts, whichever panel is open; the looks' fonts are cached for offline use.

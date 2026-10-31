@@ -19,6 +19,7 @@ import { LeftRail, RightRail } from './components/Rail'
 import { splitAtPlayhead, Timeline } from './components/Timeline'
 import { orbitKeyDown, Viewport } from './components/Viewport'
 import { ExportSetupDialog, openExportSetup } from './components/ExportSetupDialog'
+import { RecordDialog } from './components/RecordDialog'
 import { askNewProject, askOpenProject, askSaveProject } from './project/file'
 import {
   activeComp,
@@ -304,6 +305,7 @@ export function App() {
       <PluginLayer />
       <ExportDialog />
       <ExportSetupDialog />
+      <RecordDialog />
       <NoticeToast />
     </div>
   )

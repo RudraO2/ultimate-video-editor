@@ -1,7 +1,7 @@
 ---
 name: uve
 description: How to design, animate and edit in Ultimate Video Editor through its MCP tools. Use for any request to make or change something in an Ultimate Video Editor project.
-version: 0.26.0
+version: 0.27.0
 ---
 
 # Working in Ultimate Video Editor
@@ -58,6 +58,7 @@ Aim for work that looks intentional: one focal point, clear type, motion with a 
 | 3D worlds | `world_create`, `world_move_into`, `world_add` (mesh, camera, light, controller, text), `world_camera`, `world_inspect`, `world_track` (look at, follow, child of), `world_import_model` (glTF, OBJ, STL, PLY), `world_material`, `world_look`; `catalog_list` `primitives`, `lights` and `materials` |
 | Nest | `layers_nest`, `layer_create {kind: "comp", sourceCompId}`, `layers_makeUnique` |
 | Arrange | `layers_duplicate` (in place, just in front), `layers_copy` (into another comp or the same one, `atMs` moves the earliest start), `layers_restack` (`front`, `back`, `{above: id}`, `{below: id}`), `layers_delete` |
+| Screen recording | `screen_record {durationMs, source?, systemAudio?, microphone?, webcam?}` (Windows): records the main display or one window, the clip lands at the playhead; see "Screen recordings" |
 | Raw footage | `media_analyze` (words, speech and silence, shots; once per file), `media_inspect` (look at a file's shots), `media_describe_shots`, `media_remove_pauses` (pauses, fillers, false starts, retakes; plan, mark, cut), `media_search` (lines and shots), `timeline_place_broll` (cutaways inside sentences), `timeline_markers` (review marks); see "Raw footage: rough cuts" |
 | Time | `timeline_move`, `timeline_trim`, `timeline_split`, `timeline_cut_ranges`, `timeline_insert_time` (open room at a moment: what follows waits) (take stretches out of a layer and ripple, `sync` by default), `timeline_close_gaps` (close every gap on the lanes of these layers), `timeline_compact` (drop empty lanes, let layers fall back without changing what covers what) |
 | Frames and pages | `frame_create`, `frame_update`, `frame_duplicate`, `frame_delete` (inside `api_batch`, the old names `comp.create` and `comp.update` still run them), `page_create`, `page_update`, `page_delete` |
@@ -207,6 +208,10 @@ return made
 - **Tidy:** after heavy restructuring, `timeline_compact {compId}` drops empty lanes and lets layers fall into free lanes behind, never changing what covers what. Locked, hidden and muted lanes stay put.
 - Build scene after scene on few lanes: a new layer can share a lane with layers it never plays at the same time as (`trackId`).
 - **The working range** (editor state: not saved, not undone): `session_set {workRange: {startMs, endMs}}` (at least 100 ms; `frameId` for another frame, default the open one) turns it on. Preview then loops inside it, `export_video` writes only that span (its reply gives `startMs` and `workRange`), and `view_frames` with no times spreads its tiles over it. `session_set {workRange: null}` turns it off and keeps the span. Use it to show or export one section; turn it off before exporting the whole video.
+
+## Screen recordings
+
+When the user asks to record their screen ("record my screen for 20 seconds", "record the browser window"), call `screen_record` with `durationMs` (ask how long when they did not say; they can stop early with the Stop button on screen). `source` is a display or window name ("Chrome", "Visual Studio Code"); omitted, the main display. Say before the call that the editor will step aside while it records. The editor minimises while a display records and comes back after; computer sound is on, the microphone and webcam (a picture-in-picture, bottom right) only when asked. The cursor is drawn by Windows, so it looks and moves exactly as it did. The result has `mediaId`, `layerId` and `cursorPath`: the cursor positions and clicks are kept beside the file (`<file>.cursor.json`, OpenScreen's layout) for zooms on clicks. Then cut it like any footage ("Raw footage: rough cuts").
 
 ## Raw footage: rough cuts
 

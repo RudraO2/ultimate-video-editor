@@ -16,6 +16,7 @@ import type {
   TtsRequest,
   TtsResult,
 } from '../shared/sarvam'
+import type { RecorderState, RecordingError, RecordingOptions, RecordingOutcome, RecordingSource } from '../shared/recording'
 import type { Sticker } from '../shared/stickers'
 import type { OpenedProjectFile, ProjectWindowState, RecentProject, SaveChoice } from '../shared/project'
 
@@ -170,6 +171,28 @@ const api = {
       const listener = (_event: unknown, status: AgentStatus) => handler(status)
       ipcRenderer.on('agent:status', listener)
       return () => ipcRenderer.off('agent:status', listener)
+    },
+  },
+  /** Screen recording (Windows): OpenScreen's capture helpers, run by the main process. */
+  recorder: {
+    /** The screens and windows that can be recorded, displays first, with small pictures. */
+    sources: (): Promise<RecordingSource[]> => ipcRenderer.invoke('recorder:sources'),
+    /** Starts a recording; resolves once the capture is running (or says why not). */
+    start: (options: RecordingOptions): Promise<{ ok: true } | ({ ok: false } & RecordingError)> => ipcRenderer.invoke('recorder:start', options),
+    /** Stops the recording; resolves with the finished file (already granted), or why there is none. */
+    stop: (): Promise<RecordingOutcome> => ipcRenderer.invoke('recorder:stop'),
+    state: (): Promise<RecorderState> => ipcRenderer.invoke('recorder:state'),
+    /** Receives the recorder's state on every change. Returns a function that stops listening. */
+    onState: (handler: (state: RecorderState) => void): (() => void) => {
+      const listener = (_event: unknown, state: RecorderState) => handler(state)
+      ipcRenderer.on('recorder:state', listener)
+      return () => ipcRenderer.off('recorder:state', listener)
+    },
+    /** Receives every recording's end, whoever stopped it (the Stop window, the timer, the editor, a crash). */
+    onFinished: (handler: (outcome: RecordingOutcome) => void): (() => void) => {
+      const listener = (_event: unknown, outcome: RecordingOutcome) => handler(outcome)
+      ipcRenderer.on('recorder:finished', listener)
+      return () => ipcRenderer.off('recorder:finished', listener)
     },
   },
   /** OpenCode inside the app, driven over the Agent Client Protocol by the main process. */
