@@ -22,7 +22,8 @@ Track: multilingual AI, voice tech, regional languages, accessibility, and techn
 4. Play 10 seconds of the Hindi cut, then 10 seconds of the Tamil version.
 
 **1:50–2:30, the numbers.**
-- Time: a 79 s raw clip is cut to 59 s in under a second once read; reading takes 3–7 s; the agent's whole run took 101 s in rehearsal. (Replace with the venue run's numbers.)
+- Time (rehearsal at the venue, 2026-10-31, the owner's 41.7 s Hinglish phone clip, one Hindi request, Sarvam's GLM thinking): the agent's whole run, cut, Devanagari captions and a Tamil version in the speaker's own voice, took **47 s** the first time (cut ready at 13 s: 41.7 s to 29.4 s; captions at 19 s; Tamil at 34 s) and **28 s** once Sarvam's answers were cached (cut 15 s, captions 17 s, Tamil 19 s). Run without the agent, the same tools take 2.5 s (cached); the rest is the agent thinking.
+- Cost of that run: about **₹3.40**: hearing the clip ₹0.34 each time (once verbatim for cutting, once for captions), and ₹3.04 for the Tamil version (translation and the cloned voice, read twice to fit the picture).
 - Cost: listening ₹0.49 a minute, voice ₹1–3 per 1,000 characters, cloning ₹2 per 1,000. A one-minute video in a second language costs a few rupees. For comparison, Sarvam's own Dubbing API is ₹40 per minute per language: our 16 s test cost ₹21.33 dubbed against ₹6.47 in the editor, which also translated the on-screen text the dub left in English (`docs/benchmarks/results.md` ▸ S1).
 - All on Sarvam, in India: Saaras v4 hears (codemix for Hinglish, verbatim for cutting); the agent's model (GLM 5.3 Flash) runs on Sarvam's API; Bulbul v4 Flash and instant voice cloning speak; Sarvam Translate translates. Nothing leaves for a foreign model.
 
@@ -46,7 +47,7 @@ Track: multilingual AI, voice tech, regional languages, accessibility, and techn
 
 1. Start: PowerShell, `$env:SARVAM_API_KEY=[Environment]::GetEnvironmentVariable('SARVAM_API_KEY','User'); pnpm dev`. Check the chat footer reads **Sarvam (India)/GLM 5.3 Flash on Sarvam** (else pick it in the chat options).
 2. Easy mode. Record the 1–2 minute Hinglish talking head on the phone; copy it to the laptop; drop it on the timeline.
-3. Rehearse three times; time each run; keep the best export as the backup video (Ctrl+E). New project between runs (`project_new`, or restart).
+3. Rehearse three times; time each run; keep the best export as the backup video (Ctrl+E). New project between runs (`project_new`, or restart). Rehearsed 2026-10-31 (ten runs, fixes on the way); the backup pair is in `~/Videos/UVE demo/` (`demo-hindi-captions.mp4`, `demo-tamil-own-voice.mp4`, 27 s each, about −14 LUFS). The mic itself was not tried in rehearsal (the request was typed): say it once by hand before going on stage.
 4. Check Sarvam credit before the demo (Voice tab shows the spend; ₹100 free per verified account).
 5. If the network fails: play the backup video and narrate the same story.
 6. Before going on stage: one warm-up run (fills the caches so the live run is fast), then a new project.
