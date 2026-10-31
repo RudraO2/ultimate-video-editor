@@ -3,7 +3,7 @@ import { existsSync, promises as fs } from 'node:fs'
 import { basename, join } from 'node:path'
 import type { Readable, Writable } from 'node:stream'
 import { app, BrowserWindow, desktopCapturer, type Display, ipcMain, screen } from 'electron'
-import { mfraSizeFromTail,
+import { type CursorRecording, mfraSizeFromTail,
   CURSOR_SAMPLE_INTERVAL_MS,
   captureHelperConfig,
   countClicks,
@@ -20,7 +20,7 @@ import { mfraSizeFromTail,
   type RecordingSource,
   recordingFileName,
 } from '../shared/recording'
-import { grant } from './media'
+import { grant, isGranted } from './media'
 import { helperContents } from './windows'
 
 // Screen recording: OpenScreen's two Windows helpers (wgc-capture records the
@@ -603,4 +603,13 @@ export function handleRecorder(): void {
   ipcMain.handle('recorder:start', (_event, options: unknown) => start(options))
   ipcMain.handle('recorder:stop', () => stopRecording())
   ipcMain.handle('recorder:state', () => state)
+  // The cursor sidecar of a granted media file (`<video>.cursor.json`), or null when it has none.
+  ipcMain.handle('recorder:cursor', async (_event, videoPath: unknown) => {
+    if (typeof videoPath !== 'string' || !isGranted(videoPath)) return null
+    try {
+      return JSON.parse(await fs.readFile(cursorSidecarPath(videoPath), 'utf8')) as CursorRecording
+    } catch {
+      return null
+    }
+  })
 }

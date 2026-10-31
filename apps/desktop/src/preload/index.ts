@@ -16,7 +16,7 @@ import type {
   TtsRequest,
   TtsResult,
 } from '../shared/sarvam'
-import type { RecorderState, RecordingError, RecordingOptions, RecordingOutcome, RecordingSource } from '../shared/recording'
+import type { CursorRecording, RecorderState, RecordingError, RecordingOptions, RecordingOutcome, RecordingSource } from '../shared/recording'
 import type { Sticker } from '../shared/stickers'
 import type { OpenedProjectFile, ProjectWindowState, RecentProject, SaveChoice } from '../shared/project'
 
@@ -177,6 +177,8 @@ const api = {
   recorder: {
     /** The screens and windows that can be recorded, displays first, with small pictures. */
     sources: (): Promise<RecordingSource[]> => ipcRenderer.invoke('recorder:sources'),
+    /** A recording's cursor positions and clicks (its `<video>.cursor.json`), or null. The video must be granted. */
+    cursor: (videoPath: string): Promise<CursorRecording | null> => ipcRenderer.invoke('recorder:cursor', videoPath),
     /** Starts a recording; resolves once the capture is running (or says why not). */
     start: (options: RecordingOptions): Promise<{ ok: true } | ({ ok: false } & RecordingError)> => ipcRenderer.invoke('recorder:start', options),
     /** Stops the recording; resolves with the finished file (already granted), or why there is none. */

@@ -83,6 +83,7 @@ const ScreenRecordInput = z.strictObject({
     .optional()
     .describe('Where the clip lands: the comp (default the open one) and the time (default the playhead)'),
   library: z.boolean().default(false).describe('true: only add the recording to the media library, not the timeline'),
+  autoZoom: z.boolean().default(false).describe('Zoom in on the clicks once it is placed (media_auto_zoom)'),
 })
 
 const FontInstallInput = z.strictObject({
@@ -679,6 +680,7 @@ async function screenRecord(args: z.output<typeof ScreenRecordInput>): Promise<M
     const started = await startRecording(
       { sourceId: picked.source.id, systemAudio: args.systemAudio, microphone: args.microphone, webcam: args.webcam, durationMs: args.durationMs },
       placement,
+      { autoZoom: args.autoZoom && placement !== null },
     )
     if (!started.ok) return text(started.hint ? `${started.error}\nHint: ${started.hint}` : started.error, true)
     const { outcome, mediaId, layerId } = await finished

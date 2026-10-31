@@ -26,11 +26,15 @@ export interface Imported {
 
 /** Set by a caller that wants a placement other than the default; `null` = library only. Used once. */
 let pending: { placement: Placement | null } | null = null
+/** Zoom on the clicks of the next recording once it is placed (the dialog's Zoom on clicks). */
+let zoomNext = false
 let waiters: ((imported: Imported) => void)[] = []
 
 async function handleFinished(outcome: RecordingOutcome): Promise<void> {
   const wanted = pending
   pending = null
+  const zoom = zoomNext
+  zoomNext = false
   const imported: Imported = { outcome }
   if (!outcome.ok) {
     useEditor.getState().notify(outcome.hint ? `${outcome.error} ${outcome.hint}` : outcome.error, 'error')
@@ -41,6 +45,13 @@ async function handleFinished(outcome: RecordingOutcome): Promise<void> {
       const layerIds = await importFiles([{ path: outcome.path, name: outcome.name, size: outcome.size }], placement)
       imported.mediaId = session.project.media.find((m) => m.path === outcome.path)?.id
       imported.layerId = layerIds[0]
+      if (zoom && imported.layerId) {
+        const zoomed = await session.call('media.auto_zoom', { id: imported.layerId })
+        if (zoomed.ok) {
+          const count = (zoomed.value as { zooms: unknown[] }).zooms.length
+          if (count > 0) useEditor.getState().notify(`Zoomed in on the clicks: ${count} ${count === 1 ? 'zoom' : 'zooms'}.`, 'info')
+        }
+      }
     } catch (error) {
       useEditor.getState().notify(`Could not import the recording: ${error instanceof Error ? error.message : String(error)}`, 'error')
     }
@@ -62,8 +73,13 @@ export function initRecorder(): void {
 }
 
 /** Starts a recording; resolves once it runs. `placement` null = library only; omitted = open comp at the playhead. */
-export async function startRecording(options: RecordingOptions, placement?: Placement | null): Promise<{ ok: true } | ({ ok: false } & RecordingError)> {
+export async function startRecording(
+  options: RecordingOptions,
+  placement?: Placement | null,
+  after: { autoZoom?: boolean } = {},
+): Promise<{ ok: true } | ({ ok: false } & RecordingError)> {
   pending = placement === undefined ? null : { placement }
+  zoomNext = after.autoZoom === true
   const result = await window.uve.recorder.start(options)
   if (!result.ok) pending = null
   return result

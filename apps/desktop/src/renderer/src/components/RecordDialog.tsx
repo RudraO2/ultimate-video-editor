@@ -12,8 +12,9 @@ interface Toggles {
   systemAudio: boolean
   microphone: boolean
   webcam: boolean
+  autoZoom: boolean
 }
-const DEFAULT_TOGGLES: Toggles = { systemAudio: true, microphone: false, webcam: false }
+const DEFAULT_TOGGLES: Toggles = { systemAudio: true, microphone: false, webcam: false, autoZoom: true }
 
 function loadToggles(): Toggles {
   try {
@@ -92,7 +93,8 @@ function RecordForm() {
     if (!pickedId || busy) return
     setBusy(true)
     setProblem(null)
-    const result = await startRecording({ sourceId: pickedId, ...toggles })
+    const { autoZoom, ...capture } = toggles
+    const result = await startRecording({ sourceId: pickedId, ...capture }, undefined, { autoZoom })
     setBusy(false)
     if (result.ok) closeRecordDialog()
     else setProblem({ error: result.error, hint: result.hint })
@@ -150,6 +152,7 @@ function RecordForm() {
               <Switch label="Computer sound" on={toggles.systemAudio} onToggle={() => toggle('systemAudio')} />
               <Switch label="Microphone" on={toggles.microphone} onToggle={() => toggle('microphone')} />
               <Switch label="Webcam" on={toggles.webcam} onToggle={() => toggle('webcam')} />
+              <Switch label="Zoom on clicks" on={toggles.autoZoom} onToggle={() => toggle('autoZoom')} />
             </div>
           </div>
 

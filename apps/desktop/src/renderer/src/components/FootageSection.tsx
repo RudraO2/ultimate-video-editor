@@ -32,6 +32,12 @@ export function FootageSection({ layer }: { layer: Extract<Layer, { kind: 'video
   const [variant, setVariant] = useState(false)
   const [notes, setNotes] = useState<string[]>([])
   const [busy, setBusy] = useState<'analyse' | 'mark' | 'cut' | null>(null)
+  const zoom = async (clear: boolean) => {
+    const result = await run('media.auto_zoom', { id: layer.id, clear })
+    if (!result.ok) return
+    const value = result.value as { zooms: unknown[]; note?: string }
+    setNotes([clear ? 'Zooms removed.' : value.zooms.length > 0 ? `${value.zooms.length} ${value.zooms.length === 1 ? 'zoom' : 'zooms'} on the clicks.` : (value.note ?? 'No zooms.')])
+  }
   if (!media) return null
   const footage = media.footage
   const words = media.speech?.words.length ?? 0
@@ -135,6 +141,28 @@ export function FootageSection({ layer }: { layer: Extract<Layer, { kind: 'video
           Cut
         </button>
       </div>
+      {layer.kind === 'video' && (
+        <div className="flex gap-1.5">
+          <button
+            type="button"
+            disabled={busy !== null}
+            onClick={() => void zoom(false)}
+            title="Zoom in on the clicks of a recording made in the editor (scale and position keys)"
+            className="h-8 min-w-0 flex-1 truncate rounded-lg bg-field px-2.5 text-[11px] text-ink hover:bg-hover disabled:opacity-40"
+          >
+            Zoom on clicks
+          </button>
+          <button
+            type="button"
+            disabled={busy !== null}
+            onClick={() => void zoom(true)}
+            title="Remove the zoom keys"
+            className="h-8 min-w-0 flex-1 truncate rounded-lg bg-field px-2.5 text-[11px] text-ink hover:bg-hover disabled:opacity-40"
+          >
+            Remove zooms
+          </button>
+        </div>
+      )}
       {notes.map((note, index) => (
         <p key={`${index}:${note}`} className="text-[11px] text-muted">
           {note}
