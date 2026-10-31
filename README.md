@@ -1,117 +1,585 @@
+<div align="center">
+
 # Ultimate Video Editor
 
-A desktop motion and video editor that any AI agent can drive. The editor model is inspired by AtomCut. Screen recording with automatic editing, in the style of OpenScreen, comes later.
+**A real desktop motion editor that an AI agent can drive end to end — and that you can still finish by hand.**
 
-**Status:** Phase A (editor foundation). Steps A1 to A6 (the editor, command API, renderer, media, MP4 export, the AtomCut-style shell and views, and agent control over MCP) and A6b (project files, an export tool for agents, AtomCut's input shapes, the asset inventory and a quality benchmark) are done. A8 (layers, text and pages) is done: the text box, paints (gradients, several fills and strokes, stroke trim), groups and auto layout, paths, polygons, stars and masks, styled words, and duplicate, copy, restack, nested comps and ripple edits. A9 (the motion system) is done: the per-letter, word and line animator with AtomCut's 44 presets, the effect stack (38 cards: shadows, glows, outlines, blurs, shine, film grain and damage, distortions, colour, halftone, light rays, lightning, liquid glass, and per-letter text effects) motion blur, AtomCut's 23 transitions and sounds fired by motion (six synthesised packs and AtomCut's CC0 library) and word-synced captions. A10 (assets and the remaining gaps) is done: text decoration and case, the 103 text looks as templates, the default design system, Google and local fonts, icons and SVG, frames and pages, keyframe simplify and the work range, nine export formats with a settings dialog, and curved motion paths (arcs, handles, the viewport overlay and its editing, and keyframe smoothing). A7 (3D worlds) is done, and with it phase A: worlds with cameras, lights and controllers exist in the document, and agents can make and read them (`world_create`, `world_inspect`), move 2D layers or a whole frame into a world without the picture changing (`world_move_into`), add meshes (13 primitives with keyable params: cubes with rounded edges, spheres, cylinders, cones, pyramids, tori, capsules, tubes, knots), give text, shapes, logos and PNG cut-outs real thickness with a bevel (`world_extrude`, keyable depth), cameras, lights, controllers and text (`world_add`), choose the live camera (`world_camera`) and key lenses and lights, and tie layers together (`world_track`: a camera that keeps looking at a subject, a light that follows, a camera parented to a controller you turn for an orbit). Models come in from glTF, GLB (Draco and meshopt too), OBJ, STL and PLY files on disk or at an https address (`world_import_model`, a drop or Import into an open world), at their real size (glTF) or fitted to 200 px, with their own materials or ours, and their animation clips play frame-exactly on the layer's time. Worlds render in 3D with three.js (the picture does not change on the way in), with lights, environments, shadows, tone mapping and 17 materials (`world_material`, `world_look`), bloom (neon and screens glow, even over the 2D layers under a transparent world), ambient occlusion, shadow, solid and mirror floors, depth of field that can follow a layer, and motion blur through the live camera, and they can be built by hand: inspector sections for worlds (with the look: tone mapping, exposure, shadows, mist, bloom, ambient occlusion and the floor; depth of field on cameras), cameras, lights and materials (a preset picker and keyable fields), a Track section (child of, look at, follow), a "3D" button, menu items and dragging in a world. A selected layer's motion path shows through the live camera. An orbit view (the viewport's Camera / Orbit pill, or the 0 key) looks around a world freely without touching the document: orbit with the middle button or Alt+drag, pan with Shift+middle, zoom with the wheel, numpad views and Home to frame everything; Solid, Material preview and Rendered shading, a ground grid, cameras and lights drawn as lines, click to select meshes, models and pictures, and the selected layers' 3D motion paths. And the agent skill (0.17.0; sound became a required step of its loop in phase Q) teaches worlds, cameras and cuts, lights, constraints, materials, thickness, the look and models; benchmark briefs 09 (a title in space), 10 (a product turntable) and 11 (a neon logo) were built in a world by an agent with no help. Next is phase B (screen recording with auto-zoom, from OpenScreen). The goal is full AtomCut parity: [docs/atomcut-parity.md](docs/atomcut-parity.md) lists every AtomCut agent tool and the feature behind it, and [docs/HANDOFF.md](docs/HANDOFF.md) says what comes next. See [docs/PLAN.md](docs/PLAN.md) for the roadmap and [docs/core-api.md](docs/core-api.md) for the command API.
+[![Electron](https://img.shields.io/badge/desktop-Electron%2045-47848F)](apps/desktop)
+[![TypeScript](https://img.shields.io/badge/code-TypeScript-3178C6)](packages)
+[![MCP](https://img.shields.io/badge/agents-MCP%20%C2%B7%20128%20tools-7C3AED)](#drive-it-from-an-agent)
+[![Sarvam](https://img.shields.io/badge/voice-Sarvam%20AI-FF5A1F)](#voice-and-indian-languages)
+[![Tests](https://img.shields.io/badge/tests-~1%2C400%20unit-brightgreen)](#tests-and-quality)
+[![Licence](https://img.shields.io/badge/licence-MIT-blue)](THIRD_PARTY_NOTICES.md)
 
-## Using the editor
+[Features](#features) • [Quick Start](#quick-start) • [Drive it from an agent](#drive-it-from-an-agent) • [Architecture](#architecture) • [Tech Stack](#tech-stack) • [Benchmarks](#what-agents-actually-build) • [Team](#team)
 
-The window follows AtomCut's layout: floating panels on a dark stage, a rail on the left (Library, Media, Layers, Agents, Undo, Redo) and one on the right (Export, the Design tab for the inspector and, with a layer selected, the Effects and Animate tabs).
+*Say it in Hindi. Get it cut, captioned in Devanagari, and released in Tamil in your own voice.*
 
-- **Library:** search and categories.
-  - Basic layers and a title-card template.
-  - 103 text looks, each previewed in its own Google Font (needs internet the first time).
-  - 44 animations: a click gives the selected layer that entrance (per word or letter on text, the whole layer otherwise). A text look comes with its own entrance.
-  - 23 transitions and 6 typing-sound packs. Sounds can be previewed; applying transitions and sounds comes in a later step.
-- **Easy and Advanced modes:** the switch at the top of the left rail (also Main menu ▸ View). Easy, where the editor opens the first time, shows the OpenCode chat, the preview, a simple timeline and Export, with Chat, Media and Library tabs: the agent does the work and you nudge it. Advanced shows every panel. Both edit the same project, and the editor remembers the mode you last used.
-- **Talking to the chat:** type or speak in any language. The mic button records up to 29 seconds and Sarvam's speech to text turns it into a message (needs the Sarvam key). Every message also tells the agent which comp is open, where the playhead is and what is selected, so "make this red" or "cut here" acts on what you picked.
-- **Agents ▸ OpenCode:** a chat with OpenCode inside the editor. Type a request and OpenCode makes the video with the editor's tools and skill; its messages, thinking, tool calls with their results, plan and questions show as they happen, and Stop ends a request. The sliders button picks the model and effort and takes a provider key (kept encrypted on this computer; without one OpenCode uses its own login).
-- **Agents ▸ Other apps:** whether the agent server is listening, which outside agent apps are connected, and each tool call they make. **Connect your agent** shows how to add the editor to Claude Code, Codex, Gemini CLI, OpenCode, Cursor, VS Code, Claude Desktop or any other MCP app.
-- **Layers:** the comp's tracks and layers, front first. Click a layer to select it; the eye hides it.
-- **Picture tools:** Move (V) selects and drags layers (Shift keeps the drag straight); Hand (H) pans. Text (T), Rectangle (R) and Ellipse (E) place a layer where you click. Pen (P) draws a path: click for corners, drag for curves, click the first point to close it (filled), Enter to keep it open (a line), Escape to drop it. With Move, a selected layer with two or more position keys shows its motion path as in AtomCut: the curve, a chevron per frame, key diamonds, handles and the playhead dot; hovering a segment shows a "+" (Main menu ▸ View ▸ Motion paths turns it off). Edit it there: drag a diamond to move the point (it snaps to the other points and the comp's centre and edges; Ctrl places it freely), Alt-drag a diamond to pull out smooth handles, drag a handle (a mirrored pair stays mirrored and a straight-through pair stays straight; Alt breaks or mirrors them, Shift snaps the angle to 15°, letting go on the point removes the handle), drag the curve to bend it, double-click the curve to add a point and a point to make it smooth or a corner, and right-click a point for Make smooth, Make corner and Delete motion point. Each drag is one undo step; locked tracks show their path but take no edits. Ctrl+wheel zooms around the pointer, the wheel pans, and the zoom pill picks Fit (Shift+1), 25 %, 50 %, 100 % or 200 %.
-- **Import media:** drop video, image or audio files on the Library, on the picture (they are placed where you drop them, at the playhead) or on a track. **Import…** in the Media tab opens a file dialog. Files stay where they are on disk.
-- **Duplicate, copy and stacking:** Ctrl+D duplicates the selected layers (each copy lands just in front of its source; a group comes with everything in it). Ctrl+C and Ctrl+V copy them into the open comp (the same one or another) at the playhead. Ctrl+Shift+] and Ctrl+Shift+[ bring them to the front or send them to the back of their group; the Layers tab has the same three buttons.
-- **Nested comps:** the Nest button in the Layers tab puts the selected layers in a comp of their own (nothing moves); the result is one layer you can move, scale, fade and time as a whole. Double-click it (in the picture or the timeline), or Open in the inspector, to edit what is inside; the names above the picture lead back out. The inspector's Nested comp section sets its speed, loop (once, loop, back and forth), the source time it starts at, whether it crops to its box (Auto crops a comp with a background), its volume, and Make unique for a comp shown in several places.
-- **Groups:** Shift-click layers (in the timeline or the Layers tab) to select several, then Ctrl+G (or the group button in the Layers tab) groups them; Ctrl+Shift+G dissolves the selected group, keeping everything where it is. A group's lanes sit indented under it. Move, turn, scale or fade the group to move all of it; drag its clip to move everything in it in time.
-- **Ripple edits:** Shift+Delete deletes the selected layer and closes the gap it leaves; the Close gaps button (next to the bin) moves every clip on the selected layer's lane back against the one before it.
-- **Timeline:** drag a clip to move it, or to another track (above or below all tracks makes a new one). Drag an edge to trim. Clips snap to the playhead and to other clips; the magnet turns snapping off, and Alt places freely for one drag. **S** splits the selected clip at the playhead. Ctrl+wheel or the slider zooms. Each track header can hide, mute or lock its track; a locked track's clips cannot be moved by hand. Type the comp's length after the timecode.
-- **Inspector:** edit any value by typing, or drag its axis letter or label sideways. The diamond at the end of a row adds or removes a key at the playhead; the one on the Transform header keys every transform value. With nothing selected, it edits the project name and the comp.
-  - **Pivot** (X %, Y %) is a point of the layer's own box: 50 % is the centre, 0 % the left or top edge. Rotation and scale turn around it, and a text layer with its pivot at X 0 % keeps its left edge in place as its words change.
-  - **Fill** and **Stroke** (shapes and text): a list of paints, drawn bottom to top. Each is solid or a linear, radial or angular gradient (edit its stops and its ends), with an opacity, an eye to hide it and × to remove it; + adds one. A stroke also has a width, an alignment (centre, inside or outside), line ends and corners, dashes and, on shapes, a trim: key Trim end from 0 % to 100 % to draw the outline on. Every colour, stop, width and trim value can be keyed.
-  - **Text:** select some characters in the Text field to give just them a colour, weight, size or pill (Plain removes it); the styled parts are listed under it, each with a colour you can key. Highlight puts a pill behind every line.
-  - **Path:** the path data (SVG) and its fill rule. A shape's type can also be Polygon (sides) or Star (points, inner radius).
-  - **Group** mode: Pass, Union, Mask (show the others only inside the stencil), Subtract, Intersect or Exclude. In a group that masks or cuts, a layer's **Stencil** switch makes it the cutter (with none marked, the front-most layer cuts).
-  - **Auto layout** (groups): Add auto layout arranges the group's layers in a column, row, wrap or grid with a gap, padding and alignment; the box hugs them unless Width or Height is Fixed. With a layout, the group's Fill and Stroke draw its container. A layer in a layout can fill the width or height, or be Absolute (keep its own place). × removes the layout and leaves everything where it is.
-  - **Sizing** (text): Auto width grows on one line per paragraph; Auto height wraps the lines at a box width; Fixed size keeps a box of a set width and height, with the lines at its top, middle or bottom. Box width and height can be keyed (the lines re-wrap as the width changes), and Clip content hides what spills out of the box. Align has left, centre, right and justify.
-- **Animate** (right rail, with a layer selected): Layer animate in and out move the whole layer; on text, Text animate in and out move each letter, word or line. Pick a preset, then set the unit (Per), the timing (each unit's duration and the stagger between units), a delay, humanize (random timing and scatter), the preset's knobs (drag the bars) and the easing. The bar under the timing shows when each unit runs. ▶ plays it from there, × removes it. Clips show their entrance ("UNBLUR UP · WORD") and a band where each animation runs.
-- **Keyframes, Curves, Color, Nodes** (tabs under the timeline):
-  - Keyframes is a dope sheet: drag keys in time, and Delete removes the picked key. Simplify reduces the selected layer's dense keys (an import or a baked move) to the fewest that play the same. Smooth (in Keyframes and Curves) makes the selected layer's motion flow through its keys instead of pausing at each one: position gets curved handles and every numeric track gets easing that keeps the speed steady across each key (one undo step; agents call `keyframes_smooth`).
-  - Curves is a graph editor: drag keys in time and value, and set the picked key's ease. A curved motion path draws its true x(t) and y(t).
-  - Nodes shows the selected layer's values as a graph.
-  - Color grading comes later.
-- **Mix:** the Sound tab with nothing selected is the frame's mix, as in AtomCut: the leveler (each sound category to its loudness target, or all to −18 LUFS), the master level, Match loudness (the whole mix brought to −14 LUFS, or a target you set, without the limiter taking more than 3 dB off its peaks) and a −1 dB true-peak limiter, and the sound categories (Dialogue, Music, Effects, Ambience and your own) with solo, mute, level, kind, target and ducking rules (music dips 10 dB under dialogue, just before the first word). Audio and video are put in a category from their file name; a layer's Sound tab changes it. The preview and the export mix the same way.
-- **Stickers:** Library ▸ Stickers holds about 3,300 free pictures with transparent grounds, read from `~/uve-assets`: Fluent Emoji by Microsoft (MIT) in 3D and flat, and Open Peeps and Open Doodles (CC0) hand-drawn people and scenes. Search as for sounds (every word must match; `#tag` requires a tag), filter 3D, Flat or Drawn, click to place one at the playhead or drag it onto the picture or a track. Each keeps its credit.
-- **Physics:** any picture, text, shape, path or group of a flat comp can fall, bounce and collide on its real outline (stickers on their silhouettes, text on its letters), stand as a collider, or push others by its keys; wind, attract, vortex, turbulence and drag forces (a gust is two keys on strength); pin, weld, rope and spring joints; gravity, floor, walls and slow motion per comp. Inspector ▸ Physics, Joints, Forces and the comp's Simulation, or right-click a layer in Layers. The simulation is deterministic and needs no baking (preview and export match); `physics_bake` turns it into keys when you want to edit them.
-- **Characters:** a drawn person or a flat emoji placed as layers (`stickers_use {layers: true}` or `svg_place {groups: true}`; a sticker clicked in the Library is one picture, which only breathes and nods) comes alive with one click (Inspector ▸ Character ▸ Bring to life, or right-click it in Layers) or one call (`character_bringToLife`): the parts are found by name or shape, the eyes blink together, the body breathes, and with a voice line the head nods and a mouth set talks with the words. Life toggles, switches (one drawing at a time, keyed), bones the pieces ride (drag a bone on the canvas to pose it; IK and limits) and the behaviour cards are in the Inspector. Behaviours are computed live, so preview and export match.
-- **Scripts:** JavaScript that drives the editor through its own commands (`await ac.layer.create({...})`), in the Scripts tab (files, editor, Run with Ctrl+Enter, Stop, replace or append on re-run, Output with lines) or by an agent with `script_run`. A run is one undo step; a run that fails, passes its time limit or is stopped changes nothing. Scripts run in a QuickJS sandbox: no files, network or timers, seeded `Math.random`, frozen `Date`, so the same script makes the same document. Saved scripts live in the project (`script_save`); in replace mode a re-run swaps what the last run made.
-- **Remove background:** `media_remove_background` makes a picture's flat background (studio white, key green or magenta) transparent: soft edges, no fringe of the old colour; the layer switches to the new PNG and the original stays in Media.
-- **Sounds:** a layer's Sound tab fires sounds from its motion: AtomCut's six typing packs (each at its own level), `Keys` (recorded keypresses) or any sound from the CC0 library. Find a sound searches the library as AtomCut does (every word must match; `#tag` requires a tag) and reads a local mirror of it first, so it works offline. Results rank by quality (sounds made for motion and clean recordings first, game sounds lower, chiptune and voices only when asked for), and about 350 sounds carry a note on what they suit. Sounds fire from inside nested frames and 3D worlds too, so a film built in parts nested in one master frame keeps every sound.
-- **Voice and Indian languages:** the **Voice** rail tab speaks a line with a Sarvam voice (Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Marathi, Gujarati, Punjabi, Odia, Indian English) at the playhead, times a voice clip's words and adds word-synced captions, translates a text layer, and makes a whole comp speak another language (text translated, each line spoken again, scenes re-timed to the new lines, captions re-timed). Text in Indian scripts draws in a Noto family of its script behind any Latin face. Needs a Sarvam API key (pasted in the tab, or the `SARVAM_API_KEY` environment variable); takes and translations are cached, and the tab shows what has been spent. Agents: `voices_list`, `generate_speech`, `media_transcribe`, `text_translate`, `comp_localize`, `sarvam_usage`.
-- **Cutting your own footage:** select a video or audio clip and open **Footage** in the Inspector. **Analyse** reads it once: where the voice is (a speech gate set for that file), every word (Sarvam speech to text, verbatim, Indian languages or English) and where the shots change. Pick **Generous**, **Balanced** or **Tight**; **Mark cuts** puts the plan on the ruler (hover a mark for its reason: a long pause, a filler such as "um" or "matlab", a false start, a retake), **Cut** applies it as one undo step (or into a copy of the frame with **As new frame**). In the chat: "cut the pauses and ums from my clip, then add the screen recording as B-roll". Agents: `media_analyze`, `media_inspect`, `media_describe_shots`, `media_remove_pauses`, `media_search`, `timeline_place_broll`, `timeline_markers`.
-- **Transport:** Record keyframes (every edit keys at the playhead), Loop, Working range, and the mixer's master level meter.
-- **Working range:** the transport's Working range button limits playback and export to a span of the comp. Set its in and out at the playhead with `[` and `]` (or the buttons next to the toggle; pressing one again where it already is resets that end), or drag its handles in the timeline. Playback loops inside the range, and Export (Ctrl+E) writes only that span. The range belongs to the editor: it is not saved with the project or undone.
-- **Projects:** the **Main menu** button under the app mark has File ▸ New project (Ctrl+N), Open project… (Ctrl+O), Open recent, Save project (Ctrl+S) and Save project as… (Ctrl+Shift+S). A project is one `.uve` file: the document as JSON plus a manifest of its comps, media and fonts. Media files stay where they are and are referenced by path; any that are missing are named when the project opens. The window title shows • while there are unsaved changes, and closing the window, opening another project or starting a new one asks whether to save them first.
-- **Text:** the inspector sets font, weight, Style (faux bold, italic, underline, strikethrough) and Case (as typed, UPPER, lower, Title) for the whole text or just the characters selected in the Text field; case is display only, the typed words stay. In the Library, click a text look to put it on the selected text (its type, effects, entrance and typing sound; the words and place stay), or the plus to add a new text layer in that look.
-- **Plugins** (left rail):
-  - **Fonts:** every Google family (1,946, by name, designer, category, feeling and style), the fonts installed in the project and the fonts on this computer, each shown in its own face with your own text and size. Click a family to put it on the selected text (or add a text layer in it); star the ones you like. **Upload fonts** (or drop files on the window) installs TrueType, OpenType, WOFF and WOFF2 files into the project; the file stays where it is.
-  - **Icons:** 235 open-source icon sets (about 413,000 icons; copyleft and non-commercial sets are left out). Browse by set or search every set, filter Line, Solid or Colour, pick one, set its colour, size and pen width, and Insert: it becomes real vector layers that draw on. The project's **Credits** (inspector, with nothing selected) list the icon sets and library sounds in use with their licences, ready to copy.
-- **Frames and pages:** the **Pages** section in the Layers tab groups frames (comps) into pages: add a page, add a frame, open one, duplicate or delete it. A frame is a timeline or a **static** design. A static frame shows one still at any time, has no sound and exports as an image (PNG, JPG or WebP) rather than a video; the inspector sets its Mode, Still at, Overflow (where it is shown nested) and Page. Flipbook frames are not here yet.
-- **Light and dark:** Cream, a light theme that is easy on the eyes (warm off-white, red for what is active), is the default; the dark theme is one click away (View menu ▸ Light theme / Dark theme) and remembered. Interface icons are Phosphor (MIT).
-- **Fonts and icons offline:** every Google font fetched and every icon seen is kept on disk, and the looks' fonts are fetched ahead at startup, so they work offline afterwards; a placed icon is part of the project.
-- **Record the screen** (Windows): the round button under Export on the right rail, in Easy and Advanced. Pick the whole display or one window, with computer sound, the microphone and the webcam (a picture-in-picture in the corner) as you like, then Record. The editor steps aside while a display records; a small bar at the top of the screen shows the time and **Stop** (it stays out of the video). The recording is saved in `Videos\UVE recordings`, imported and placed at the playhead; the cursor is recorded by Windows itself, so it looks and moves exactly as it did, and its positions and clicks are kept beside the file (`<file>.cursor.json`) for zooms. In the chat, "record my screen for 20 seconds" does the same (`screen_record`). The capture programs are OpenScreen's (MIT), see `apps/desktop/native/wgc-capture/README.md`. **Zoom on clicks** (on in the Record dialog; also Inspector ▸ Footage) adds zooms on your clicks as ordinary scale and position keys (OpenScreen's planner); `screen_frame` puts the recording in a rounded card with a shadow on a gradient background.
-- **Export:** **Export** at the top of the right rail (or Ctrl+E, or Main menu ▸ Export…) opens the export settings, laid out as AtomCut's: **Image** (one frame as PNG, JPG or WebP, at a chosen time) or **Video** (MP4, the lossless MOV master, WebM, animated GIF, a PNG sequence, or audio only as WAV when the comp has sound); the range (Full or the working range, when one is on); the size (resolution and scale presets); the frame rate (with presets; GIF plays at most 50 fps); Include sound, Transparent (where the format keeps it) and Motion blur; and under Advanced the quality and audio bitrate. Settings that cannot be met are explained in the dialog before any file is made. Export then asks where to save the file (a folder for a PNG sequence). A second dialog shows the progress; Cancel stops it and deletes the partial file. Every frame is rendered exactly, so the file matches the preview.
-- **Keys:** Space plays, the arrow keys step one frame (Shift: one second), Home and End jump, Delete removes the selected layer, Ctrl+Z and Ctrl+Shift+Z undo and redo. Every edit, including a whole drag, is one undo step.
+</div>
 
-## Drive it from an agent
+![A neon logo reveal built in a 3D world by an agent from a one-line brief, with no human step](docs/benchmarks/results/2026-10-28-a7n/11-neon-logo.jpg)
 
-Agents can finish a video on their own: `export_video` writes an MP4, a WebM, a lossless MOV master (a PNG per frame and 16-bit sound), a looping animated GIF, a PNG sequence (a folder of `frame-NN.png`), one frame as a PNG, JPG or WebP still, or the sound alone as a WAV (to a path they give, or the Videos folder; all but MP4, WAV and JPG can keep transparency), with AtomCut's export options (quality, bitrates, scale, frame rate, sound on or off, motion blur, whole comp or working range), and `project_save` keeps the project. Every export with sound reports its integrated loudness and true peak. The export dialog shows their export's progress, and Cancel stops it. Tools also accept AtomCut's input shapes (for example `keyframes_set` with `property` and `{at, value, easing}`, `layer_set` with `ids` and `mode`, and `frameId`), so an agent that knows AtomCut works here unchanged; `keyframes_inspect` shows the keys of a layer or a comp's key budget.
-Motion paths work for agents too. `keyframes_set` on `position` takes AtomCut's `arc` (an arc hop or a gravity fall), `in` and `out` handles; `keyframes_inspect` prints each curved key's handles as `↷(out dx,dy in dx,dy)`; `motion_edit` moves, inserts, deletes, smooths, corners and bends points and handles at a comp time; and `keyframes_smooth` makes motion flow through its keys. The preview, the export and motion blur all follow the curve. In a 3D world the selected layer's path is drawn through the live camera, with a diamond at each key (read only: no handles in 3D yet).
+Ultimate Video Editor (UVE) is a document-driven motion and video editor — multi-track timeline,
+keyframes on every property, effects, kinetic type, 3D worlds, physics, a real mixer — where
+**every single thing the UI can do is also a command**, and every command is automatically an
+agent tool over MCP. An agent doesn't write video code or shell out to ffmpeg: it edits the same
+document you do, one undoable step at a time, and you can take the project over mid-sentence.
 
-While the editor is open, it runs an MCP server on `http://127.0.0.1:7428/mcp` (set `UVE_MCP_PORT` for another port; a busy port falls back to a free one). Only this computer can reach it, and every request needs the bearer token. The URL and token are written to `~/.uve/mcp.json`.
+> Type or speak **"इसे साफ़ करो, कैप्शन लगाओ, और तमिल में मेरी आवाज़ में बना दो"** into the chat.
+> The clip gets cut (pauses, "matlab", false starts, each cut marked with its reason), captioned in
+> Devanagari, and re-released in Tamil in the speaker's own cloned voice — about **47 s** the first
+> time, **28 s** warm, for roughly **₹3.40**.
 
-- **Recommended, any agent app that starts programs:** the stdio shim `node "<user data>/uve-mcp.mjs"`, which the editor copies to its user-data folder (Node.js 22 or newer). It reads the URL and token from `~/.uve/mcp.json` each time it starts, so it keeps working when 7428 is busy and the editor takes another port, and it answers `uve_status` while the editor is closed. Claude Code: `claude mcp add -s user uve -- node "<shim>"`. Codex: a `[mcp_servers.uve]` table in `~/.codex/config.toml` with `command = "node"`, `args = ['<shim>']` and `default_tools_approval_mode = "approve"` (without it Codex asks before every call, and `codex exec` refuses them all). The Agents tab's **Connect your agent** dialog shows the command with the real path for Claude Code, Codex, Gemini CLI, OpenCode, Cursor, VS Code and Claude Desktop.
-- **Apps that only take an HTTP server:** the URL with `Authorization: Bearer <token>`. Set it up again if the editor reports another port.
+Agents reach it through MCP (Claude Code, Codex, Gemini CLI, Cursor, VS Code, Claude Desktop), or
+through **OpenCode running inside the app**, so a non-technical user never leaves the editor.
 
-**OpenCode inside the app.** The Agents tab runs OpenCode (MIT; `opencode acp`, the Agent Client Protocol) as the editor's own agent; Claude Code, Codex and other apps drive the editor from outside over MCP only. The editor looks for `opencode` (`UVE_OPENCODE_PATH`, the app's data folder, the npm global install, `~/.opencode/bin`, `PATH`) and offers to install the pinned version (1.18.32, needs npm) when none is found. Each chat is given the editor's MCP server and token, and its own config folder (`<user data>/opencode/`: `opencode.json`, and `work/` with `AGENTS.md` and a copy of the skill), so your own OpenCode skills, plugins and MCP servers stay out while its logins are reused. The default model is OpenCode Zen's free `opencode/glm-5.3-flash-free`. The agent works only on videos: editor tools, reading files and the web need no questions; it cannot edit files; the shell runs media commands (`ffprobe`, `ffmpeg`, listing, copying and moving files, making folders) and asks first for anything else.
+## Contents
 
-Every editor command is a tool under AtomCut-style names (`layer_create`, `layer_set`, `keyframes_set`, `api_batch`…), plus `view_render` and `view_frames` (pictures drawn exactly as the export draws them), `session_set`, `history_undo`, `media_import`, `catalog_list`, `catalog_get`, `app_console`, `report_issue` and `uve_status`. The skill docs are MCP resources (`uve://skill/SKILL.md`, from `skill/`). An agent's calls made close together are one undo step, named after the agent app.
+- [Why this is different](#why-this-is-different)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Drive it from an agent](#drive-it-from-an-agent)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Voice and Indian languages](#voice-and-indian-languages)
+- [Cutting your own footage](#cutting-your-own-footage)
+- [Screen recording](#screen-recording)
+- [3D worlds](#3d-worlds)
+- [Sound that sounds finished](#sound-that-sounds-finished)
+- [The asset library](#the-asset-library)
+- [What agents actually build](#what-agents-actually-build)
+- [Using the editor by hand](#using-the-editor-by-hand)
+- [Tests and quality](#tests-and-quality)
+- [Project layout](#project-layout)
+- [Status and roadmap](#status-and-roadmap)
+- [Research and licences](#research-and-licences)
+- [Contributing](#contributing)
+- [Team](#team)
 
-## Quality benchmark
+## Why this is different
 
-`docs/benchmarks/` turns AtomCut's recipes (title card, lower third, kinetic type, lyric captions, reel, promo, logo reveal, hopping logo, and the 3D title in space, product turntable and neon logo) into briefs, runs them through headless Claude Code over MCP with `node docs/benchmarks/run.mjs --out <folder>`, and records the results and the gaps to AtomCut's quality in `docs/benchmarks/results.md`.
+- **Not a wrapper around a render script.** The agent calls `layer_create`, `keyframes_set`,
+  `animation_set`, `effects_add` — the editor's own API. The result is a project file a human can
+  open, inspect and fix, not a black box that has to be regenerated from scratch.
+- **One undo step per turn.** An agent's whole request collapses into a single history entry named
+  after the app that made it (`Agent · Claude Code`). A failed command leaves the project exactly
+  as it was and returns `{ok: false, error, hint}` — the hint says what to do instead.
+- **Everything works by hand too.** Every tool has a panel, a drag, a shortcut. The editor is
+  usable with the agent turned off.
+- **Assets are the real bottleneck, so they ship with it.** 4,555 CC0 sounds, ~3,300 stickers,
+  ~413,000 icons, 1,946 Google font families, 103 text looks, 44 animation presets, 38 effect
+  cards, 23 transitions. An agent that can't find a whoosh makes a silent video.
+- **Deterministic by design.** Physics needs no baking, scripts run with seeded `Math.random` and a
+  frozen `Date`, and every frame is rendered exactly as the export renders it — preview and file
+  match.
 
-## Run it
+| | |
+|---|---|
+| **Agent tools over MCP** | 128 |
+| **TypeScript** | ~89,000 lines across 4 packages |
+| **Unit tests** | ~1,400 across 141 files, Vitest, no network |
+| **Agent benchmark briefs** | 19, from a title card to a 117 s launch film |
+| **Export formats** | 9 (MP4, MOV master, WebM, GIF, PNG sequence, PNG/JPG/WebP still, WAV) |
 
-You need Node.js 22.12 or newer and pnpm 10.
+## Features
+
+- **Agent-native, not agent-bolted-on.** Every registry command becomes an MCP tool automatically,
+  under AtomCut-style names (`layer_set`, `keyframes_set`, `api_batch`…). Tools also accept
+  AtomCut's input shapes, so an agent trained on AtomCut works here unchanged.
+- **Kinetic type with real per-unit motion.** 44 animation presets applied per letter, word or line,
+  with stagger, delay, humanize, easing and a timing bar — not one layer per word.
+- **The full 2D stack.** Text boxes with auto width/height and wrap, gradients and multiple fills and
+  strokes, stroke trim (draw-on), paths, polygons, stars, masks, groups with auto layout, styled
+  character ranges, nested comps and ripple edits.
+- **38 effect cards.** Shadows, glows, outlines, blurs, shine, film grain and damage, distortions,
+  colour, halftone, light rays, lightning, liquid glass, per-letter text effects — plus motion blur.
+- **Seamless 2D ↔ 3D.** Move a layer or a whole frame into a 3D world without the picture changing
+  by a pixel. 13 mesh primitives with keyable params, real extrusion with bevels, cameras, lights,
+  17 materials, bloom, ambient occlusion, mirror floors, depth of field that follows a layer, and
+  glTF/GLB/OBJ/STL/PLY model import with their own animation clips.
+- **Physics that needs no baking.** Any picture, text, shape or group falls, bounces and collides on
+  its true outline (stickers on their silhouettes, text on its letters). Wind, attract, vortex,
+  turbulence, drag; pin, weld, rope and spring joints. Deterministic — preview equals export —
+  and `physics_bake` turns it into editable keys when you want them.
+- **Characters that are alive.** A drawn person or flat emoji placed as layers comes alive in one
+  click: parts found by name or shape, eyes that blink together, a body that breathes, and a mouth
+  set that talks in time with a voice line. Bones, IK, limits, pose on canvas.
+- **Scripts in a sandbox.** JavaScript that drives the editor through its own commands
+  (`await ac.layer.create({...})`) in QuickJS: no files, no network, no timers, seeded random,
+  frozen clock. One run is one undo step; a failed run changes nothing.
+- **A mixer, not volume sliders.** Sound categories (Dialogue, Music, Effects, Ambience), a leveler
+  to per-category loudness targets, ducking that dips music 10 dB under dialogue just before the
+  first word, loudness match to −14 LUFS and a −1 dB true-peak limiter. Preview and export mix
+  identically, and every export reports its integrated loudness and true peak.
+- **Voice-first, in Indian languages.** Speak to the editor in any language; get captions in your
+  script and a whole comp re-released in another language, in your own cloned voice, re-timed.
+- **It cuts your raw footage.** One pass reads a file (speech gate, every word, shot changes), then
+  marks and removes pauses, fillers, false starts and retakes — each cut with a reason you can
+  hover.
+- **Screen recording with auto-zoom.** Record a display or a window with system audio, mic and
+  webcam PiP; the real Windows cursor is captured exactly, and zooms are planted on your clicks as
+  ordinary, editable scale and position keys.
+- **Easy and Advanced modes.** Easy is chat + preview + a simple timeline for the person who just
+  wants the video. Advanced is every panel. Same project, switch any time.
+- **Offline-friendly.** Fonts, icons and the CC0 sound library are mirrored to disk after first use;
+  media files stay where they are and are referenced by path.
+
+## Quick Start
+
+You need **Node.js 22.12+** and **pnpm 10**.
 
 ```sh
 pnpm install
 pnpm dev
 ```
 
-Other scripts:
+That's the whole setup for the editor. For voice, captions and translation, add a Sarvam key before
+starting (paste it in the Voice tab, or set it in the environment):
+
+```sh
+# macOS / Linux
+export SARVAM_API_KEY=...
+pnpm dev
+```
+
+```powershell
+# Windows PowerShell
+$env:SARVAM_API_KEY = [Environment]::GetEnvironmentVariable('SARVAM_API_KEY','User'); pnpm dev
+```
 
 | Command | What it does |
 | --- | --- |
+| `pnpm dev` | Runs the desktop app in development. |
 | `pnpm test` | Runs the unit tests (Vitest). |
 | `pnpm typecheck` | Type-checks every package. |
 | `pnpm build` | Builds the desktop app into `apps/desktop/out`. |
 
-If the Electron binary is missing after install, run `pnpm rebuild electron`.
+<details>
+<summary>Environment flags and gotchas</summary>
 
-To let DevTools-based tools inspect the window (for example the Chrome DevTools MCP server), set `UVE_REMOTE_DEBUG_PORT=9222` before `pnpm dev`.
+- If the Electron binary is missing after install, run `pnpm rebuild electron`.
+- `UVE_MCP_PORT` — serve the agent API on another port (a busy port falls back to a free one).
+- `UVE_REMOTE_DEBUG_PORT=9222` — let DevTools-based tools (for example the Chrome DevTools MCP
+  server) inspect the window.
+- `UVE_LOW_POWER_GPU=1` — stay on the integrated GPU to save battery. By default a dual-GPU laptop
+  renders on the discrete one, which makes 3D worlds and their exports several times faster.
+- `UVE_OPENCODE_PATH` — point at an existing OpenCode binary instead of the bundled lookup.
+- Screen recording currently ships Windows capture helpers only.
 
-On a laptop with two GPUs the editor renders on the discrete one, which makes 3D worlds and their exports several times faster; set `UVE_LOW_POWER_GPU=1` to keep it on the integrated GPU (to save battery). Both work.
+</details>
 
-## Repository layout
+## Drive it from an agent
 
-- `apps/desktop`: the Electron app (main process with the `uve-media://` file server and the agent server, preload bridge, React renderer).
-- `packages/core`: document model, command API, undo history and time utilities.
-- `packages/engine`: the renderer (Canvas2D compositor, WebGL2 perspective projector, front camera).
-- `packages/mcp`: the MCP server (Streamable HTTP) and the `uve-mcp` stdio shim.
-- `skill/`: the agent skill docs, served as MCP resources.
-- `docs/`: the plan and research notes.
+While the editor is open it runs an MCP server on `http://127.0.0.1:7428/mcp`. Only this computer
+can reach it, and every request needs the bearer token. The URL and token are written to
+`~/.uve/mcp.json`.
 
-## Research
+**Recommended — the stdio shim** (`uve-mcp.mjs`, copied to the app's user-data folder). It re-reads
+the URL and token on every start, so it keeps working when the port moves, and it answers
+`uve_status` even while the editor is closed.
 
-The notes in `docs/research/` about AtomCut are clean-room. They describe behavior and design in our own words, and no AtomCut code or assets are used.
+```sh
+# Claude Code
+claude mcp add -s user uve -- node "<user data>/uve-mcp.mjs"
+```
+
+```toml
+# Codex — ~/.codex/config.toml
+[mcp_servers.uve]
+command = "node"
+args = ['<user data>/uve-mcp.mjs']
+default_tools_approval_mode = "approve"   # without it, codex exec refuses every call
+```
+
+The **Agents ▸ Connect your agent** dialog prints the exact command with the real path for Claude
+Code, Codex, Gemini CLI, OpenCode, Cursor, VS Code and Claude Desktop. Apps that only take an HTTP
+server use the URL with `Authorization: Bearer <token>`.
+
+**OpenCode inside the app.** The Agents tab runs OpenCode (MIT) over the Agent Client Protocol as
+the editor's own agent: its messages, thinking, tool calls with results, plan and questions stream
+as they happen. It gets its own config folder and a copy of the skill, so your personal OpenCode
+setup stays out of it. The agent is video-only by permission: editor tools, reading files and the
+web are free; it cannot edit files; the shell runs media commands (`ffprobe`, `ffmpeg`, file moves)
+and asks first for anything else.
+
+**What the agent is taught.** The skill (`skill/`, served as MCP resources under `uve://skill/`)
+gives it a loop — orient, plan a beat sheet, build in batches, *look at its own frames* with
+`view_render` / `view_frames`, refine, do a sound pass, export, report — plus recipes, a design
+system, storytelling notes, sound craft and a review checklist.
+
+<details>
+<summary>The tool surface at a glance</summary>
+
+| Job | Tools |
+| --- | --- |
+| Read | `doc_overview`, `layers_list`, `layer_get`, `layer_properties`, `media_list`, `api_describe` |
+| Build | `layer_create`, `layer_set`, `layer_patch`, `layers_duplicate/copy/restack/nest`, `api_batch` |
+| Animate | `keyframes_set/remove/clear/inspect/simplify/smooth`, `animation_set`, `motion_edit`, `transition_add` |
+| Look | `effects_add`, `effects_update`, `text_set`, `template_apply`, `catalog_list` |
+| Time | `timeline_move/trim/split/close_gaps/compact/cut_ranges/insert_time/markers` |
+| 3D | `world_create/inspect/move_into/add/camera/extrude/material/look/track/import_model` |
+| Sound | `sounds_list`, `sounds_use`, `sound_category`, `caption_set` |
+| Voice | `generate_speech`, `voices_list`, `media_transcribe`, `text_translate`, `comp_localize`, `sarvam_usage` |
+| Footage | `media_analyze`, `media_inspect`, `media_describe_shots`, `media_remove_pauses`, `media_search`, `timeline_place_broll` |
+| Screen | `screen_record`, `media_auto_zoom`, `screen_frame` |
+| Life | `physics_scene/body/force/joint/inspect/bake`, `rig_create/bone/bind/pose/inspect`, `character_detect`, `character_bringToLife`, `behaviors_*` |
+| Assets | `stickers_list/use`, `icons_list/use`, `svg_place`, `fonts_list`, `font_install`, `media_remove_background` |
+| Script | `script_run/save/list/read/remove/runs/logs/stop` |
+| Ship | `view_render`, `view_frames`, `export_video`, `project_save/open/new`, `history_undo`, `uve_status`, `report_issue` |
+
+Layers are addressed by id or by a name only one layer has. `api_batch` runs up to 50 calls in
+order, and later inputs can reference earlier results (`"$0.id"`).
+
+</details>
+
+## Architecture
+
+```
+  Claude Code · Codex · Gemini CLI · Cursor · VS Code          you, with a mouse
+            │                                                         │
+            │  MCP (stdio shim or Streamable HTTP + bearer token)     │
+            ▼                                                         │
+┌───────────────────────── Electron main process ─────────────────────┼──────────┐
+│  MCP server (127.0.0.1:7428)   OpenCode host (ACP)                  │          │
+│  uve-media:// file server      screen recorder (WGC + cursor)       │          │
+│  Sarvam bridge (STT · TTS · translate, disk cache, spend ledger)    │          │
+└───────────────────────── IPC: call / result + images ───────────────┼──────────┘
+            │                                                         │
+            ▼                                                         ▼
+┌──────────────────────────── Renderer (React) ──────────────────────────────────┐
+│  Editor UI — viewport · timeline · inspector · library · chat                   │
+│                              │                                                  │
+│  Command registry  ◄─────────┘   zod-strict inputs, undo transactions,          │
+│  (packages/core)                 one step per agent turn, patch-based history   │
+│                              │                                                  │
+│  Engine (packages/engine) ◄──┘   Canvas2D compositor + WebGL2 projector,        │
+│                                  three.js worlds, planck physics, mixer,        │
+│                                  export via mediabunny                          │
+└────────────────────────────────────────────────────────────────────────────────┘
+```
+
+**One document, two drivers.** The UI and the agents go through the same command registry, so there
+is no "agent mode" that behaves differently from the editor. Inputs are strict zod objects — unknown
+fields are rejected, not silently dropped, so a typo is reported instead of becoming a mystery. Undo
+and redo use immer patches, so history stays small on large projects, and a drag in the timeline
+holds one transaction open for its whole gesture.
+
+## Tech Stack
+
+| Layer | What | Why |
+|---|---|---|
+| **Electron 45 + React 19** | The desktop app | A real editor window, real file access, real GPU |
+| **TypeScript + zod** | Document model and command API | Strict schemas mean an agent's mistake is an error with a hint, not corrupt state |
+| **immer** | Undo/redo | Patch-based history: cheap on big projects |
+| **Canvas2D + WebGL2** | The compositor and the card projector | Pixel-exact 2D, with real depth where it is needed |
+| **three.js 0.186** | 3D worlds | Lights, materials, bloom, AO, shadows, model import |
+| **planck.js** | Physics | Deterministic, so preview and export agree without baking |
+| **opentype.js** | Type | Per-letter outlines for animation, extrusion and collision |
+| **mediabunny** | Media I/O and export | Decode, encode and mux MP4 / WebM / GIF / PNG sequence / WAV in the renderer |
+| **QuickJS (WASM)** | The script sandbox | User and agent scripts with no files, network or timers |
+| **Model Context Protocol** | The agent surface | Streamable HTTP + a stdio shim; every command is a tool |
+| **OpenCode (ACP)** | The in-app agent | A chat inside the editor, with the editor's own tools |
+| **Sarvam AI** | Saaras v4 · Bulbul v4 Flash · Translate · voice cloning | Hears, speaks and translates 10+ Indian languages, in India |
+| **OpenScreen helpers (MIT)** | Windows Graphics Capture + cursor sampler | The real cursor, recorded exactly as it looked |
+| **Tailwind 4 + Phosphor** | The look | Cream light theme by default, dark one click away |
+| **Vitest** | Tests | ~1,400 unit tests, no network, seconds to run |
+
+## Voice and Indian languages
+
+The **Voice** rail tab (and six agent tools) run the whole speech path on Sarvam:
+
+- **Speak a line** at the playhead in Hindi, Bengali, Tamil, Telugu, Kannada, Malayalam, Marathi,
+  Gujarati, Punjabi, Odia or Indian English (Bulbul v4 Flash), or in the speaker's **own cloned
+  voice** from ~12 s of their own take, with their consent.
+- **Hear a take** with Saaras v4 — codemix for Hinglish, verbatim for cutting — and word-align it
+  for captions.
+- **Localize a whole comp**: text translated, each line spoken again, scenes re-timed to the new
+  lines (a long take is read up to 1.25× faster, then given room), captions re-timed. On-screen text
+  is translated too, and a title that would leave its box is shrunk to fit.
+- **Indic scripts draw correctly** — text in an Indian script falls back to a Noto family of that
+  script behind any Latin face.
+- Takes and translations are cached on disk, and the tab shows what has been spent.
+
+**Measured against Sarvam's own Dubbing API** (brief 06, English → Hindi and Tamil):
+
+| | Sarvam Dubbing | In the editor |
+|---|---|---|
+| Cost (16 s, 2 languages) | ₹21.33 | **₹6.47** |
+| On-screen text | left in English | translated, in Noto Devanagari / Tamil |
+| Fixable by hand afterwards | no | every line, every cut |
+| Timing | fills the original length with continuous speech | keeps each scene's moment, adds room where a line runs long |
+
+Dubbing still wins for a long finished film in one pass. The editor wins when the words on screen
+matter and a human needs the last word.
+
+## Cutting your own footage
+
+Select a video or audio clip, open **Footage** in the inspector, and **Analyse** reads the file once:
+where the voice is (a loudness gate calibrated for that file), every word (Sarvam, verbatim, Indian
+languages or English), and where the shots change.
+
+Then pick **Generous**, **Balanced** or **Tight**, **Mark cuts** to put the plan on the ruler (hover
+a mark for its reason: a long pause, a filler such as "um" or "matlab", a false start, a retake) and
+**Cut** to apply it as one undo step — or into a copy of the frame.
+
+In the chat it is one sentence: *"cut the pauses and ums from my clip, then add the screen recording
+as B-roll."* OpenCode cut a 79 s talking head to 59 s with B-roll in 101 s.
+
+## Screen recording
+
+The round button under Export records a display or a window with system audio, microphone and a
+webcam picture-in-picture. The editor steps aside, a small bar shows the time and **Stop** (kept out
+of the video), and the recording is imported and placed at the playhead.
+
+The cursor is recorded by Windows itself, so it looks and moves exactly as it did, and its positions
+and clicks are kept beside the file as `<file>.cursor.json`. **Zoom on clicks** turns those into
+ordinary scale and position keys you can edit like any others, and `screen_frame` drops the
+recording into a rounded card with a shadow on a gradient background. Capture helpers are
+OpenScreen's (MIT).
+
+## 3D worlds
+
+A world is part of the document, not a separate app:
+
+- `world_move_into` takes a 2D layer or an entire frame into a world **without the picture
+  changing** — same pixels, now with depth available.
+- `world_extrude` gives text, shapes, logos and PNG cut-outs real thickness with a bevel (keyable).
+- 13 mesh primitives with keyable params, cameras, lights, controllers, 17 materials, tone mapping,
+  shadows, mist, bloom, ambient occlusion, solid and mirror floors, and depth of field that can
+  follow a layer.
+- `world_track` ties things together: a camera that keeps looking at a subject, a light that
+  follows, a camera parented to a controller you turn for an orbit.
+- Models import from glTF, GLB (Draco, meshopt), OBJ, STL and PLY — from disk or an https address —
+  at their real size or fitted to 200 px, with their own materials and animation clips playing
+  frame-exactly on the layer's time.
+- An **orbit view** (the Camera / Orbit pill, or `0`) lets you look around without touching the
+  document: Solid, Material preview and Rendered shading, a ground grid, cameras and lights drawn as
+  lines, and the selected layers' 3D motion paths.
+
+<p align="center">
+  <img src="docs/benchmarks/results/2026-10-27-a7f/09-title-in-space.jpg" width="100%" alt="A title in space, built in a 3D world by an agent">
+  <img src="docs/benchmarks/results/2026-10-28-a7n/10-product-turntable.jpg" width="100%" alt="A product turntable on a mirror floor, built in a 3D world by an agent">
+</p>
+
+## Sound that sounds finished
+
+Sound is a required step of the agent's loop, not an afterthought, because silent video is what
+agent-made video usually is.
+
+- **Sounds fire from motion.** Six synthesised typing packs, a recorded `Keys` pack, and the CC0
+  library on entrances, transitions and impacts — including from inside nested frames and 3D worlds.
+- **Search that ranks.** Every word must match, `#tag` requires a tag, a local mirror is read first
+  (so it works offline), results rank by quality (sounds made for motion first, chiptune and voices
+  only when asked for) and ~350 carry a note on what they suit.
+- **The mix is the frame's, not the clip's.** Categories with solo, mute, level, target and ducking
+  rules; a leveler; loudness match to −14 LUFS; a −1 dB true-peak limiter that aims 0.5 dB under its
+  ceiling so the encoder can't push it over.
+- **Captions sync to words**, with unread / focus / read states.
+
+Every export with sound reports its integrated loudness and true peak, so "is this finished?" is a
+number, not an opinion.
+
+## The asset library
+
+| | |
+|---|---|
+| **Sounds** | 4,555 CC0 sounds (tagged, with `hitMs` and loudness) + 6 synthesised typing packs |
+| **Stickers** | ~3,300 transparent images — Fluent Emoji (MIT) 3D and flat, Open Peeps and Open Doodles (CC0) |
+| **Icons** | ~413,000 across 235 open-source sets, inserted as real vector layers that can draw on |
+| **Fonts** | 1,946 Google families, browsable by designer, category, feeling and style, plus your own uploads |
+| **Text looks** | 103 templates, each with its type, effects, entrance and typing sound |
+| **Motion** | 44 animation presets, 23 transitions, 38 effect cards |
+
+Licences are tracked: the project's **Credits** panel lists every icon set and library sound in use
+with its licence, ready to copy into a description.
+
+## What agents actually build
+
+`docs/benchmarks/` turns 19 briefs — title card, lower third, kinetic type, lyric captions, reel,
+promo, logo reveal, hopping logo, a title in space, a product turntable, a neon logo, sticker
+reactions, a sticker rain, a talking character, a scripted chart, and a four-act launch film — into
+prompts, runs them through headless Claude Code over MCP (`node docs/benchmarks/run.mjs`), and
+records what came out, what was faked and what is still missing in
+[`docs/benchmarks/results.md`](docs/benchmarks/results.md).
+
+Every brief ends in an exported file **with no human step**.
+
+<p align="center">
+  <img src="docs/benchmarks/results/2026-10-29-q4/06-promo.jpg" width="49%" alt="A vertical product promo built by an agent: hierarchy, numbered feature beats, accent price, CTA end card">
+  <img src="docs/benchmarks/results/2026-10-29-q4/03-kinetic-type.jpg" width="49%" alt="Kinetic type built by an agent: on-beat words, varied entrances, colour flashes">
+</p>
+
+The hardest one: AtomCut's 130.6 s launch video, rebuilt shot by shot in four acts and judged at 16
+matched shot times. All 16 beats landed on their word — the mascot, the typed word with a caret, the
+draw-on and rain, letters tumbling as drops land on their outlines, the extruded word on a mirror
+floor, the cloud that grows bones and blinks by itself, word-by-word captions throughout, voice 8.4
+dB over a ducked bed (AtomCut's: 9.6). Cost of building: 307 turns, 45 minutes of agent time, $9.43.
+The honest gaps are written down too: flatter character shading, type about 70 % of the reference
+size, a shallower extrusion, and no Lottie export.
+
+## Using the editor by hand
+
+Floating panels on a dark (or cream) stage, a rail on the left — Library, Media, Layers, Agents,
+Undo, Redo — and one on the right: Export, the Design tab for the inspector and, with a layer
+selected, Effects and Animate. **Easy** mode shows the chat, the preview, a simple timeline and
+Export; **Advanced** shows everything. Both edit the same project.
+
+<details>
+<summary><b>The panels, the tools and every shortcut</b></summary>
+
+- **Library:** search and categories — basic layers and a title-card template, 103 text looks each
+  previewed in its own Google Font, 44 animations (a click gives the selected layer that entrance,
+  per word or letter on text), 23 transitions and 6 typing-sound packs.
+- **Talking to the chat:** type or speak in any language. The mic records up to 29 seconds and
+  Sarvam's speech-to-text turns it into a message. Every message tells the agent which comp is open,
+  where the playhead is and what is selected, so "make this red" or "cut here" acts on what you
+  picked.
+- **Agents ▸ Other apps:** whether the agent server is listening, which outside apps are connected,
+  and every tool call they make.
+- **Layers:** the comp's tracks and layers, front first. Click to select; the eye hides.
+- **Picture tools:** Move (V) selects and drags (Shift keeps it straight); Hand (H) pans; Text (T),
+  Rectangle (R) and Ellipse (E) place a layer where you click; Pen (P) draws a path (click for
+  corners, drag for curves, click the first point to close, Enter to keep it open, Escape to drop).
+- **Motion paths on the canvas:** a selected layer with two or more position keys shows its curve, a
+  chevron per frame, key diamonds, handles and the playhead dot. Drag a diamond to move a point (it
+  snaps to the other points and to the comp's centre and edges; Ctrl places freely), Alt-drag to pull
+  out smooth handles, drag a handle (mirrored pairs stay mirrored, Alt breaks them, Shift snaps to
+  15°), drag the curve to bend it, double-click to add a point, right-click for Make smooth / Make
+  corner / Delete. Each drag is one undo step.
+- **Import media:** drop video, image or audio on the Library, on the picture (placed where you drop
+  them, at the playhead) or on a track; or **Import…** in the Media tab. Files stay on disk.
+- **Duplicate, copy, stacking:** Ctrl+D duplicates (each copy just in front of its source; a group
+  comes with everything in it). Ctrl+C / Ctrl+V copy into the open comp at the playhead.
+  Ctrl+Shift+] and Ctrl+Shift+[ bring to front or send to back.
+- **Nested comps:** Nest puts the selected layers in a comp of their own, and nothing moves; the
+  result is one layer you can move, scale, fade and time as a whole. Double-click to edit inside. The
+  inspector sets its speed, loop (once, loop, back and forth), source start, crop, volume, and Make
+  unique.
+- **Groups:** Shift-click, then Ctrl+G to group, Ctrl+Shift+G to dissolve (everything stays put). A
+  group's lanes sit indented under it. Group modes: Pass, Union, Mask, Subtract, Intersect, Exclude;
+  a layer's **Stencil** switch makes it the cutter.
+- **Auto layout:** arrange a group's layers in a column, row, wrap or grid with gap, padding and
+  alignment; the box hugs them unless Width or Height is Fixed. A layer can fill the width or height,
+  or go Absolute. × removes the layout and leaves everything where it is.
+- **Ripple edits:** Shift+Delete deletes a layer and closes the gap; **Close gaps** pulls every clip
+  on the lane back against the one before it.
+- **Timeline:** drag a clip to move or re-track it (above or below all tracks makes a new one), drag
+  an edge to trim, **S** splits at the playhead. Clips snap to the playhead and to each other (the
+  magnet turns it off, Alt frees one drag). Ctrl+wheel or the slider zooms. Track headers hide, mute
+  or lock.
+- **Inspector:** type a value or drag its label sideways. The diamond at the end of a row adds or
+  removes a key at the playhead; the one on the Transform header keys every transform value.
+  - **Pivot** (X %, Y %) is a point of the layer's own box — 50 % centre, 0 % left/top edge. Rotation
+    and scale turn around it; text with pivot X 0 % keeps its left edge as the words change.
+  - **Fill / Stroke:** a stack of paints drawn bottom to top, each solid or a linear, radial or
+    angular gradient, with opacity, an eye and ×. A stroke adds width, alignment, line ends and
+    corners, dashes and a **trim** — key Trim end 0→100 % to draw an outline on. Everything keyable.
+  - **Text:** select characters in the Text field to give just them a colour, weight, size or pill.
+    Highlight puts a pill behind every line. Decoration and case (as typed, UPPER, lower, Title) are
+    display-only; the typed words stay.
+  - **Sizing:** Auto width (one line per paragraph), Auto height (wrap at a box width) or Fixed; box
+    width and height are keyable and lines re-wrap as the width changes.
+- **Animate** (right rail): Layer animate in/out move the whole layer; on text, Text animate in/out
+  move each letter, word or line. Pick a preset, then the unit, each unit's duration, the stagger, a
+  delay, humanize, the preset's knobs and the easing. The bar shows when each unit runs; ▶ previews.
+- **Keyframes / Curves / Nodes:** a dope sheet (drag keys in time, Simplify reduces dense imported
+  keys to the fewest that play the same, Smooth makes motion flow through keys instead of pausing at
+  each), a graph editor (drag in time and value, set ease; a curved path draws its true x(t) and
+  y(t)), and a value graph.
+- **Physics:** Inspector ▸ Physics, Joints, Forces, and the comp's Simulation — gravity, floor,
+  walls, slow motion. Bodies collide on their real outline.
+- **Characters:** Inspector ▸ Character ▸ Bring to life (or right-click in Layers). Life toggles,
+  switches (one drawing at a time, keyed), bones with IK and limits you can drag on canvas, and
+  behaviour cards. Computed live, so preview and export match.
+- **Scripts tab:** files, an editor, Run (Ctrl+Enter), Stop, replace-or-append on re-run, and Output.
+- **Mix:** the Sound tab with nothing selected — the leveler, master level, Match loudness, the
+  limiter, and the categories with solo, mute, level, kind, target and ducking.
+- **Frames and pages:** the Pages section groups frames; a frame is a timeline or a **static**
+  design that shows one still, has no sound and exports as an image.
+- **Projects:** Main menu ▸ File — New (Ctrl+N), Open (Ctrl+O), Open recent, Save (Ctrl+S), Save as
+  (Ctrl+Shift+S). A project is one `.uve` file: the document as JSON plus a manifest of comps, media
+  and fonts; media is referenced by path and missing files are named on open. The title shows • while
+  there are unsaved changes.
+- **Working range:** limit playback and export to a span — `[` and `]` set in and out at the
+  playhead, or drag the handles. Playback loops inside it and Ctrl+E exports only that span.
+- **Export:** Ctrl+E opens the settings — **Image** (PNG, JPG, WebP at a chosen time) or **Video**
+  (MP4, lossless MOV master, WebM, animated GIF, PNG sequence, or WAV when the comp has sound); the
+  range; size and scale presets; frame rate; Include sound, Transparent and Motion blur; and quality
+  and audio bitrate under Advanced. Settings that cannot be met are explained before any file is
+  made. A progress dialog follows, and Cancel deletes the partial file.
+- **Keys:** Space plays, arrows step a frame (Shift: a second), Home/End jump, Delete removes the
+  selected layer, Ctrl+Z / Ctrl+Shift+Z undo and redo. Every edit, including a whole drag, is one
+  undo step.
+- **Light and dark:** Cream (warm off-white, red for what is active) is the default; the dark theme
+  is one click away in View and is remembered.
+
+</details>
+
+## Tests and quality
+
+```sh
+pnpm test        # ~1,400 unit tests across 141 files, Vitest, no network
+pnpm typecheck   # every package
+```
+
+The document model, command API, motion, physics, mixing, loudness, export planning, world matrices,
+speech alignment and the MCP server all run against fakes — no editor window, no network, seconds to
+run. Beyond that, every agent benchmark run is recorded with its turns, time, cost, exported file and
+the honest list of what the agent could not do.
+
+## Project layout
+
+| Path | What |
+| --- | --- |
+| `apps/desktop/` | The Electron app — main process (`uve-media://` file server, agent server, recorder, Sarvam bridge), preload bridge, React renderer |
+| `packages/core/` | Document model (zod), the command registry, undo transactions, time, physics and footage rules, the script sandbox |
+| `packages/engine/` | The renderer — Canvas2D compositor, WebGL2 projector, three.js worlds, the mixer, export |
+| `packages/mcp/` | The MCP server (Streamable HTTP) and the `uve-mcp` stdio shim |
+| `skill/` | The agent skill — the loop, recipes, storytelling, sound, voice, review, and the default design system |
+| `docs/` | `PLAN.md` (roadmap), `core-api.md` (the command API), `HANDOFF.md`, `HISTORY.md`, `pitch.md` |
+| `docs/benchmarks/` | The briefs, the runner, and `results.md` — every agent run with its gaps |
+| `docs/research/` | Clean-room notes on AtomCut and the asset inventory |
+
+## Status and roadmap
+
+- **Phase A — editor foundation: done.** Document model and command API, renderer, media, export, the
+  shell, MCP; layers, text and pages; the motion system; assets, motion paths and the remaining gaps;
+  3D worlds.
+- **Phase Q — match the reference's video quality: done.** The mix, the sound library, stickers,
+  physics, characters, scripts, and a craft pass judged against a rebuilt launch film.
+- **Sarvam, OpenCode and modes: done.** Voice, translation, own-voice localization, footage cutting,
+  the in-app agent, Easy/Advanced modes.
+- **Phase B — screen recording: done.** Capture, auto-zoom on clicks, the frame look, agent tools.
+- **Next:** demo films, then colour grading, flipbook frames, Lottie export, and closing the
+  remaining parity gaps listed in [`docs/atomcut-parity.md`](docs/atomcut-parity.md).
+
+## Research and licences
+
+Ultimate Video Editor is MIT-licensed. Ported code keeps its own notice — see
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) (three.js, planck.js, opentype.js, mediabunny,
+QuickJS, OpenScreen's capture helpers, Phosphor icons, and the asset libraries with their CC0 / MIT
+terms).
+
+The notes in `docs/research/` about AtomCut are **clean-room**: they describe behaviour and design in
+our own words. No AtomCut code or assets are used.
+
+## Contributing
+
+Contributions are welcome. Open an issue for a bug or a feature idea, or send a pull request —
+please describe what changed and why in the description. Run `pnpm test` and `pnpm typecheck` before
+you do.
+
+## Team
+
+| | |
+|---|---|
+| **Rudra Pratap Singh** | [GitHub](https://github.com/RudraO2) |
+| **Aryan Techie** (Aryan Jangra) | [GitHub](https://github.com/aryan-techie) · [LinkedIn](https://www.linkedin.com/in/aryantechie) |
+
+---
+
+<div align="center">
+
+**Everyone who can speak can now publish — in every language, in their own voice.**
+
+</div>
