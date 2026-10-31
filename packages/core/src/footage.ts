@@ -211,6 +211,21 @@ function baseLanguage(language: string): string {
   return language.toLowerCase().split(/[-_]/)[0] || 'en'
 }
 
+/**
+ * English soft fillers that are grammar next to these words, before (so much,
+ * right now) or after (all right): never cut there.
+ */
+const BOUND: Readonly<Record<string, { before?: readonly string[]; after?: readonly string[] }>> = {
+  so: { before: ['much', 'many', 'far', 'that', 'good', 'long', 'sorry', 'glad', 'happy', 'cool', 'nice', 'important', 'bad', 'big', 'easy', 'hard', 'fast', 'well'] },
+  right: { before: ['now', 'here', 'there', 'away', 'after', 'before', 'side', 'thing'], after: ['all', 'thats', 'is', 'are', 'was', 'youre', 'were'] },
+}
+
+/** Whether a lone soft filler is grammar with the word before or after it. */
+function boundToNeighbour(prev: string | undefined, word: string, next: string | undefined): boolean {
+  const rule = BOUND[word]
+  return !!rule && ((next !== undefined && !!rule.before?.includes(next)) || (prev !== undefined && !!rule.after?.includes(prev)))
+}
+
 /** Fillers for a BCP-47 language (hi-IN is hi): its own plus English, since speech mixes them. Soft ones as token lists, longest first. */
 export function fillersFor(language: string): { hard: Set<string>; soft: string[][] } {
   const own = FILLERS[baseLanguage(language)]
@@ -376,7 +391,8 @@ export function planTighten(
       const roomed = !prev || !next || word(i).startMs - prev.endMs >= 150 || next.startMs - word(last).endMs >= 150
       // Soft fillers are often grammar too ("I like it", "मैं तो"), so a single word
       // goes only next to a pause; tight also takes multi-word ones anywhere.
-      if (isHard || (tightness !== 'generous' && (roomed || (tightness === 'tight' && n > 1)))) {
+      const bound = !isHard && n === 1 && boundToNeighbour(norm[i - 1], norm[i] as string, norm[last + 1])
+      if (!bound && (isHard || (tightness !== 'generous' && (roomed || (tightness === 'tight' && n > 1))))) {
         const lo = Math.min(word(i).startMs, Math.max(prev ? prev.endMs : -Infinity, word(i).startMs - pad / 2))
         const hi = Math.max(word(last).endMs, Math.min(next ? next.startMs : Infinity, word(last).endMs + pad / 2))
         add(lo, hi, 'filler', `filler "${norm.slice(i, last + 1).join(' ')}"`)

@@ -88,7 +88,7 @@ export const compLocalize = defineCommand({
   summary:
     'Make a comp speak another Indian language: a copy with its text translated, each voice take spoken again by a Sarvam voice, the timeline re-timed from the new takes, and captions re-timed to the new words.',
   details:
-    'Voice takes are the comp\'s audio layers whose media knows its script (generate_speech, media_transcribe) or that are voice by category or file name (vo-*.wav), and filmed speech: a video with a voice (media_analyze, media_transcribe) is one take however many pieces a cut made of it, said with only the words the cut kept; its new voice goes on its own track, the sound of the video is muted, and it may be read up to 1.4× to fit (the picture cannot wait). A take without a script is heard first (Sarvam speech to text). Each take is translated and spoken again with voice (default: the take\'s own voice, else shubh), placed so its voice starts where the old one did. fit: "room" (default) reads a take that runs long up to maxPace faster, then opens the time still missing right after it (timeline.insert_time), so everything after waits; "pace" only speeds up (the voice may run into the next); "none" keeps each take at pace. Text layers (in nested comps too) are translated; keep lists words to leave as they are (brand names). A caption over a take gets that take\'s new words, word-synced. copy (default true) makes a new frame named "<name> · <language>"; false changes the comp itself. Returns the comp id, each take (old and new voice length, pace, room made), text changed, and costInr. Run it once per language from the original comp.',
+    'Voice takes are the comp\'s audio layers whose media knows its script (generate_speech, media_transcribe) or that are voice by category or file name (vo-*.wav), and filmed speech: a video with a voice (media_analyze, media_transcribe) is one take however many pieces a cut made of it, said with only the words the cut kept and translated as people talk (modern-colloquial unless mode says otherwise); its new voice goes on its own track, the sound of the video is muted, and it may be read up to 1.4× to fit (the picture cannot wait). A take without a script is heard first (Sarvam speech to text). Each take is translated and spoken again with voice (default: the take\'s own voice, else shubh), placed so its voice starts where the old one did. fit: "room" (default) reads a take that runs long up to maxPace faster, then opens the time still missing right after it (timeline.insert_time), so everything after waits; "pace" only speeds up (the voice may run into the next); "none" keeps each take at pace. Text layers (in nested comps too) are translated; keep lists words to leave as they are (brand names). A caption over a take gets that take\'s new words, word-synced. copy (default true) makes a new frame named "<name> · <language>"; false changes the comp itself. Returns the comp id, each take (old and new voice length, pace, room made), text changed, and costInr. Run it once per language from the original comp.',
   effect: 'write',
   input: z.strictObject({
     compId: z.string().optional().describe('Default the open comp (AtomCut: frameId)'),
@@ -100,7 +100,7 @@ export const compLocalize = defineCommand({
     pace: z.number().min(0.5).max(2).default(1),
     maxPace: z.number().min(0.5).max(2).default(1.25),
     fit: z.enum(['room', 'pace', 'none']).default('room'),
-    mode: z.enum(TRANSLATE_MODES).optional().describe('Translation register: formal (default), modern-colloquial, classic-colloquial, code-mixed'),
+    mode: z.enum(TRANSLATE_MODES).optional().describe('Translation register: formal (default; filmed speech defaults to modern-colloquial), modern-colloquial, classic-colloquial, code-mixed'),
     keep: z.array(z.string().min(1)).optional().describe('Words to leave untranslated, e.g. the product name'),
     copy: z.boolean().default(true),
     name: z.string().min(1).optional(),
@@ -160,7 +160,8 @@ export const compLocalize = defineCommand({
       // A filmed take says only the words its cut kept.
       const said = take.footage ? footageWords(ctx.project, take).map((w) => w.text).join(' ') : take.speech.text
       if (!said.trim()) continue
-      const translated = await translateText(said, target, from ?? take.speech.language, input.mode)
+      // Filmed speech is talk: it is translated as people say it (modern colloquial) unless a register is given.
+      const translated = await translateText(said, target, from ?? take.speech.language, input.mode ?? (take.footage ? 'modern-colloquial' : undefined))
       costInr += translated.costInr
       const voice = input.voice ?? (take.speech.provider?.startsWith('sarvam') ? (take.speech.voice ?? undefined) : undefined)
       const reference = input.ownVoice ? (references[take.mediaId] ??= await voiceReference(ctx.project, take.mediaId)) : undefined

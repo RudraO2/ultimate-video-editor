@@ -207,6 +207,13 @@ describe('planTighten', () => {
     expect(planTighten({ words: soft, durationMs: endOf(soft) }, { tightness: 'balanced' }).cuts).toEqual([])
     // A lone soft filler is often grammar ("I like it"): only next to a pause, even when tight.
     expect(planTighten({ words: soft, durationMs: endOf(soft) }, { tightness: 'tight' }).cuts).toEqual([])
+    // Next to a pause, but grammar with its neighbour: "thank you so much", "all right", "right now".
+    for (const phrase of [['thank', 'you', 400, 'so', 'much'], ['is', 'all', 'right', 400, 'we'], [400, 'right', 'now', 'we']] as const) {
+      const ws = say([...phrase])
+      expect(planTighten({ words: ws, durationMs: endOf(ws) }, { tightness: 'balanced' }).cuts.filter((c) => c.kinds.includes('filler'))).toEqual([])
+    }
+    const loose = say(['done', 400, 'so', 'we', 'go'])
+    expect(planTighten({ words: loose, durationMs: endOf(loose) }, { tightness: 'balanced' }).cuts.filter((c) => c.kinds.includes('filler'))).toHaveLength(1)
     const knowing = say(['it', 'you', 'know', 'works'])
     const tight = planTighten({ words: knowing, durationMs: endOf(knowing) }, { tightness: 'tight' })
     expect(tight.cuts).toHaveLength(1)
