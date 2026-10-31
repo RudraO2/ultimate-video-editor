@@ -1,4 +1,4 @@
-import { CommandError, type CommandResult, defineCommand, findComp, locateLayer, type MediaAsset, type SpeechInfo } from '@uve/core'
+import { type Comp, CommandError, type CommandResult, defineCommand, findComp, locateLayer, type MediaAsset, type SpeechInfo, type TakePiece, wordsOnTimeline } from '@uve/core'
 import { alignWords, layoutText, scriptFontsOf, speechSpan, splitWords } from '@uve/engine'
 import { z } from 'zod'
 import { mediaUrl } from '../../../shared/media'
@@ -350,6 +350,14 @@ function soundOf(project: Parameters<typeof locateLayer>[0], id: string): { medi
   return { media, layerId: layer.id }
 }
 
+/** Every piece of a take in its comp: the audio and video layers that play the same file as this layer. */
+export function takePieces(comp: Comp, layerId: string): (TakePiece & { id: string })[] {
+  const layers = comp.tracks.flatMap((t) => t.layers)
+  const layer = layers.find((l) => l.id === layerId)
+  if (!layer || (layer.kind !== 'audio' && layer.kind !== 'video')) return []
+  return layers.filter((l): l is typeof layer => (l.kind === 'audio' || l.kind === 'video') && l.mediaId === layer.mediaId)
+}
+
 /** Words grouped into caption lines: a new line after a phrase-ending mark, a pause of gapMs, or maxWords words. */
 export function captionChunks<W extends { text: string; startMs: number; endMs: number }>(words: readonly W[], maxWords = 7, gapMs = 300): W[][] {
   const chunks: W[][] = []
@@ -368,10 +376,10 @@ export function captionChunks<W extends { text: string; startMs: number; endMs: 
 
 /** Makes word-synced captions for a take on the timeline, one per phrase (or re-times one existing text layer to all its words). Returns their ids. */
 export async function captionTake(audioLayerId: string, speech: SpeechInfo, call: Call, project: Parameters<typeof locateLayer>[0], existing?: string): Promise<string[]> {
-  const { comp, layer } = locateLayer(project, audioLayerId)
-  const source = 'sourceStartMs' in layer ? (layer.sourceStartMs as number) : 0
-  const at = (ms: number) => layer.startMs + ms - source
-  const words = speech.words.map((w) => ({ text: w.text, startMs: Math.max(0, at(w.startMs)), endMs: Math.max(0, at(w.endMs)) }))
+  const { comp } = locateLayer(project, audioLayerId)
+  // After a cut the take is several layers: every piece of it places its own words.
+  const words = wordsOnTimeline(takePieces(comp, audioLayerId), speech.words).map((w) => ({ text: w.text, startMs: w.startMs, endMs: w.endMs }))
+  if (words.length === 0) throw new CommandError('None of the words of this take are on the timeline.', 'The cut removed them all, or the take has no words.')
   const time = async (id: string, chunk: typeof words) => {
     const timed = await call('caption.set', { id, words: chunk, timesIn: 'comp' })
     if (!timed.ok) throw new CommandError(timed.error, timed.hint)

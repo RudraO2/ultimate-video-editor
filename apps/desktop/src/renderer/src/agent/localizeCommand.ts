@@ -1,8 +1,8 @@
-import { categoryForFileName, CommandError, compsInside, defineCommand, findComp, fitPace, layerEnd, locateLayer, type Project, type SpeechInfo, takeSlots } from '@uve/core'
+import { categoryForFileName, CommandError, compsInside, defineCommand, findComp, fitPace, layerEnd, locateLayer, type Project, type SpeechInfo, takeSlots, wordsOnTimeline } from '@uve/core'
 import { z } from 'zod'
 import { languageCode, SARVAM_LANGUAGES, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { useEditor } from '../store'
-import { speak, type Take, translateText, voiceReference } from './voiceCommands'
+import { placeTake, speak, type Take, takePieces, translateText, voiceReference } from './voiceCommands'
 
 // A comp in another language (comp_localize): a copy whose text is translated
 // and whose every voice take is spoken again in the new language. Timing comes
@@ -10,6 +10,9 @@ import { speak, type Take, translateText, voiceReference } from './voiceCommands
 // one that runs past the room it had is read a little faster, and what still
 // does not fit gets room made after it (timeline.insert_time), so the scenes
 // after it wait for the voice. Captions are re-timed to the new words.
+
+/** How much faster filmed speech may be read to fit, at least: its picture cannot wait. */
+const FOOTAGE_MAX_PACE = 1.4
 
 type Call = (name: string, input: unknown) => Promise<{ ok: true; value: unknown } | { ok: false; error: string; hint?: string }>
 
@@ -23,26 +26,44 @@ interface VoiceTake {
   layerId: string
   mediaId: string
   speech: SpeechInfo
+  /** A person on camera: every piece of the video plays this take, and the new voice goes on its own track. */
+  footage: boolean
+}
+
+/** A filmed take's words that are still on the timeline, in comp time. */
+function footageWords(project: Project, take: VoiceTake) {
+  return wordsOnTimeline(takePieces(locateLayer(project, take.layerId).comp, take.layerId), take.speech.words)
 }
 
 /** The comp time a take's voice starts and ends, from its layer as it is now. */
 function placed(project: Project, take: VoiceTake): { startMs: number; endMs: number; layerStart: number } {
   const { layer } = locateLayer(project, take.layerId)
+  if (take.footage) {
+    const words = footageWords(project, take)
+    return { startMs: words[0]?.startMs ?? layer.startMs, endMs: words.at(-1)?.endMs ?? layer.startMs, layerStart: layer.startMs }
+  }
   const source = layer.kind === 'audio' || layer.kind === 'video' ? layer.sourceStartMs : 0
   return { startMs: layer.startMs + take.speech.startMs - source, endMs: layer.startMs + take.speech.endMs - source, layerStart: layer.startMs }
 }
 
-/** The voice takes of a comp: audio layers whose media says what it speaks, or that sound like a voice (category or file name). */
-function voiceLayers(project: Project, compId: string): { layerId: string; mediaId: string }[] {
+/**
+ * The voice takes of a comp: audio layers whose media says what it speaks, or
+ * that sound like a voice (category or file name), and filmed speech (a video
+ * with a voice), once per file however many pieces a cut made of it.
+ */
+function voiceLayers(project: Project, compId: string): { layerId: string; mediaId: string; footage: boolean }[] {
   const comp = findComp(project, compId)
-  const out: { layerId: string; mediaId: string }[] = []
+  const out: { layerId: string; mediaId: string; footage: boolean }[] = []
   for (const track of comp.tracks) {
     if (track.muted) continue
     for (const layer of track.layers) {
-      if (layer.kind !== 'audio') continue
+      if (layer.kind !== 'audio' && layer.kind !== 'video') continue
       const media = project.media.find((m) => m.id === layer.mediaId)
       if (!media) continue
-      if (media.speech || layer.soundBus === 'voice' || categoryForFileName(media.name) === 'voice' || categoryForFileName(media.path) === 'voice') out.push({ layerId: layer.id, mediaId: media.id })
+      const voice = media.speech || layer.soundBus === 'voice' || categoryForFileName(media.name) === 'voice' || categoryForFileName(media.path) === 'voice'
+      if (layer.kind === 'audio' && voice) out.push({ layerId: layer.id, mediaId: media.id, footage: false })
+      const filmed = layer.kind === 'video' && media.hasAudio !== false && (voice || media.footage?.speech?.length)
+      if (filmed && !out.some((t) => t.footage && t.mediaId === media.id)) out.push({ layerId: layer.id, mediaId: media.id, footage: true })
     }
   }
   return out
@@ -53,7 +74,7 @@ export const compLocalize = defineCommand({
   summary:
     'Make a comp speak another Indian language: a copy with its text translated, each voice take spoken again by a Sarvam voice, the timeline re-timed from the new takes, and captions re-timed to the new words.',
   details:
-    'Voice takes are the comp\'s audio layers whose media knows its script (generate_speech, media_transcribe) or that are voice by category or file name (vo-*.wav); a take without a script is heard first (Sarvam speech to text). Each take is translated and spoken again with voice (default: the take\'s own voice, else shubh), placed so its voice starts where the old one did. fit: "room" (default) reads a take that runs long up to maxPace faster, then opens the time still missing right after it (timeline.insert_time), so everything after waits; "pace" only speeds up (the voice may run into the next); "none" keeps each take at pace. Text layers (in nested comps too) are translated; keep lists words to leave as they are (brand names). A caption over a take gets that take\'s new words, word-synced. copy (default true) makes a new frame named "<name> · <language>"; false changes the comp itself. Returns the comp id, each take (old and new voice length, pace, room made), text changed, and costInr. Run it once per language from the original comp.',
+    'Voice takes are the comp\'s audio layers whose media knows its script (generate_speech, media_transcribe) or that are voice by category or file name (vo-*.wav), and filmed speech: a video with a voice (media_analyze, media_transcribe) is one take however many pieces a cut made of it, said with only the words the cut kept; its new voice goes on its own track, the sound of the video is muted, and it may be read up to 1.4× to fit (the picture cannot wait). A take without a script is heard first (Sarvam speech to text). Each take is translated and spoken again with voice (default: the take\'s own voice, else shubh), placed so its voice starts where the old one did. fit: "room" (default) reads a take that runs long up to maxPace faster, then opens the time still missing right after it (timeline.insert_time), so everything after waits; "pace" only speeds up (the voice may run into the next); "none" keeps each take at pace. Text layers (in nested comps too) are translated; keep lists words to leave as they are (brand names). A caption over a take gets that take\'s new words, word-synced. copy (default true) makes a new frame named "<name> · <language>"; false changes the comp itself. Returns the comp id, each take (old and new voice length, pace, room made), text changed, and costInr. Run it once per language from the original comp.',
   effect: 'write',
   input: z.strictObject({
     compId: z.string().optional().describe('Default the open comp (AtomCut: frameId)'),
@@ -82,14 +103,14 @@ export const compLocalize = defineCommand({
 
     // Every take must know what it says: hear the ones that do not.
     const takes: VoiceTake[] = []
-    for (const { layerId, mediaId } of voiceLayers(ctx.project, compId)) {
+    for (const { layerId, mediaId, footage } of voiceLayers(ctx.project, compId)) {
       let speech = ctx.project.media.find((m) => m.id === mediaId)?.speech
       if (!speech) {
         const heard = await must<{ costInr: number }>(call('media.transcribe', { id: layerId, ...(from ? { language: from } : {}) }))
         costInr += heard.costInr
         speech = ctx.project.media.find((m) => m.id === mediaId)?.speech
       }
-      if (speech) takes.push({ layerId, mediaId, speech })
+      if (speech) takes.push({ layerId, mediaId, speech, footage })
     }
     const slots = new Map(
       takeSlots(
@@ -118,9 +139,14 @@ export const compLocalize = defineCommand({
     const lines = []
     let addedMs = 0
     const speakers: Record<string, Take> = {}
+    // The layer that now plays each take's new voice (a filmed take gets a new one).
+    const voiceLayer: Record<string, string> = {}
     const references: Record<string, Uint8Array> = {}
     for (const take of takes) {
-      const translated = await translateText(take.speech.text, target, from ?? take.speech.language, input.mode)
+      // A filmed take says only the words its cut kept.
+      const said = take.footage ? footageWords(ctx.project, take).map((w) => w.text).join(' ') : take.speech.text
+      if (!said.trim()) continue
+      const translated = await translateText(said, target, from ?? take.speech.language, input.mode)
       costInr += translated.costInr
       const voice = input.voice ?? (take.speech.provider?.startsWith('sarvam') ? (take.speech.voice ?? undefined) : undefined)
       const reference = input.ownVoice ? (references[take.mediaId] ??= await voiceReference(ctx.project, take.mediaId)) : undefined
@@ -132,12 +158,30 @@ export const compLocalize = defineCommand({
       let pace = input.pace
       let roomMs = 0
       if (input.fit !== 'none') {
-        const fitted = fitPace(length(spoken), slot, input.pace, input.maxPace)
+        // Filmed speech cannot be given room (the picture would stop), so it may be read a little faster.
+        const fitted = fitPace(length(spoken), slot, input.pace, take.footage ? Math.max(input.maxPace, FOOTAGE_MAX_PACE) : input.maxPace)
         if (fitted.pace > input.pace + 0.005) {
           pace = fitted.pace
           spoken = await speak({ ...options, pace }, call)
           costInr += spoken.costInr
         }
+      }
+      if (take.footage) {
+        // The new voice on its own track where the old one started; the video plays on without its own sound.
+        const at = placed(ctx.project, take)
+        const newLayer = await placeTake(spoken, compId, at.startMs, call)
+        voiceLayer[take.layerId] = newLayer
+        for (const piece of takePieces(findComp(ctx.project, compId), take.layerId)) {
+          await must(call('layer.patch', { id: piece.id, ops: [{ op: 'set', path: 'volume', value: 0 }] }))
+        }
+        const voiceEnd = layerEnd(locateLayer(ctx.project, newLayer).layer)
+        if (voiceEnd > findComp(ctx.project, compId).durationMs) {
+          addedMs += voiceEnd - findComp(ctx.project, compId).durationMs
+          await must(call('frame.update', { id: compId, durationMs: voiceEnd }))
+        }
+        speakers[take.layerId] = spoken
+        lines.push({ layerId: take.layerId, text: translated.text, oldMs: Math.round(at.endMs - at.startMs), newMs: Math.round(length(spoken)), pace, roomMs })
+        continue
       }
       // Swap the layer's take in place (its id, lane, mix and the characters that talk with it stay).
       const at = placed(ctx.project, take)
@@ -157,29 +201,54 @@ export const compLocalize = defineCommand({
       await must(call('timeline.trim', { id: layer.id, endMs: Math.max(start + 1, end) }))
       if (ctx.project.media.find((m) => m.id === take.mediaId)?.envelope) await must(call('media.envelope', { mediaId: spoken.mediaId }))
       speakers[take.layerId] = spoken
+      voiceLayer[take.layerId] = take.layerId
       lines.push({ layerId: take.layerId, text: translated.text, oldMs: Math.round(length({ speech: take.speech } as Take)), newMs: Math.round(length(spoken)), pace, roomMs })
     }
 
-    // Captions: the new words of the takes they cover, in comp time.
+    // Captions: the new words of the takes they cover, in comp time. Several
+    // captions over one take share its words: each word goes to the last
+    // caption that starts at or before it.
     const captions: string[] = []
+    const emptied: string[] = []
+    const captionsOver = (take: VoiceTake) =>
+      [...captionTakes].filter(([, over]) => over.includes(take)).map(([id]) => locateLayer(ctx.project, id).layer).sort((a, b) => a.startMs - b.startMs)
     for (const [captionId, over] of captionTakes) {
       const words = over.flatMap((t) => {
         const spoken = speakers[t.layerId]
-        if (!spoken) return []
-        const { layer } = locateLayer(ctx.project, t.layerId)
-        return spoken.speech.words.map((w) => ({ ...w, startMs: w.startMs + layer.startMs, endMs: w.endMs + layer.startMs }))
+        const playing = voiceLayer[t.layerId]
+        if (!spoken || !playing) return []
+        const { layer } = locateLayer(ctx.project, playing)
+        const all = spoken.speech.words.map((w) => ({ ...w, startMs: w.startMs + layer.startMs, endMs: w.endMs + layer.startMs }))
+        const shared = captionsOver(t)
+        if (shared.length < 2) return all
+        const i = shared.findIndex((c) => c.id === captionId)
+        const next = shared[i + 1]
+        return all.filter((w) => (i === 0 || w.startMs >= shared[i]!.startMs) && (!next || w.startMs < next.startMs))
       })
-      if (words.length === 0) continue
-      const caption = locateLayer(ctx.project, captionId).layer
+      if (words.length === 0) {
+        if (over.some((t) => speakers[t.layerId])) emptied.push(captionId)
+        continue
+      }
+      const { layer: caption, track } = locateLayer(ctx.project, captionId)
       const first = words[0]!.startMs
       const last = words.at(-1)!.endMs
       if (caption.startMs > first || layerEnd(caption) < last) {
-        await must(call('timeline.trim', { id: captionId, startMs: Math.max(0, Math.min(caption.startMs, first - 100)), endMs: Math.max(layerEnd(caption), last + 300) }))
+        // Grow over the new words, never into the captions next to it on its lane.
+        const before = track.layers.filter((l) => l.id !== caption.id && layerEnd(l) <= caption.startMs).reduce((m, l) => Math.max(m, layerEnd(l)), 0)
+        const after = track.layers.filter((l) => l.id !== caption.id && l.startMs >= layerEnd(caption)).reduce((m, l) => Math.min(m, l.startMs), Number.POSITIVE_INFINITY)
+        await must(
+          call('timeline.trim', {
+            id: captionId,
+            startMs: Math.max(before, Math.min(caption.startMs, first - 100)),
+            endMs: Math.min(after, findComp(ctx.project, compId).durationMs, Math.max(layerEnd(caption), last + 300)),
+          }),
+        )
       }
       await must(call('text.set', { id: captionId, text: words.map((w) => w.text).join(' ') }))
       await must(call('caption.set', { id: captionId, words, timesIn: 'comp' }))
       captions.push(captionId)
     }
+    if (emptied.length > 0) await must(call('layers.delete', { ids: emptied }))
 
     // The rest of the text.
     const plain = texts.filter((l) => !captionTakes.has(l.id)).map((l) => l.id)

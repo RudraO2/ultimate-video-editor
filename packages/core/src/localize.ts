@@ -32,3 +32,31 @@ export function fitPace(newSpeechMs: number, slotMs: number, pace = 1, maxPace =
   const predicted = (newSpeechMs * pace) / chosen
   return { pace: chosen, overflowMs: Math.max(0, Math.round(predicted - slotMs)) }
 }
+
+/** A piece of a take on the timeline: where it sits in the comp and which part of the file it plays. */
+export interface TakePiece {
+  startMs: number
+  durationMs: number
+  sourceStartMs: number
+  playbackRate: number
+}
+
+/**
+ * A take's words (file time) in comp time, through every piece of it on the
+ * timeline: after a cut the take is several layers, each playing its own part
+ * of the file. A word whose middle falls in no piece was cut and is left out;
+ * the rest are clipped to their piece.
+ */
+export function wordsOnTimeline<W extends { startMs: number; endMs: number }>(pieces: readonly TakePiece[], words: readonly W[]): W[] {
+  const out: W[] = []
+  for (const word of words) {
+    const middle = (word.startMs + word.endMs) / 2
+    const piece = pieces.find((p) => middle >= p.sourceStartMs && middle < p.sourceStartMs + p.durationMs * p.playbackRate)
+    if (!piece) continue
+    const at = (ms: number) => piece.startMs + (ms - piece.sourceStartMs) / piece.playbackRate
+    const startMs = Math.max(piece.startMs, at(word.startMs))
+    const endMs = Math.min(piece.startMs + piece.durationMs, at(word.endMs))
+    out.push({ ...word, startMs: Math.round(startMs), endMs: Math.round(Math.max(startMs, endMs)) })
+  }
+  return out.sort((a, b) => a.startMs - b.startMs)
+}

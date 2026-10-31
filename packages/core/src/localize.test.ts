@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createDefaultProject } from './doc'
 import { sequentialIds } from './ids'
-import { fitPace, takeSlots } from './localize'
+import { fitPace, takeSlots, wordsOnTimeline } from './localize'
 import type { Comp, Layer } from './schema'
 import { Session } from './session'
 
@@ -77,5 +77,31 @@ describe('takeSlots and fitPace', () => {
     const tight = fitPace(3000, 2000, 1, 1.25)
     expect(tight.pace).toBe(1.25)
     expect(tight.overflowMs).toBe(400)
+  })
+})
+
+describe('wordsOnTimeline', () => {
+  const words = [
+    { text: 'a', startMs: 100, endMs: 400 },
+    { text: 'um', startMs: 1000, endMs: 1300 },
+    { text: 'b', startMs: 2000, endMs: 2400 },
+  ]
+
+  it('maps words through every piece of a cut take and drops the cut ones', () => {
+    const pieces = [
+      { startMs: 0, durationMs: 900, sourceStartMs: 0, playbackRate: 1 },
+      { startMs: 900, durationMs: 1000, sourceStartMs: 1800, playbackRate: 1 },
+    ]
+    expect(wordsOnTimeline(pieces, words)).toEqual([
+      { text: 'a', startMs: 100, endMs: 400 },
+      { text: 'b', startMs: 1100, endMs: 1500 },
+    ])
+  })
+
+  it('follows the playback rate and clips a word to its piece', () => {
+    const pieces = [{ startMs: 500, durationMs: 1000, sourceStartMs: 1800, playbackRate: 2 }]
+    expect(wordsOnTimeline(pieces, words)).toEqual([{ text: 'b', startMs: 600, endMs: 800 }])
+    const tight = [{ startMs: 0, durationMs: 300, sourceStartMs: 2100, playbackRate: 1 }]
+    expect(wordsOnTimeline(tight, words)).toEqual([{ text: 'b', startMs: 0, endMs: 300 }])
   })
 })
