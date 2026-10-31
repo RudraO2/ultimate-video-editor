@@ -1,5 +1,5 @@
 import { compsOnPage, type Comp, type Page } from '@uve/core'
-import { Box, ChevronDown, ChevronRight, CopyPlus, FileText, Frame, Image as ImageIcon, Plus, Trash2 } from 'lucide-react'
+import { Box, ChevronDown, ChevronRight, CopyPlus, FileText, Frame, Image as ImageIcon, Plus, Trash2 } from '../icons'
 import { useState } from 'react'
 import { newWorld, openFrame, run, useEditor } from '../store'
 

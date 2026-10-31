@@ -1,5 +1,5 @@
 import { formatClock, type MediaAsset } from '@uve/core'
-import { Box, Film, Image as ImageIcon, Music, Plus, X } from 'lucide-react'
+import { Box, Film, Image as ImageIcon, Music, Plus, X } from '../icons'
 import { type DragEvent, useState } from 'react'
 import { dragHasFiles, importDrop, importFiles, MEDIA_DRAG_TYPE, placeMedia } from '../media/import'
 import { run, useEditor } from '../store'

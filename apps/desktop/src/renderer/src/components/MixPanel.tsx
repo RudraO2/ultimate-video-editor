@@ -1,5 +1,5 @@
 import { type Comp, type DuckRule, type Layer, type SoundCategory, categoryTarget, CHARACTER_TARGET_LUFS, type SoundCharacter } from '@uve/core'
-import { ArrowLeft, Headphones, Plus, Trash2, Volume2, VolumeX, X } from 'lucide-react'
+import { ArrowLeft, Headphones, Plus, Trash2, Volume2, VolumeX, X } from '../icons'
 import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { beginGesture, type Gesture, run, useActiveComp, useEditor } from '../store'
 import { ColorField, NumberField, type NumberSpec, Row, ScrubLabel, SelectField, TextField } from './fields'

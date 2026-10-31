@@ -1,5 +1,5 @@
 import { type Layer, slotAnimation, SOUND_PACK_IDS, type SoundVoice, transitionWindows } from '@uve/core'
-import { ArrowRightFromLine, ArrowRightToLine, ChevronDown, ChevronRight, Eye, EyeOff, Play, Plus, Search, Shuffle, Trash2 } from 'lucide-react'
+import { ArrowRightFromLine, ArrowRightToLine, ChevronDown, ChevronRight, Eye, EyeOff, Play, Plus, Search, Shuffle, Trash2 } from '../icons'
 import { type ReactNode, useState } from 'react'
 import { mediaUrl } from '../../../shared/media'
 import type { SoundResult } from '../library/soundLibrary'

@@ -1,5 +1,5 @@
-import { Minus, Square, X } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { Minus, Square, X } from '../icons'
+import type { IconComponent } from '../icons'
 import type { ReactNode } from 'react'
 import { useEditor } from '../store'
 
@@ -8,7 +8,7 @@ import { useEditor } from '../store'
  * close, and the plugin's own content below. One plugin is open at a time
  * (`plugin` in the store); folding keeps it open as just its title bar.
  */
-export function PluginWindow({ title, icon: Icon, children }: { title: string; icon: LucideIcon; children: ReactNode }) {
+export function PluginWindow({ title, icon: Icon, children }: { title: string; icon: IconComponent; children: ReactNode }) {
   const folded = useEditor((s) => s.pluginFolded)
   return (
     <div

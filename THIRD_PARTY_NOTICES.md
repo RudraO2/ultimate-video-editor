@@ -82,3 +82,7 @@ Not shipped: the sticker library reads local copies in `~/uve-assets` (see `apps
 
 - **Fluent Emoji** by Microsoft (<https://github.com/microsoft/fluentui-emoji>), MIT License, Copyright (c) Microsoft Corporation. The 3D PNGs and colour SVGs, with their metadata (names, groups, keywords) used as search tags.
 - **Open Peeps** and **Open Doodles** by Pablo Stanley (<https://www.openpeeps.com/>, <https://www.opendoodles.com/>), dedicated to the public domain under CC0 1.0.
+
+## Phosphor Icons
+
+The editor's interface icons are **Phosphor Icons** (`@phosphor-icons/react` 2.1.10, <https://phosphoricons.com>), MIT License, Copyright (c) 2023 Phosphor Icons. They are used unmodified through `apps/desktop/src/renderer/src/icons.tsx`.

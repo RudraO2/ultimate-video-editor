@@ -1,10 +1,10 @@
-import { AudioLines, Clapperboard, Download, Image as ImageIcon, Layers, LibraryBig, type LucideIcon, MessageCircle, Puzzle, Redo2, SlidersHorizontal, Sparkles, SquareCode, Undo2, Volume2, Wand2, Waypoints } from 'lucide-react'
+import { AudioLines, Clapperboard, Download, Image as ImageIcon, Layers, LibraryBig, type IconComponent, MessageCircle, Puzzle, Redo2, SlidersHorizontal, Sparkles, SquareCode, Undo2, Volume2, Wand2, Waypoints } from '../icons'
 import type { ReactNode } from 'react'
 import { openExportSetup } from './ExportSetupDialog'
 import { MainMenu } from './MainMenu'
 import { type LeftTab, MODE_TABS, type RightTab, session, type UiMode, useEditor } from '../store'
 
-const TABS: { id: LeftTab; label: string; icon: LucideIcon }[] = [
+const TABS: { id: LeftTab; label: string; icon: IconComponent }[] = [
   { id: 'chat', label: 'Chat', icon: MessageCircle },
   { id: 'library', label: 'Library', icon: LibraryBig },
   { id: 'media', label: 'Media', icon: ImageIcon },
@@ -36,7 +36,7 @@ function RailButton({ label, title, onClick, disabled, children }: {
   )
 }
 
-const MODES: { id: UiMode; label: string; title: string; icon: LucideIcon }[] = [
+const MODES: { id: UiMode; label: string; title: string; icon: IconComponent }[] = [
   { id: 'easy', label: 'Easy', title: 'Easy: ask the agent in the chat, watch the preview, export', icon: Wand2 },
   { id: 'advanced', label: 'Advanced', title: 'Advanced: every panel (inspector, keyframes, curves, mixer, all tabs)', icon: SlidersHorizontal },
 ]
@@ -108,7 +108,7 @@ export function LeftRail() {
 }
 
 /** A right-rail tab: it shows its page in the inspector, or hides the inspector when already shown. */
-function RightTabButton({ tab, label, icon: Icon }: { tab: RightTab; label: string; icon: LucideIcon }) {
+function RightTabButton({ tab, label, icon: Icon }: { tab: RightTab; label: string; icon: IconComponent }) {
   const shown = useEditor((s) => s.inspectorOpen && s.rightTab === tab)
   return (
     <button

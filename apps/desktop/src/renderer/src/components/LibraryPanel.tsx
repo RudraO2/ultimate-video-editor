@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowLeftRight, LibraryBig, type LucideIcon, Music, Play, Plus, Search, Shapes, Sparkles, Sticker as StickerIcon, Type } from 'lucide-react'
+import { ArrowLeft, ArrowLeftRight, LibraryBig, type IconComponent, Music, Play, Plus, Search, Shapes, Sparkles, Sticker as StickerIcon, Type } from '../icons'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import type { AnimationPreset, TransitionPreset } from '@uve/core'
 import { mediaUrl } from '../../../shared/media'
@@ -228,7 +228,7 @@ const SOUND_ITEMS: Item[] = SOUND_PACKS.map((pack) => ({
   add: () => addSound(pack),
 }))
 
-const CATEGORIES: { id: Category; label: string; icon: LucideIcon; items: Item[] }[] = [
+const CATEGORIES: { id: Category; label: string; icon: IconComponent; items: Item[] }[] = [
   { id: 'all', label: 'Everything', icon: LibraryBig, items: BASICS },
   { id: 'looks', label: 'Text looks', icon: Type, items: LOOK_ITEMS },
   { id: 'animations', label: 'Animations', icon: Sparkles, items: ANIMATION_ITEMS },
@@ -354,7 +354,7 @@ function Section({
   onOpen,
 }: {
   title: string
-  icon: LucideIcon
+  icon: IconComponent
   items: Item[]
   note?: string
   onOpen?: () => void

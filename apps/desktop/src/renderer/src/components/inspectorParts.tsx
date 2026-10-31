@@ -1,5 +1,5 @@
 import type { Layer } from '@uve/core'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { ChevronDown, ChevronRight } from '../icons'
 import { type ReactNode, useState } from 'react'
 import { findLayer, propertyEdit, run, useEditor } from '../store'
 import { type Bind, ColorField, KeyButton, NumberField, type NumberSpec, Row, ScrubLabel } from './fields'

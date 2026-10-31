@@ -12,7 +12,7 @@ import {
   type Layer,
   propertiesOf,
 } from '@uve/core'
-import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, Eye, EyeOff, Plus, Search, SlidersHorizontal, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowDown, ArrowUp, ChevronDown, ChevronRight, Eye, EyeOff, Plus, Search, SlidersHorizontal, Sparkles, Trash2 } from '../icons'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { findLayer, propertyEdit, run, useEditor } from '../store'
 import { type Bind, ColorField, KeyButton, type KeyTarget, NumberField, Row, ScrubLabel, SelectField, Toggle } from './fields'

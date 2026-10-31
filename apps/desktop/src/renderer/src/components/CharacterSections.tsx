@@ -1,5 +1,5 @@
 import { type Behavior, type Comp, evaluateProperty, isWorld, type Layer, memberInfos, propertiesOf } from '@uve/core'
-import { Sparkles, Trash2 } from 'lucide-react'
+import { Sparkles, Trash2 } from '../icons'
 import { Fragment, useState } from 'react'
 import { activeComp, findLayer, run, useEditor } from '../store'
 import {

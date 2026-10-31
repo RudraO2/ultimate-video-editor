@@ -1,4 +1,4 @@
-import { Bot, Check, CircleAlert, CircleCheck, Copy, Eye, EyeOff, Plug, X } from 'lucide-react'
+import { Bot, Check, CircleAlert, CircleCheck, Copy, Eye, EyeOff, Plug, X } from '../icons'
 import { useEffect, useMemo, useState } from 'react'
 import { type AgentStatus, agentSetups } from '../../../shared/agent'
 import { useEditor } from '../store'

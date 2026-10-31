@@ -1,4 +1,4 @@
-import { Search, Shapes, Type } from 'lucide-react'
+import { Search, Shapes, Type } from '../icons'
 import { useState } from 'react'
 import { type PluginId, useEditor } from '../store'
 

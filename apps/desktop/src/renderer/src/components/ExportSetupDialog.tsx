@@ -1,6 +1,6 @@
 import { CommandError, type Comp } from '@uve/core'
 import { renderPlan } from '@uve/engine'
-import { ChevronRight, Download, X } from 'lucide-react'
+import { ChevronRight, Download, X } from '../icons'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import {
   EXPORT_QUALITIES,

@@ -12,7 +12,7 @@ import {
   SlidersHorizontal,
   Square,
   SquarePen,
-} from 'lucide-react'
+} from '../icons'
 import { Fragment, type ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { editorContext } from '../agent/chatContext'
 import { type MicRecording, startRecording } from '../agent/micRecorder'

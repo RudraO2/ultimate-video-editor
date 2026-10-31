@@ -1,6 +1,6 @@
 import { activeWorkRange, type Comp, formatClock, isWorld, type Layer, transformAt } from '@uve/core'
 import { CompRenderer, DEFAULT_ORBIT_VIEW, type OrbitShading, resolveLayer } from '@uve/engine'
-import { ChevronDown, Circle, Grid3x3, Hand, type LucideIcon, Maximize, Minus, MousePointer2, PenTool, Plus, Square, Type } from 'lucide-react'
+import { ChevronDown, Circle, Grid3x3, Hand, type IconComponent, Maximize, Minus, MousePointer2, PenTool, Plus, Square, Type } from '../icons'
 import { type DragEvent, type PointerEvent as ReactPointerEvent, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { placeSticker } from '../library/stickers'
 import { dragHasFiles, importDrop, MEDIA_DRAG_TYPE, placeMedia, STICKER_DRAG_TYPE } from '../media/import'
@@ -26,7 +26,7 @@ const ZOOM_PRESETS = [0.25, 0.5, 1, 2]
 /** A press must move this far before it becomes a drag rather than a click. */
 const DRAG_PX = 3
 
-const TOOLS: { id: Tool; label: string; key: string; icon: LucideIcon }[] = [
+const TOOLS: { id: Tool; label: string; key: string; icon: IconComponent }[] = [
   { id: 'move', label: 'Move', key: 'V', icon: MousePointer2 },
   { id: 'hand', label: 'Hand', key: 'H', icon: Hand },
   { id: 'text', label: 'Text', key: 'T', icon: Type },

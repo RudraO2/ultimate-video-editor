@@ -1,9 +1,9 @@
 import { type Layer, isWorld, liveCamera } from '@uve/core'
-import { Box, Camera, Film, Group, Image as ImageIcon, Layers, Lightbulb, type LucideIcon, Move3d, Music, PenTool, Square, Type } from 'lucide-react'
+import { Box, Camera, Film, Group, Image as ImageIcon, Layers, Lightbulb, type IconComponent, Move3d, Music, PenTool, Square, Type } from '../icons'
 import { activeComp, useEditor } from '../store'
 
 /** The icon of each layer kind, in the Layers tab and on timeline lanes. */
-export const KIND_ICONS: Record<Layer['kind'], LucideIcon> = {
+export const KIND_ICONS: Record<Layer['kind'], IconComponent> = {
   text: Type,
   shape: Square,
   path: PenTool,

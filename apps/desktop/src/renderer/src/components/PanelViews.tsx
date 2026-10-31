@@ -1,6 +1,6 @@
 import { type Layer, type PropertySpec, propertiesOf } from '@uve/core'
 import { resolveLayer } from '@uve/engine'
-import { AudioLines, Network, Palette, PanelBottom, SlidersHorizontal, Spline, X } from 'lucide-react'
+import { AudioLines, Network, Palette, PanelBottom, SlidersHorizontal, Spline, X } from '../icons'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { preview } from '../media/preview'
 import { type BottomView, useEditor, useSelectedLayer } from '../store'

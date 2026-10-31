@@ -17,7 +17,7 @@ import {
   unitCount,
   unitStartMs,
 } from '@uve/core'
-import { ArrowRightFromLine, ArrowRightToLine, ChevronDown, ChevronRight, Play, Plus, X } from 'lucide-react'
+import { ArrowRightFromLine, ArrowRightToLine, ChevronDown, ChevronRight, Play, Plus, X } from '../icons'
 import { type PointerEvent as ReactPointerEvent, useState } from 'react'
 import { beginGesture, type Gesture, run, useEditor } from '../store'
 import { NumberField, type NumberSpec, Row, ScrubLabel, SelectField } from './fields'

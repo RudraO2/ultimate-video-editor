@@ -1,5 +1,5 @@
 import type { Comp, InstalledFont } from '@uve/core'
-import { Clock, FileText, HardDrive, Search, Sparkles, Star, Trash2, Type, Upload } from 'lucide-react'
+import { Clock, FileText, HardDrive, Search, Sparkles, Star, Trash2, Type, Upload } from '../icons'
 import { type ReactNode, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react'
 import { type Catalogue, filterFamilies, type FontSort, googleCatalogue } from '../library/googleFonts'
 import { loadFont, previewFamily } from '../library/fonts'

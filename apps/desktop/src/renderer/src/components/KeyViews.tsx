@@ -12,7 +12,7 @@ import {
   propertiesOf,
   sampleKeys,
 } from '@uve/core'
-import { ChevronDown, ChevronRight, Diamond, Eye, EyeOff, ListMinus, Spline } from 'lucide-react'
+import { ChevronDown, ChevronRight, Diamond, Eye, EyeOff, ListMinus, Spline } from '../icons'
 import { type PointerEvent as ReactPointerEvent, type ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { activeComp, beginGesture, type Gesture, run, useActiveComp, useEditor, useSelectedLayer } from '../store'
 import { Playhead, Ruler, RULER_HEIGHT } from './Timeline'

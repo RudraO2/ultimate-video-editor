@@ -1,5 +1,5 @@
 import { type CaptionStateName, graphemes, type Layer } from '@uve/core'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { ChevronDown, ChevronRight } from '../icons'
 import { useState } from 'react'
 import { run } from '../store'
 import { ColorField, NumberField, type NumberSpec, Row, ScrubLabel, Toggle } from './fields'

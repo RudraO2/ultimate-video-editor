@@ -1,5 +1,5 @@
 import { isWorld } from '@uve/core'
-import { Check, ChevronRight, Menu } from 'lucide-react'
+import { Check, ChevronRight, Menu } from '../icons'
 import { useEffect, useRef, useState } from 'react'
 import { importFiles } from '../media/import'
 import { askNewProject, askOpenProject, askSaveProject, refreshRecentProjects } from '../project/file'

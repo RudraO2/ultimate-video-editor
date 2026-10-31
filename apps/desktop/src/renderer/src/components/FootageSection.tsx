@@ -1,5 +1,5 @@
 import type { Layer } from '@uve/core'
-import { ScanSearch, Scissors } from 'lucide-react'
+import { ScanSearch, Scissors } from '../icons'
 import { useState } from 'react'
 import { run, useEditor } from '../store'
 import { Section } from './inspectorParts'

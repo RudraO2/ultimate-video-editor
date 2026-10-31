@@ -43,7 +43,7 @@ import {
   Italic,
   Layers,
   Link2,
-  type LucideIcon,
+  type IconComponent,
   MoveHorizontal,
   Lightbulb,
   Move3d,
@@ -59,7 +59,7 @@ import {
   Unlink2,
   WrapText,
   X,
-} from 'lucide-react'
+} from '../icons'
 import { type ReactNode, useMemo, useState } from 'react'
 import { enterNested, findLayer, propertyEdit, run, useActiveComp, useEditor, useSelectedLayer } from '../store'
 import { AnimatePanel } from './AnimatePanel'
@@ -210,7 +210,7 @@ const CASES = [
 ] as const
 
 /** An icon button that is on or off. */
-function IconToggle({ icon: Icon, label, on, onChange }: { icon: LucideIcon; label: string; on: boolean; onChange: (on: boolean) => void }) {
+function IconToggle({ icon: Icon, label, on, onChange }: { icon: IconComponent; label: string; on: boolean; onChange: (on: boolean) => void }) {
   return (
     <button
       type="button"

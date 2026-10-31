@@ -1,5 +1,5 @@
 import { groupOnLane, laneDepth, type Layer } from '@uve/core'
-import { BringToFront, CopyPlus, Eye, EyeOff, Group, Layers, SendToBack, Ungroup } from 'lucide-react'
+import { BringToFront, CopyPlus, Eye, EyeOff, Group, Layers, SendToBack, Ungroup } from '../icons'
 import { useCallback, useState } from 'react'
 import { duplicateSelection, groupSelection, nestSelection, restackSelection, run, ungroupSelection, useActiveComp, useEditor } from '../store'
 import { KIND_COLORS, KIND_ICONS, LIVE_PILL, useIsLiveCamera } from './kindIcons'

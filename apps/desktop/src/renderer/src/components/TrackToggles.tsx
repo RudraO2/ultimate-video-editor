@@ -1,5 +1,5 @@
 import { groupOnLane, type Track } from '@uve/core'
-import { Eye, EyeOff, Lock, LockOpen, Volume2, VolumeX } from 'lucide-react'
+import { Eye, EyeOff, Lock, LockOpen, Volume2, VolumeX } from '../icons'
 import { run } from '../store'
 
 /** A track's visibility, sound and lock switches. Each is a track.update command. */

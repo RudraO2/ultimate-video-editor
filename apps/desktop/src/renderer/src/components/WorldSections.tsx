@@ -20,7 +20,7 @@ import {
   TONE_MAPPINGS,
 } from '@uve/core'
 import { resolveLayer } from '@uve/engine'
-import { Box, X } from 'lucide-react'
+import { Box, X } from '../icons'
 import { findLayer, propertyEdit, run, selectionIds, session, useActiveComp, useEditor } from '../store'
 import { type Bind, ColorField, KeyButton, type KeyTarget, NumberField, type NumberSpec, Row, ScrubLabel, SelectField, Toggle } from './fields'
 import { type Axis, AxisRow, ColorProp, NumberProp, patch, Section } from './inspectorParts'

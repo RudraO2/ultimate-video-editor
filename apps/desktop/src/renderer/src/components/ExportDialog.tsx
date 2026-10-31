@@ -1,4 +1,4 @@
-import { CircleAlert, CircleCheck, FolderOpen } from 'lucide-react'
+import { CircleAlert, CircleCheck, FolderOpen } from '../icons'
 import { useEffect, useState } from 'react'
 import { cancelExport, dismissExport } from '../export/job'
 import { type ExportJob, useEditor } from '../store'

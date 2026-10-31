@@ -12,7 +12,7 @@ import {
   PhysicsSceneSchema,
   propertiesOf,
 } from '@uve/core'
-import { Plus, Trash2 } from 'lucide-react'
+import { Plus, Trash2 } from '../icons'
 import { useEffect, useRef } from 'react'
 import { activeComp, findLayer, run, selectionIds, useEditor } from '../store'
 import { type Bind, KeyButton, NumberField, type NumberSpec, Row, ScrubLabel, SelectField, TextField } from './fields'

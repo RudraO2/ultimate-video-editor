@@ -1,4 +1,4 @@
-import { Eraser, FilePlus2, Play, Square, Trash2 } from 'lucide-react'
+import { Eraser, FilePlus2, Play, Square, Trash2 } from '../icons'
 import { type KeyboardEvent, useEffect, useReducer, useRef, useState } from 'react'
 import { activeComp, session, useEditor } from '../store'
 

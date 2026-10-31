@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRightFromLine, ArrowRightToLine, Clock, LayoutGrid, Plus, Search, Shapes, Star } from 'lucide-react'
+import { ArrowLeft, ArrowRightFromLine, ArrowRightToLine, Clock, LayoutGrid, Plus, Search, Shapes, Star } from '../icons'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { type IconData, type IconSet, ICON_GROUPS, iconGroup, iconIdParts, iconStyleOf, iconSvg, iconTitle } from '../../../shared/icons'
 import { DEFAULT_ICON_COLOR, iconPictures, iconSets, placeIcon } from '../library/icons'

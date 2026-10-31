@@ -1,5 +1,5 @@
 import { activeWorkRange, formatTimecode, groupOnLane, laneDepth, layerEnd, type Marker, MIN_WORK_RANGE_MS, type Track, transitionWindows } from '@uve/core'
-import { ArrowLeftRight, ArrowLeftToLine, AudioLines, BetweenHorizontalStart, Group, Magnet, Maximize2, Minus, Pause, Play, Plus, Repeat, Scissors, SkipBack, Trash2, X } from 'lucide-react'
+import { ArrowLeftRight, ArrowLeftToLine, AudioLines, BetweenHorizontalStart, Group, Magnet, Maximize2, Minus, Pause, Play, Plus, Repeat, Scissors, SkipBack, Trash2, X } from '../icons'
 import { type DragEvent, type PointerEvent, type ReactNode, type RefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { placeSticker } from '../library/stickers'
 import { dragHasFiles, importDrop, MEDIA_DRAG_TYPE, placeMedia, STICKER_DRAG_TYPE } from '../media/import'

@@ -1,5 +1,5 @@
 import { ColorSchema, KEY_EPSILON_MS, type Layer } from '@uve/core'
-import { Diamond } from 'lucide-react'
+import { Diamond } from '../icons'
 import { type KeyboardEvent, type PointerEvent as ReactPointerEvent, type ReactNode, useEffect, useRef, useState } from 'react'
 import { beginGesture, type Gesture, run, useEditor } from '../store'
 
