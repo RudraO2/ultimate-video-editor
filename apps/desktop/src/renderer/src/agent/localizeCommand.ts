@@ -2,7 +2,7 @@ import { categoryForFileName, CommandError, compsInside, defineCommand, findComp
 import { z } from 'zod'
 import { languageCode, SARVAM_LANGUAGES, TRANSLATE_MODES, TTS_MODELS } from '../../../shared/sarvam'
 import { useEditor } from '../store'
-import { captionTake, placeTake, speak, type Take, takePieces, translateText, voiceReference } from './voiceCommands'
+import { CAPTION_LINE_HEIGHT, captionTake, placeTake, speak, type Take, takePieces, translateText, voiceReference } from './voiceCommands'
 
 // A comp in another language (comp_localize): a copy whose text is translated
 // and whose every voice take is spoken again in the new language. Timing comes
@@ -253,8 +253,9 @@ export const compLocalize = defineCommand({
       const look = lookOf(shared[0]!)
       await must(call('layers.delete', { ids: shared.map((c) => c.id) }))
       for (const c of shared) remade.add(c.id)
+      const lineHeight = Math.max(CAPTION_LINE_HEIGHT, shared[0]!.kind === 'text' ? shared[0]!.style.lineHeight : 0)
       for (const id of await captionTake(playing, spoken.speech, call, ctx.project)) {
-        await must(call('layer.patch', { id, ops: look }))
+        await must(call('layer.patch', { id, ops: [...look, { op: 'set', path: 'style.lineHeight', value: lineHeight }] }))
         captions.push(id)
       }
     }

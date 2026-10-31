@@ -359,6 +359,9 @@ export function takePieces(comp: Comp, layerId: string): (TakePiece & { id: stri
   return layers.filter((l): l is typeof layer => (l.kind === 'audio' || l.kind === 'video') && l.mediaId === layer.mediaId)
 }
 
+/** Line height of captions: room for tall Indian scripts and the focus word's highlight. */
+export const CAPTION_LINE_HEIGHT = 1.35
+
 /** Common Hindi words as they are written in Latin letters (Hinglish). */
 const HINDI_IN_LATIN = new Set(['hai', 'hain', 'ke', 'ka', 'ki', 'ko', 'se', 'aur', 'bhi', 'nahi', 'nahin', 'kya', 'kar', 'karte', 'karna', 'raha', 'rahe', 'rahi', 'sab', 'koi', 'yeh', 'ye', 'woh', 'wo', 'matlab', 'jaise', 'bahut', 'zyada', 'mein', 'hum', 'aap', 'tum', 'tha', 'thi', 'ho', 'hota', 'kuch', 'gaye', 'abhi', 'accha', 'acha', 'upar', 'aaj', 'aajkal', 'lekin', 'kyunki'])
 
@@ -419,7 +422,7 @@ export async function captionTake(audioLayerId: string, speech: SpeechInfo, call
       durationMs: endMs - startMs,
       ...(trackId ? { trackId } : {}),
       transform: { x: 0, y: Math.round(comp.height * 0.32) },
-      style: { fontSize: Math.round(Math.min(comp.width, comp.height) / 16), fontWeight: 700, align: 'center' },
+      style: { fontSize: Math.round(Math.min(comp.width, comp.height) / 16), fontWeight: 700, align: 'center', lineHeight: CAPTION_LINE_HEIGHT },
       maxWidth: Math.round(comp.width * 0.84),
     })
     if (!created.ok) throw new CommandError(created.error, created.hint)
