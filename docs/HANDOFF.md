@@ -38,6 +38,10 @@ the owner export the best run as the backup video. Then update "H1 progress", PL
 CLAUDE.md Status in one line each, commit and push.
 ```
 
+## Side task: own colours and icons (2026-10-31)
+
+Three proposals in `docs/design/theme-proposals/` (Graphite dark + Iconoir, Chai warm light + Phosphor, Kesar Night dark + Tabler), each a static copy of today's Easy and Advanced screens with only colours and icons changed. Waiting for the owner to pick one; the app is untouched. How to apply the winner: that folder's `README.md` ▸ "Applying the winner".
+
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
 
 - Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "M1 last chunk, F1 plan and progress"); files and names in `docs/HISTORY.md` ▸ F1.
