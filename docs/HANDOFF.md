@@ -2,7 +2,21 @@
 
 Updated 2026-10-30 (after F1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step H1 (hackathon: Sarvam everywhere, one purposeful demo, the pitch)
+## Next task: step M2 (outside agents drive the editor over MCP, end to end)
+
+Goal: Claude Code and Codex added the way the Connect dialog and README say, real edits from both, checked in the app. Sub-steps:
+
+- M2a: why port 7428 was busy on 2026-10-31 (the server came up on 57431); make the setup survive a moved port: recommend the stdio shim (reads url and token from `~/.uve/mcp.json` on each start) in the dialog and README, or make the port stable. Small and safe.
+- M2b: Claude Code: add at user scope as the dialog says, `claude mcp list` shows it connected, headless `claude -p ... --allowedTools "mcp__uve__*"`: import the repo-root WhatsApp clip, add a title, cut the pauses; CDP screenshot; undo works.
+- M2c: Codex: current MCP config format, add to `~/.codex/config.toml`, `codex exec` with the same task, confirm in the app.
+- M2d: checks: AtomCut input shapes, readable tool errors, Claude Code and in-app OpenCode don't undo each other's steps, editor closed (shim answers `uve_status`).
+- M2e: fix only what breaks (tests, type checks, push after each fix); docs (dialog, README, HANDOFF "Last chunk", PLAN, CLAUDE.md Status, drop "adding server to Claude Code" from "Still to check by hand"); push; next chat's prompt.
+
+### M2 progress
+
+- M2a done: why 7428 was busy: the editor has no single-instance lock, so a second copy (a second `pnpm dev`, or an Electron that outlived a stopped `pnpm dev`, see CLAUDE.md) holds 7428; the newer copy falls back to a free port and rewrites `~/.uve/mcp.json`. HTTP entries saved with :7428 then point at the other copy or at nothing. Fix: the Connect dialog and README now recommend the stdio shim for every app that starts programs (Claude Code, Codex, Gemini CLI, OpenCode `type: local`, Cursor, VS Code, Claude Desktop); it reads url and token from `~/.uve/mcp.json` each start. HTTP stays under "Any other". No single-instance lock added (an orphaned dev Electron would then swallow new launches).
+
+## Done: step H1 (hackathon: Sarvam everywhere, one purposeful demo, the pitch)
 
 Owner's call (2026-10-30): no new features before Ship Happens (2026-10-31). The track is "04. Culture Coded | Sarvam: Multilingual AI, voice tech, regional languages, accessibility, and technology built around culture and communities." B1 (screen recording) is deferred; its prompt is in `docs/handoff-archive.md` ▸ "B1 prompt (deferred)".
 

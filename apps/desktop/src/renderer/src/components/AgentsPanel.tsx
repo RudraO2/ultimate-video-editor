@@ -302,7 +302,8 @@ function ConnectDialog({ status, onClose }: { status: AgentStatus | null; onClos
               <CopyButton text={`node "${status.shimPath}"`} label="Copy the stdio command" />
             </dl>
             <p className="mt-2 text-[11px] leading-relaxed text-muted">
-              Only this computer can reach the server, and only with the token. The stdio server reads both from {status.connectionFile}.
+              Only this computer can reach the server, and only with the token. The stdio server reads both from {status.connectionFile} each time it starts, so it keeps working when the editor
+              takes another port (7428 busy).
             </p>
           </>
         )}

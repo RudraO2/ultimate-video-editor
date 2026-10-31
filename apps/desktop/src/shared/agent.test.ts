@@ -9,15 +9,14 @@ describe('agent setup', () => {
     expect(toolName('layers.makeUnique')).toBe('layers_makeUnique')
   })
 
-  it('gives each app its own way in, with the URL and token or the shim', () => {
+  it('gives each app its own way in, through the stdio shim, with the URL and token for the rest', () => {
     const setups = Object.fromEntries(agentSetups(status).map((s) => [s.id, s.code]))
-    expect(setups['claude-code']).toBe(
-      'claude mcp add -s user --transport http uve http://127.0.0.1:7428/mcp --header "Authorization: Bearer secret"',
-    )
+    // The shim reads the URL and token each time, so a moved port keeps working.
+    expect(setups['claude-code']).toBe(`claude mcp add -s user uve -- node "${status.shimPath}"`)
     expect(setups.codex).toBe(`codex mcp add uve -- node "${status.shimPath}"`)
-    expect(JSON.parse(setups.cursor ?? '')).toEqual({
-      mcpServers: { uve: { url: status.url, headers: { Authorization: 'Bearer secret' } } },
-    })
+    expect(JSON.parse(setups.cursor ?? '')).toEqual({ mcpServers: { uve: { command: 'node', args: [status.shimPath] } } })
+    expect(JSON.parse(setups.opencode ?? '').mcp.uve.command).toEqual(['node', status.shimPath])
+    expect(setups.other).toContain('Authorization: Bearer secret')
     // Windows paths stay valid JSON.
     expect(JSON.parse(setups['claude-desktop'] ?? '').mcpServers.uve.args).toEqual([status.shimPath])
   })

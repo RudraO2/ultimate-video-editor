@@ -52,14 +52,15 @@ export interface AgentSetup {
 }
 
 /**
- * How to add the editor to each agent app. Apps that take an HTTP server with
- * headers get the URL and token; the others start the stdio shim, which finds
- * the server by itself (it needs Node.js 22 or newer).
+ * How to add the editor to each agent app. Every app that can start a program
+ * gets the stdio shim: it reads the URL and token from the connection file each
+ * time it starts, so the setup survives the server moving to another port
+ * (when 7428 is busy) and answers `uve_status` while the editor is closed. It
+ * needs Node.js 22 or newer. "Any other" also shows the HTTP URL and token.
  */
 export function agentSetups(status: Pick<AgentStatus, 'url' | 'token' | 'shimPath'>): AgentSetup[] {
   const { url, token, shimPath } = status
   const auth = `Authorization: Bearer ${token}`
-  const headers = { Authorization: `Bearer ${token}` }
   const json = (value: unknown) => JSON.stringify(value, null, 2)
   const shim = { command: 'node', args: [shimPath] }
   return [
@@ -67,7 +68,7 @@ export function agentSetups(status: Pick<AgentStatus, 'url' | 'token' | 'shimPat
       id: 'claude-code',
       label: 'Claude Code',
       hint: 'Run this in a terminal, then start a new Claude Code session.',
-      code: `claude mcp add -s user --transport http uve ${url} --header "${auth}"`,
+      code: `claude mcp add -s user uve -- node "${shimPath}"`,
     },
     {
       id: 'codex',
@@ -79,25 +80,25 @@ export function agentSetups(status: Pick<AgentStatus, 'url' | 'token' | 'shimPat
       id: 'gemini',
       label: 'Gemini CLI',
       hint: 'Run this in a terminal, then start a new Gemini CLI session.',
-      code: `gemini mcp add -s user --transport http uve ${url} --header "${auth}"`,
+      code: `gemini mcp add -s user uve node "${shimPath}"`,
     },
     {
       id: 'opencode',
       label: 'OpenCode',
       hint: 'Add this to ~/.config/opencode/opencode.json, then restart OpenCode.',
-      code: json({ $schema: 'https://opencode.ai/config.json', mcp: { uve: { type: 'remote', url, enabled: true, headers } } }),
+      code: json({ $schema: 'https://opencode.ai/config.json', mcp: { uve: { type: 'local', command: ['node', shimPath], enabled: true } } }),
     },
     {
       id: 'cursor',
       label: 'Cursor',
       hint: 'Add this to ~/.cursor/mcp.json.',
-      code: json({ mcpServers: { uve: { url, headers } } }),
+      code: json({ mcpServers: { uve: shim } }),
     },
     {
       id: 'vscode',
       label: 'VS Code',
       hint: 'Run this in a terminal.',
-      code: `code --add-mcp '${JSON.stringify({ name: 'uve', type: 'http', url, headers })}'`,
+      code: `code --add-mcp '${JSON.stringify({ name: 'uve', type: 'stdio', ...shim })}'`,
     },
     {
       id: 'claude-desktop',
@@ -108,8 +109,8 @@ export function agentSetups(status: Pick<AgentStatus, 'url' | 'token' | 'shimPat
     {
       id: 'other',
       label: 'Any other',
-      hint: 'An app that takes an HTTP server: the URL with the Authorization header. An app that only starts programs: the stdio server below.',
-      code: `URL     ${url}\nHeader  ${auth}\n\n${json({ mcpServers: { uve: shim } })}`,
+      hint: 'An app that starts programs: the stdio server (keeps working when the port changes). An app that only takes an HTTP server: the URL with the Authorization header; set it up again if the editor reports another port.',
+      code: `${json({ mcpServers: { uve: shim } })}\n\nURL     ${url}\nHeader  ${auth}`,
     },
   ]
 }
