@@ -50,6 +50,28 @@ export function layerInput(media: MediaInput, mediaId: string, placement: Placem
   return { input, span }
 }
 
+/** The short side a comp gets when it takes its size from a smaller video. */
+const FIT_SHORT_SIDE = 1080
+
+/**
+ * When the first video lands in an empty flat comp, the comp takes that video's
+ * shape (a phone clip makes a portrait comp, its short side at least 1080 px)
+ * and its length. Returns the scale that makes the video fill the new comp, or
+ * null when the comp was left alone.
+ */
+async function fitEmptyComp(compId: string, ready: readonly MediaInput[], call: (name: string, input: unknown) => Promise<CommandResult>): Promise<number | null> {
+  const comp = findComp(session.project, compId)
+  if (isWorld(comp) || comp.embedded || comp.tracks.some((t) => t.layers.length > 0)) return null
+  const video = ready.find((m) => m.kind === 'video')
+  if (!video?.width || !video.height || !video.durationMs) return null
+  const scale = Math.max(1, FIT_SHORT_SIDE / Math.min(video.width, video.height))
+  const even = (n: number) => Math.max(2, Math.round(n / 2) * 2)
+  const width = even(video.width * scale)
+  const height = even(video.height * scale)
+  value(await call('frame.update', { id: comp.id, width, height, durationMs: video.durationMs }))
+  return Math.max(width / video.width, height / video.height)
+}
+
 /** Puts a library item on the timeline as one undo step, and selects the new layer. */
 export async function placeMedia(media: MediaAsset, placement: Placement): Promise<string | null> {
   const { input } = layerInput(media, media.id, placement, placement.startMs, placement.trackId)
@@ -101,6 +123,7 @@ export async function importFiles(files: readonly GrantedFile[], placement?: Pla
     await session.transact(label, async (call) => {
       let cursor = placement?.startMs ?? 0
       let trackId = placement?.trackId
+      let fitScale = placement ? await fitEmptyComp(placement.compId, ready, call) : null
       for (const media of ready) {
         const { id: mediaId } = value<{ id: string }>(await call('media.add', media))
         if (media.kind === 'model') {
@@ -117,7 +140,9 @@ export async function importFiles(files: readonly GrantedFile[], placement?: Pla
         }
         if (!placement) continue
         const { input, span } = layerInput(media, mediaId, placement, cursor, trackId)
-        const created = value<{ id: string; trackId: string }>(await call('layer.create', input))
+        const scaled = fitScale !== null && media.kind === 'video' ? { ...input, transform: { scaleX: fitScale, scaleY: fitScale } } : input
+        if (media.kind === 'video') fitScale = null
+        const created = value<{ id: string; trackId: string }>(await call('layer.create', scaled))
         layerIds.push(created.id)
         trackId = created.trackId
         cursor += span
