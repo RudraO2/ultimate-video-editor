@@ -12,10 +12,15 @@ One more thing worth knowing: the **project file format** is versioned separatel
 (format 19 today). Every schema change bumps it and ships a converter, so an older `.uve` file keeps
 opening.
 
-## [Unreleased]
+## [0.1.0] - 2026-10-31
+
+First packaged build. Installers for Windows, macOS and Linux are attached to the release; they are
+unsigned, so macOS needs right-click ▸ Open the first time.
 
 ### Added
 
+- Packaging with electron-builder (`pnpm dist`) and a release workflow that builds all three
+  platforms on a version tag.
 - Community files: contributing guide with acceptance criteria, code of conduct, security policy,
   support and privacy notes, issue and pull-request templates, CODEOWNERS, Dependabot and CI.
 - The project logo and every generated icon size in `assets/` (app icons, favicons, Apple and
@@ -33,4 +38,4 @@ opening.
 - 3D worlds, the motion system, the layer and text stack, and the editor foundation with its
   command API and MCP server.
 
-[Unreleased]: https://github.com/RudraO2/ultimate-video-editor/commits/main
+[0.1.0]: https://github.com/RudraO2/ultimate-video-editor/releases/tag/v0.1.0

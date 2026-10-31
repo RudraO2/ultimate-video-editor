@@ -14,3 +14,4 @@ Thumbs.db
 
 # Native helper build output (prebuilt copies are in apps/desktop/native/bin)
 apps/desktop/native/wgc-capture/build/
+release/

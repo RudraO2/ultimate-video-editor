@@ -128,6 +128,20 @@ through **OpenCode running inside the app**, so a non-technical user never leave
 
 ## Quick Start
 
+**Just want to use it?** Download the installer for your machine from
+[**Releases**](https://github.com/RudraO2/ultimate-video-editor/releases/latest):
+
+| | |
+|---|---|
+| **Windows** | `UltimateVideoEditor-<version>-win-x64.exe` — the usual installer. Screen recording works here. |
+| **macOS** | `UltimateVideoEditor-<version>-mac-arm64.dmg` (Apple silicon) or `-mac-x64.dmg` (Intel). The build is **unsigned**, so the first launch needs right-click ▸ **Open** ▸ Open, or `xattr -dr com.apple.quarantine "/Applications/Ultimate Video Editor.app"`. |
+| **Linux** | `.AppImage` (`chmod +x`, then run) or `.deb`. |
+
+For the voice features, paste a [Sarvam](https://dashboard.sarvam.ai/) API key into the **Voice**
+tab, or set `SARVAM_API_KEY` before launching. Everything else works without one.
+
+### Build from source
+
 You need **Node.js 22.12+** and **pnpm 10**.
 
 ```sh
@@ -155,6 +169,7 @@ $env:SARVAM_API_KEY = [Environment]::GetEnvironmentVariable('SARVAM_API_KEY','Us
 | `pnpm test` | Runs the unit tests (Vitest). |
 | `pnpm typecheck` | Type-checks every package. |
 | `pnpm build` | Builds the desktop app into `apps/desktop/out`. |
+| `pnpm dist` | Builds an installer for the current OS into `apps/desktop/release` (electron-builder). |
 
 <details>
 <summary>Environment flags and gotchas</summary>

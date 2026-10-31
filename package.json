@@ -12,7 +12,8 @@
     "dev": "pnpm --filter @uve/desktop dev",
     "build": "pnpm --filter @uve/desktop build",
     "typecheck": "pnpm -r typecheck",
-    "test": "vitest run"
+    "test": "vitest run",
+    "dist": "pnpm --filter @uve/desktop dist"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

@@ -1,0 +1,68 @@
+appId: io.github.rudrao2.uve
+productName: Ultimate Video Editor
+copyright: Copyright © 2026 Rudra Pratap Singh and Aryan Jangra
+
+directories:
+  buildResources: build
+  output: release
+
+# Everything the app needs is bundled by electron-vite into out/ (the main process imports only
+# Electron and node builtins), so nothing from node_modules has to be packaged.
+files:
+  - out/**
+  - package.json
+npmRebuild: false
+asar: true
+
+artifactName: UltimateVideoEditor-${version}-${os}-${arch}.${ext}
+
+mac:
+  category: public.app-category.video
+  icon: build/icon.icns
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+    - target: zip
+      arch: [arm64, x64]
+  # No Apple Developer certificate yet: the build is unsigned and unnotarised.
+  identity: null
+  hardenedRuntime: false
+  extendInfo:
+    NSMicrophoneUsageDescription: Ultimate Video Editor records your microphone when you ask it to speak a request or record your screen with narration.
+    NSCameraUsageDescription: Ultimate Video Editor uses your camera for the webcam picture-in-picture in a screen recording.
+
+dmg:
+  title: Ultimate Video Editor ${version}
+
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch: [x64]
+  # The screen-recording helpers (Windows Graphics Capture + cursor sampler, OpenScreen, MIT).
+  # main/recorder.ts looks for them under <resources>/native/bin/win32-x64.
+  extraResources:
+    - from: native/bin/win32-x64
+      to: native/bin/win32-x64
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: Ultimate Video Editor
+
+linux:
+  icon: build/icon.png
+  category: AudioVideo
+  synopsis: Desktop motion and video editor driven by hand and by AI agents over MCP
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+
+publish:
+  provider: github
+  owner: RudraO2
+  repo: ultimate-video-editor

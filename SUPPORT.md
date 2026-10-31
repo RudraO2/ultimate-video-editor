@@ -27,7 +27,10 @@ Include:
 ## Known limits today
 
 - **Windows only** for screen recording — the capture helpers are Windows Graphics Capture.
-- **No packaged installer yet.** Run it from source with `pnpm dev`.
+- **Installers** are on the [Releases page](https://github.com/RudraO2/ultimate-video-editor/releases/latest)
+  (Windows `.exe`, macOS `.dmg`, Linux `.AppImage` / `.deb`). They are **unsigned** — macOS needs
+  right-click ▸ Open on the first launch, and Windows SmartScreen asks for *More info ▸ Run anyway*.
+  Running from source with `pnpm dev` works too.
 - **A Sarvam API key** is needed for voice, transcription, translation and localization. Without it
   the rest of the editor works normally.
 - Colour grading, flipbook frames and Lottie export are not built yet.
