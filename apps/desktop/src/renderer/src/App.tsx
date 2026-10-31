@@ -208,7 +208,7 @@ function NoticeToast() {
     <div
       role="status"
       className={`pointer-events-none fixed right-14 bottom-4 z-50 max-w-md rounded-panel border px-3.5 py-2.5 text-[12px] shadow-xl ${
-        notice.tone === 'error' ? 'border-red-400/40 bg-red-950/90 text-red-100' : 'glass border-line text-ink'
+        notice.tone === 'error' ? 'border-danger/50 bg-raised text-danger' : 'glass border-line text-ink'
       }`}
     >
       {notice.text}

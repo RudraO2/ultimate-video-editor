@@ -70,7 +70,7 @@ function Result({ outcome }: { outcome: Outcome | null }) {
   if (!outcome) return null
   if (!outcome.ok) {
     return (
-      <div className="text-[11px] text-red-300" role="alert">
+      <div className="text-[11px] text-danger" role="alert">
         <p className="break-words whitespace-pre-wrap">{outcome.error}</p>
         {outcome.hint && <p className="mt-1 break-words whitespace-pre-wrap text-muted">{outcome.hint}</p>}
       </div>
@@ -266,7 +266,7 @@ export function VoicePanel() {
           placeholder="What should the voice say?"
           className={area}
         />
-        <p className={`text-right text-[10px] ${tooLong ? 'text-red-300' : 'text-muted'}`}>
+        <p className={`text-right text-[10px] ${tooLong ? 'text-danger' : 'text-muted'}`}>
           {text.length} / {TTS_MAX_CHARS}
         </p>
         <Labelled label="Language" htmlFor="voice-lang">

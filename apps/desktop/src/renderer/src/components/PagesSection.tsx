@@ -49,7 +49,7 @@ const Icon = ({ children, label, onClick, danger }: { children: React.ReactNode;
     }}
     aria-label={label}
     title={label}
-    className={`flex size-6 shrink-0 items-center justify-center rounded-md text-muted opacity-0 group-hover:opacity-100 hover:bg-hover ${danger ? 'hover:text-red-300' : 'hover:text-ink'}`}
+    className={`flex size-6 shrink-0 items-center justify-center rounded-md text-muted opacity-0 group-hover:opacity-100 hover:bg-hover ${danger ? 'hover:text-danger' : 'hover:text-ink'}`}
   >
     {children}
   </button>

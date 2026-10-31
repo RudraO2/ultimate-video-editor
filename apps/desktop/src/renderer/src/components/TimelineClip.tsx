@@ -24,6 +24,12 @@ const CLIP_COLORS: Record<Layer['kind'], string> = {
   empty: 'border-clip-group/70 bg-clip-group/18',
   mesh: 'border-clip-shape/70 bg-clip-shape/22',
 }
+/** Captions (text layers carrying spoken words) get their own colour, so they stand apart from titles. */
+const CAPTION_COLORS = 'border-clip-caption/70 bg-clip-caption/22'
+
+function clipColors(layer: Layer): string {
+  return layer.kind === 'text' && layer.caption ? CAPTION_COLORS : CLIP_COLORS[layer.kind]
+}
 
 /** Converts pointer positions to timeline positions. */
 export interface TimelineGeometry {
@@ -180,7 +186,7 @@ export function TimelineClip({ layer, geometry, locked }: { layer: Layer; geomet
       }}
       onDoubleClick={layer.kind === 'nested' ? () => enterNested(layer.id) : undefined}
       title={`${layer.name} · ${(layer.startMs / 1000).toFixed(2)}–${(layerEnd(layer) / 1000).toFixed(2)} s\nDrag to move, drag an edge to trim. Hold Alt to turn off snapping.${layer.kind === 'nested' ? ' Double-click to edit the comp inside.' : ''}`}
-      className={`group absolute top-1 bottom-1 flex items-start overflow-hidden pt-1 rounded-lg border text-left text-[11px] font-medium ${locked ? 'cursor-not-allowed' : 'cursor-grab active:cursor-grabbing'} ${CLIP_COLORS[layer.kind]} ${
+      className={`group absolute top-1 bottom-1 flex items-start overflow-hidden pt-1 rounded-lg border text-left text-[11px] font-medium ${locked ? 'cursor-not-allowed' : 'cursor-grab active:cursor-grabbing'} ${clipColors(layer)} ${
         selected ? 'ring-2 ring-accent' : ''
       } ${layer.enabled ? '' : 'opacity-40'}`}
       style={{ left: px(layer.startMs), width }}
@@ -198,7 +204,7 @@ export function TimelineClip({ layer, geometry, locked }: { layer: Layer; geomet
           )}
         </span>
         {/* A second line, as in AtomCut: the entrance ("TYPEWRITER · LETTER") or the kind, and how many properties are animated. */}
-        <span className="truncate font-mono text-[9px] font-normal tracking-wide text-ink/50 uppercase">
+        <span className="truncate font-mono text-[9px] font-normal tracking-wide text-ink/75 uppercase">
           {bands[0]?.label ?? layer.kind}
           {Object.keys(layer.animations).length > 0 && ` · ${Object.keys(layer.animations).length} animated`}
         </span>

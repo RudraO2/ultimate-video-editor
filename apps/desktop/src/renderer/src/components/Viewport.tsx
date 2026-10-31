@@ -13,6 +13,7 @@ import { drawRigOverlay } from './rigOverlay'
 import { pickedBone, rigHitAt, startRigDrag, updateRigOverlay } from './rigPoser'
 import { clickSelection, dragModeOf, dragView, firstView, framedView, isClick, orbitKey, wheelView } from './orbitControls'
 import { activeComp, beginGesture, currentTrail, enterNested, findLayer, finishPen, leaveNested, MAX_VIEW_ZOOM, MIN_VIEW_ZOOM, type PenPoint, penPathData, propertyEdit, run, selectionIds, type Tool, useActiveComp, useEditor, worldViewOf } from '../store'
+import { cssColor } from '../theme'
 
 const renderer = new CompRenderer()
 
@@ -575,7 +576,7 @@ export function Viewport() {
         }
         octx.closePath()
         octx.lineWidth = (1.5 * dpr) / scale
-        octx.strokeStyle = '#ff4e6a'
+        octx.strokeStyle = cssColor('accent')
         octx.stroke()
         // Corner handles show the layer can be dragged.
         const size = (6 * dpr) / scale
@@ -609,7 +610,7 @@ export function Viewport() {
         const hover = state.pen.hover ? { x: toPx(state.pen.hover)[0], y: toPx(state.pen.hover)[1] } : null
         octx.setTransform(scale, 0, 0, scale, 0, 0)
         octx.lineWidth = (1.5 * dpr) / scale
-        octx.strokeStyle = '#ff4e6a'
+        octx.strokeStyle = cssColor('accent')
         octx.stroke(new Path2D(penPathData(hover ? [...shifted, hover] : shifted, false)))
         const size = (6 * dpr) / scale
         octx.fillStyle = '#f1eaee'

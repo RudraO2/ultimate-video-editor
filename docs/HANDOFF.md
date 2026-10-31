@@ -50,6 +50,7 @@ Owner approved `docs/design/theme-proposals/theme-f-cream.html` as the app's lig
 ### T1 progress
 
 - T1a done: `theme.ts` (`readTheme`, `applyTheme`, `cssColor`), store `theme`/`setTheme`, applied before first paint in `main.tsx`, View menu ▸ Light theme / Dark theme, Cream tokens and finish under `html[data-theme="light"]` in `styles.css`, new tokens `accent-ink`, `danger`, `warn`, `clip-caption` in both themes, `tool-palette` class on the viewport tools.
+- T1b done: red-*/amber-*/emerald-* classes now `danger`/`warn`/`ok`, text on solid red `text-accent-ink`, caption layers (text with `caption`) get `clip-caption` in `TimelineClip.tsx`, kind tag `text-ink/75`, viewport selection and pen outline read `cssColor('accent')`, Keyframes and Curves take deeper curve colours in light (`LIGHT_COLORS`), selected keys and node wires use `var(--color-accent)`.
 
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
 

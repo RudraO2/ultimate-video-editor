@@ -41,6 +41,21 @@ const COLORS: Record<string, string> = {
   'transform.anchorY': '#8c818a',
 }
 const FALLBACK_COLORS = ['#ff9d3d', '#b48cff', '#5ee0b0', '#ff86c8', '#9db4ff']
+/** The same hues, deeper, for the light theme's cream panels. */
+const LIGHT_COLORS: Record<string, string> = {
+  'transform.x': '#b86e00',
+  'transform.y': '#0a8aa8',
+  'transform.z': '#2f6cc8',
+  'transform.scaleX': '#6b4fd6',
+  'transform.scaleY': '#c2357a',
+  'transform.rotation': '#1f8a57',
+  'transform.rotationX': '#9a6a00',
+  'transform.rotationY': '#0f8a73',
+  'transform.opacity': '#2b2620',
+  'transform.anchorX': '#4d5a78',
+  'transform.anchorY': '#655d53',
+}
+const LIGHT_FALLBACK_COLORS = ['#c25e00', '#7b4fd0', '#0f8a73', '#c2357a', '#3f63c8']
 
 const LABELS: Record<string, string> = {
   'transform.x': 'X',
@@ -104,11 +119,14 @@ interface Prop {
 /** The selected layer's animated properties, in the inspector's order. */
 function animatedProps(layer: Layer): Prop[] {
   let other = 0
+  const light = useEditor.getState().theme === 'light'
+  const colors = light ? LIGHT_COLORS : COLORS
+  const fallbacks = light ? LIGHT_FALLBACK_COLORS : FALLBACK_COLORS
   return propertiesOf(layer)
     .filter((spec) => (layer.animations[spec.path]?.length ?? 0) > 0)
     .map((spec) => {
       const transform = spec.path.startsWith('transform.')
-      const color = COLORS[spec.path] ?? FALLBACK_COLORS[other++ % FALLBACK_COLORS.length] ?? '#fff'
+      const color = colors[spec.path] ?? fallbacks[other++ % fallbacks.length] ?? '#fff'
       const label = LABELS[spec.path] ?? paintLabel(layer, spec.path) ?? spec.alias.replace(/([A-Z])/g, ' $1').replace(/^./, (c) => c.toUpperCase())
       return { spec, keys: layer.animations[spec.path] ?? [], color, label, group: transform ? 'Transform' : 'Other' }
     })
@@ -346,7 +364,7 @@ function KeyDiamond({
       <Diamond
         size={11}
         strokeWidth={2.2}
-        style={{ color: selected ? '#ff4e6a' : color, fill: selected ? '#ff4e6a' : hollow ? 'transparent' : color }}
+        style={{ color: selected ? 'var(--color-accent)' : color, fill: selected ? 'var(--color-accent)' : hollow ? 'transparent' : color }}
       />
     </button>
   )
@@ -356,6 +374,8 @@ function KeyDiamond({
 export function DopeSheet() {
   const layer = useSelectedLayer()
   const selectedKey = useEditor((s) => s.selectedKey)
+  // Key colours depend on the theme (see `animatedProps`).
+  useEditor((s) => s.theme)
   const [closed, setClosed] = useState<Record<string, boolean>>({})
   if (!layer) return <EmptyState>Select a layer to see its keyframes.</EmptyState>
   const props = animatedProps(layer)
@@ -438,7 +458,7 @@ export function DopeSheet() {
                 <KeyDiamond
                   key={t}
                   x={px(layer.startMs + t)}
-                  color={prop ? prop.color : '#c9bfc7'}
+                  color={prop ? prop.color : 'var(--color-muted)'}
                   hollow={!prop}
                   selected={isSelected(prop ? prop.spec.path : null, t)}
                   title={`${prop ? prop.label : row.kind === 'group' ? row.name : ''} key at ${((layer.startMs + t) / 1000).toFixed(2)} s. Drag to move, Delete removes it.`}
@@ -498,6 +518,8 @@ function rangeOf(layer: Layer, p: Prop): [number, number] {
 /** Curves: each animated number as a curve, normalised to its own range, with draggable keys. */
 export function CurvesView() {
   const layer = useSelectedLayer()
+  // Curve colours depend on the theme (see `animatedProps`).
+  useEditor((s) => s.theme)
   const hidden = useEditor((s) => s.hiddenCurves)
   const selectedKey = useEditor((s) => s.selectedKey)
   // The plot fills the panel's height.
@@ -669,7 +691,7 @@ export function CurvesView() {
                       title={`${p.label}: ${Number((key.v as number).toFixed(3))} at ${((layer.startMs + key.t) / 1000).toFixed(2)} s. Drag to move, Delete removes it.`}
                       onPointerDown={(e) => dragValue(e, p, key, range)}
                       className="absolute size-3 -translate-x-1/2 -translate-y-1/2 cursor-move rounded-full border-2"
-                      style={{ left: px(layer.startMs + key.t), top: y(key.v as number, range), borderColor: on ? '#ff4e6a' : p.color, background: on ? '#ff4e6a' : '#100c11' }}
+                      style={{ left: px(layer.startMs + key.t), top: y(key.v as number, range), borderColor: on ? 'var(--color-accent)' : p.color, background: on ? 'var(--color-accent)' : 'var(--color-panel)' }}
                     />
                   )
                 })

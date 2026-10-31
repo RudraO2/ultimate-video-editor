@@ -382,9 +382,9 @@ function SetupForm({ comp }: { comp: Comp }) {
 
           <div className="space-y-2 p-4 pt-3">
             {check.error ? (
-              <div role="alert" className="rounded-lg bg-red-500/10 px-2.5 py-2 text-xs text-red-200">
+              <div role="alert" className="rounded-lg bg-danger/10 px-2.5 py-2 text-xs text-danger">
                 <p>{check.error.message}</p>
-                {check.error.hint && <p className="mt-1 text-red-200/70">{check.error.hint}</p>}
+                {check.error.hint && <p className="mt-1 text-danger">{check.error.hint}</p>}
               </div>
             ) : (
               <p className="font-mono text-[11px] text-muted">{check.summary}</p>
@@ -392,7 +392,7 @@ function SetupForm({ comp }: { comp: Comp }) {
             <button
               type="submit"
               disabled={check.error !== null}
-              className="w-full truncate rounded px-3 py-2 text-xs font-medium bg-accent text-white hover:bg-accent/85 disabled:opacity-50"
+              className="w-full truncate rounded px-3 py-2 text-xs font-medium bg-accent text-accent-ink hover:bg-accent/85 disabled:opacity-50"
             >
               Export {comp.name}
             </button>

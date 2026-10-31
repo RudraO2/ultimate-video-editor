@@ -180,7 +180,7 @@ export function NodesView() {
             const y1 = sourceTop + 14
             const x2 = NODE_W + 120
             const y2 = (outputsTop[i] ?? 0) + 14
-            return <path key={n.title} d={`M${x1} ${y1} C${x1 + 60} ${y1}, ${x2 - 60} ${y2}, ${x2} ${y2}`} fill="none" stroke="#ff4e6a" strokeOpacity="0.6" strokeWidth="1.5" />
+            return <path key={n.title} d={`M${x1} ${y1} C${x1 + 60} ${y1}, ${x2 - 60} ${y2}, ${x2} ${y2}`} fill="none" style={{ stroke: 'var(--color-accent)' }} strokeOpacity="0.6" strokeWidth="1.5" />
           })}
         </svg>
         {source && node(source, 0, sourceTop)}

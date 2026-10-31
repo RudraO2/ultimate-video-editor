@@ -26,8 +26,8 @@ const TINT: Record<OutLine['level'], string> = {
   log: 'text-ink',
   info: 'text-muted',
   debug: 'text-muted',
-  warn: 'text-amber-200',
-  error: 'text-red-300',
+  warn: 'text-warn',
+  error: 'text-danger',
 }
 
 function shown(value: unknown): string {
@@ -272,7 +272,7 @@ export function ScriptsPanel() {
           </>
         )}
         {!active && finished && !finished.ok && (
-          <div className="mt-1 text-red-300">
+          <div className="mt-1 text-danger">
             <p className="break-words whitespace-pre-wrap">{finished.error}</p>
             {finished.hint && <p className="mt-1 break-words whitespace-pre-wrap text-muted">{finished.hint}</p>}
           </div>

@@ -118,7 +118,7 @@ function TransitionMarkers({ track }: { track: Track }) {
       {transitionWindows(track).map((w) => (
         <div
           key={w.transition.id}
-          className="group absolute top-1 z-10 flex h-4 items-center justify-center gap-1 overflow-hidden rounded-full bg-accent/80 px-1.5 text-[9px] font-semibold text-white shadow"
+          className="group absolute top-1 z-10 flex h-4 items-center justify-center gap-1 overflow-hidden rounded-full bg-accent/80 px-1.5 text-[9px] font-semibold text-accent-ink shadow"
           style={{ left: px(w.startMs), width: Math.max(14, px(w.endMs - w.startMs)) }}
           title={`${w.preset.label} · ${Math.round(w.transition.durationMs)} ms${w.a && w.b ? '' : w.a ? ' (out)' : ' (in)'}`}
           onPointerDown={(e) => e.stopPropagation()}
@@ -435,7 +435,7 @@ function Guides({ tracks }: { tracks: number }) {
       )}
       {guide.snapMs !== null && (
         <div
-          className="pointer-events-none absolute inset-y-0 z-10 w-px bg-amber-300"
+          className="pointer-events-none absolute inset-y-0 z-10 w-px bg-warn"
           style={{ left: (guide.snapMs / 1000) * pxPerSecond }}
         />
       )}

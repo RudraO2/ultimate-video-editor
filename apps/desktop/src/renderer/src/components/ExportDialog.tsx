@@ -58,8 +58,8 @@ export function ExportDialog() {
         className="w-[26rem] rounded-lg border border-line bg-panel p-4 shadow-2xl"
       >
         <div className="flex items-center gap-2">
-          {job.status === 'done' && <CircleCheck size={16} className="text-emerald-400" aria-hidden />}
-          {job.status === 'failed' && <CircleAlert size={16} className="text-red-400" aria-hidden />}
+          {job.status === 'done' && <CircleCheck size={16} className="text-ok" aria-hidden />}
+          {job.status === 'failed' && <CircleAlert size={16} className="text-danger" aria-hidden />}
           <h2 id="export-title" className="font-semibold">
             {title}
           </h2>
@@ -69,7 +69,7 @@ export function ExportDialog() {
         </p>
 
         {job.status === 'failed' ? (
-          <p className="mt-3 text-xs text-red-200">{job.error}</p>
+          <p className="mt-3 text-xs text-danger">{job.error}</p>
         ) : (
           <>
             <div
@@ -92,7 +92,7 @@ export function ExportDialog() {
               </span>
               <span>{timing(job, now)}</span>
             </div>
-            {job.note && <p className="mt-2 text-xs text-amber-200">{job.note}</p>}
+            {job.note && <p className="mt-2 text-xs text-warn">{job.note}</p>}
           </>
         )}
 
@@ -113,7 +113,7 @@ export function ExportDialog() {
                   Show in folder
                 </button>
               )}
-              <button type="button" onClick={dismissExport} className={`${button} bg-accent text-white hover:bg-accent/85`}>
+              <button type="button" onClick={dismissExport} className={`${button} bg-accent text-accent-ink hover:bg-accent/85`}>
                 Close
               </button>
             </>
