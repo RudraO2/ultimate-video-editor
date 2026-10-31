@@ -38,9 +38,18 @@ the owner export the best run as the backup video. Then update "H1 progress", PL
 CLAUDE.md Status in one line each, commit and push.
 ```
 
-## Side task: own colours and icons (2026-10-31)
+## Side task T1: Cream light theme in the app (2026-10-31)
 
-Proposals in `docs/design/theme-proposals/`: `theme-f-cream.html` (the light theme to apply: cream, not pure white; red icons and accents, rounder corners, Phosphor icons) and `theme-d-white.html` (the same in pure white). The first round (Graphite, Chai, Kesar Night) and a glass theme were turned down. Waiting for the owner's go to apply Cream; the app is untouched. How to apply: that folder's `README.md` ▸ "Applying it".
+Owner approved `docs/design/theme-proposals/theme-f-cream.html` as the app's light theme ("apply this as light theme"). The dark theme stays as a choice. Sub-steps:
+
+- T1a: theme switch (`uve.theme`, light by default, View menu ▸ Light theme / Dark theme, `html[data-theme]`), Cream tokens and the light finish (radii, 12 % tint, sentence-case headers, solid red Play and Export, red rail and tool icons) in `styles.css`.
+- T1b: wire the new tokens: `accent-ink` (text on solid red), `danger`/`warn` (red-*/amber-* classes), `clip-caption` (caption clips), kind tag at 75 %, canvas colours read from CSS variables instead of hard-coded dark ones.
+- T1c: Phosphor icons (MIT) in place of lucide-react, through one adapter module, both themes.
+- T1d: tests, type checks, build, check light and dark in the running app, docs (README, PLAN, CLAUDE.md), push.
+
+### T1 progress
+
+- T1a done: `theme.ts` (`readTheme`, `applyTheme`, `cssColor`), store `theme`/`setTheme`, applied before first paint in `main.tsx`, View menu ▸ Light theme / Dark theme, Cream tokens and finish under `html[data-theme="light"]` in `styles.css`, new tokens `accent-ink`, `danger`, `warn`, `clip-caption` in both themes, `tool-palette` class on the viewport tools.
 
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
 

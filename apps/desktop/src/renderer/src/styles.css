@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 /*
- * Dark theme: floating rounded panels on a near-black stage, with a pink-red
- * brand colour for active states (see docs/research/atomcut-inspiration.md).
+ * Two themes over the same tokens. @theme holds the dark theme: floating
+ * rounded panels on a near-black stage, a pink-red brand colour for active
+ * states. `html[data-theme="light"]` below swaps in Cream, the light theme
+ * (docs/design/theme-proposals/theme-f-cream.html). Theme switch: theme.ts.
  */
 @theme {
   --color-app: #08060a;
@@ -17,8 +19,14 @@
   --color-ink: #f1eaee;
   --color-muted: #8c818a;
   --color-accent: #ff4e6a;
+  /* Text and icons on a solid accent fill. */
+  --color-accent-ink: #ffffff;
   --color-ok: #2fd47a;
+  --color-danger: #fca5a5;
+  --color-warn: #fde68a;
   --color-clip-text: #9d8bff;
+  /* Caption layers (text layers that carry spoken words). */
+  --color-clip-caption: #b5e05e;
   --color-clip-shape: #4cc3e0;
   --color-clip-image: #e8b04b;
   --color-clip-video: #7c9dff;
@@ -56,6 +64,107 @@
 
 html {
   color-scheme: dark;
+}
+
+/*
+ * Cream, the light theme: warm cream panels on a soft stone window (no pure
+ * white), warm charcoal text, one red for icons and everything active,
+ * rounder corners. Every text pair is at least 4.5:1.
+ */
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-app: #e9e3d7;
+  --color-panel: #f8f4ec;
+  --color-stage: #efe9dd;
+  --color-lane: #f3eee5;
+  --color-card: #fbf8f2;
+  --color-raised: #fcf9f3;
+  --color-field: rgb(110 90 60 / 8%);
+  --color-hover: rgb(110 90 60 / 13%);
+  --color-line: rgb(80 60 30 / 10%);
+  --color-ink: #2b2620;
+  --color-muted: #655d53;
+  --color-accent: #b8121f;
+  --color-accent-ink: #fffaf2;
+  --color-ok: #2b6f3a;
+  --color-danger: #ad231b;
+  --color-warn: #874800;
+  --color-clip-text: #8a45c2;
+  --color-clip-caption: #d27c00;
+  --color-clip-shape: #00918a;
+  --color-clip-image: #2a8fae;
+  --color-clip-video: #2f6cc8;
+  --color-clip-audio: #2e9447;
+  --color-clip-group: #9c7f5a;
+  --color-clip-path: #c93866;
+  --color-clip-nested: #5a55cf;
+  --color-motion: #8a45c2;
+  --color-motion-halo: rgb(250 246 238 / 75%);
+  --color-motion-ink: #2b2620;
+  --radius-panel: 16px;
+  --radius-lg: 10px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --shadow-panel: 0 0 0 0.5px rgb(80 60 30 / 8%), 0 1px 3px rgb(80 60 30 / 6%);
+  --shadow-float: 0 0 0 0.5px rgb(80 60 30 / 10%), 0 10px 30px -10px rgb(80 60 30 / 24%), 0 2px 6px -2px rgb(80 60 30 / 10%);
+}
+
+/* Cream's finish: a lighter tint for what is on, sentence-case headers, red rail and tool icons, solid red primary buttons, softer clip edges. */
+html[data-theme="light"] {
+  & .active-tint {
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+  & .rounded {
+    border-radius: 6px;
+  }
+  & .uppercase:not(.font-mono) {
+    text-transform: none;
+  }
+  & .tracking-wide,
+  & .tracking-wider {
+    letter-spacing: 0;
+  }
+  & nav svg,
+  & .tool-palette svg {
+    color: var(--color-accent);
+  }
+  & :is(.bg-accent\/30, .bg-accent\/35) {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+  & :is(.bg-accent\/30, .bg-accent\/35):hover {
+    background: color-mix(in srgb, var(--color-accent) 88%, black);
+  }
+  & :is(.bg-accent\/30, .bg-accent\/35) svg {
+    color: var(--color-accent-ink);
+  }
+  & .border-clip-text\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-text) 55%, transparent);
+  }
+  & .border-clip-caption\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-caption) 55%, transparent);
+  }
+  & .border-clip-shape\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-shape) 55%, transparent);
+  }
+  & .border-clip-image\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-image) 55%, transparent);
+  }
+  & .border-clip-video\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-video) 55%, transparent);
+  }
+  & .border-clip-audio\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-audio) 55%, transparent);
+  }
+  & .border-clip-path\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-path) 55%, transparent);
+  }
+  & .border-clip-nested\/70 {
+    border-color: color-mix(in oklab, var(--color-clip-nested) 55%, transparent);
+  }
+  & ::-webkit-scrollbar-thumb {
+    background: rgb(80 60 30 / 16%);
+  }
 }
 
 html,

@@ -19,7 +19,11 @@ import { importFiles } from './media/import'
 import { preview } from './media/preview'
 import { startProjectTracking } from './project/file'
 import { session, useEditor } from './store'
+import { applyTheme } from './theme'
 import './styles.css'
+
+// The remembered theme before the first paint, so a light launch never flashes dark.
+applyTheme(useEditor.getState().theme)
 
 // Development builds expose the session, the importer and the exporter to
 // automated checks (for example through the Chrome DevTools MCP server).

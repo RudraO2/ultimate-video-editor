@@ -25,6 +25,7 @@ import type { RecentProject } from '../../shared/project'
 import type { RenderResult } from './export/render'
 import { envelopeOfMedia } from './media/envelope'
 import { silhouetteOfMedia } from './media/silhouette'
+import { applyTheme, readTheme, type Theme, THEME_KEY } from './theme'
 import { type LeftTab, MODE_TABS, readUiMode, tabForMode, UI_MODE_KEY, type UiMode } from './uiMode'
 
 /**
@@ -110,6 +111,8 @@ interface EditorState {
   exportSetupOpen: boolean
   /** Easy (the chat, the preview, a simple timeline, export) or Advanced (every panel); remembered across launches. */
   uiMode: UiMode
+  /** Light (Cream) or dark; remembered across launches. */
+  theme: Theme
   /** What the left panel shows, picked in the rail. */
   leftTab: LeftTab
   /** The plugin window open over the editor (icons, fonts), or null. */
@@ -164,6 +167,8 @@ interface EditorState {
   setMotionPaths: (on: boolean) => void
   /** Switches between Easy and Advanced, and remembers the choice; the left panel moves to a tab the mode has. */
   setUiMode: (mode: UiMode) => void
+  /** Switches between the light and dark theme, and remembers the choice. */
+  setTheme: (theme: Theme) => void
   /** Changes how a world comp is looked at (the orbit view, its shading and grid). */
   setWorldView: (compId: string, patch: Partial<WorldViewState>) => void
   /** Switches a world comp between looking through its camera and the orbit view; a flat comp has none. */
@@ -306,6 +311,7 @@ export const useEditor = create<EditorState>()((set, get) => ({
   exportJob: null,
   exportSetupOpen: false,
   uiMode: initialUiMode,
+  theme: readTheme(),
   leftTab: MODE_TABS[initialUiMode][0] as LeftTab,
   plugin: null,
   pluginFolded: false,
@@ -356,6 +362,15 @@ export const useEditor = create<EditorState>()((set, get) => ({
     }
     // Easy has no key, colour or node views: the timeline comes back.
     set((s) => ({ uiMode: mode, leftTab: tabForMode(mode, s.leftTab), ...(mode === 'easy' ? { bottomView: 'timeline' as const, plugin: null } : {}) }))
+  },
+  setTheme: (theme) => {
+    try {
+      localStorage.setItem(THEME_KEY, theme)
+    } catch {
+      // Storage can be blocked; the choice then lasts for this session only.
+    }
+    applyTheme(theme)
+    set({ theme })
   },
   setWorldView: (compId, patch) => set((s) => ({ worldView: { ...s.worldView, [compId]: { ...worldViewOf(s, compId), ...patch } } })),
   toggleOrbit: (compId) => {

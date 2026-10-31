@@ -74,6 +74,8 @@ function viewMenu(): Entry[] {
   return [
     { label: 'Easy mode', shortcut: 'chat, preview, export', checked: state.uiMode === 'easy', onSelect: () => useEditor.getState().setUiMode('easy') },
     { label: 'Advanced mode', shortcut: 'every panel', checked: state.uiMode === 'advanced', onSelect: () => useEditor.getState().setUiMode('advanced') },
+    { label: 'Light theme', shortcut: 'cream', checked: state.theme === 'light', onSelect: () => useEditor.getState().setTheme('light') },
+    { label: 'Dark theme', checked: state.theme === 'dark', onSelect: () => useEditor.getState().setTheme('dark') },
     { label: 'Motion paths', shortcut: 'on selection', checked: useEditor.getState().motionPaths, onSelect: () => useEditor.getState().setMotionPaths(!useEditor.getState().motionPaths) },
     {
       label: 'Orbit view',

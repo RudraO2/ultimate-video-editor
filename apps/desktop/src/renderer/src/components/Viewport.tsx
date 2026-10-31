@@ -390,7 +390,7 @@ function OrbitPill() {
 function ToolPalette() {
   const tool = useEditor((s) => s.tool)
   return (
-    <div className="glass absolute top-2 left-2 z-10 flex flex-col gap-1 rounded-panel p-1">
+    <div className="tool-palette glass absolute top-2 left-2 z-10 flex flex-col gap-1 rounded-panel p-1">
       {TOOLS.map(({ id, label, key, icon: Icon }) => (
         <button
           key={id}
