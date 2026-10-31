@@ -303,3 +303,18 @@ export function parseHelperLine(line: string): { event: string; [key: string]: u
     return null
   }
 }
+
+/**
+ * The size of the `mfra` box an MP4 ends with, read from its last 16 bytes (the
+ * `mfro` box: size 16, type, version and flags, then the whole mfra's size), or
+ * null when the file does not end with one.
+ */
+export function mfraSizeFromTail(tail: Uint8Array): number | null {
+  if (tail.length < 16) return null
+  const view = new DataView(tail.buffer, tail.byteOffset, tail.byteLength)
+  const at = tail.length - 16
+  const type = String.fromCharCode(tail[at + 4]!, tail[at + 5]!, tail[at + 6]!, tail[at + 7]!)
+  if (view.getUint32(at) !== 16 || type !== 'mfro') return null
+  const size = view.getUint32(at + 12)
+  return size >= 16 ? size : null
+}

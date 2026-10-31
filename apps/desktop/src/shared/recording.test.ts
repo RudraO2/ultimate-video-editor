@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  mfraSizeFromTail,
   captureHelperConfig,
   countClicks,
   CursorCollector,
@@ -192,5 +193,20 @@ describe('parseSamplerLine', () => {
     expect(parseSamplerLine('hello')).toBeNull()
     expect(parseSamplerLine('{"type":"other"}')).toBeNull()
     expect(parseSamplerLine('{broken')).toBeNull()
+  })
+})
+
+describe('mfraSizeFromTail', () => {
+  it('reads the mfra size from a trailing mfro box', () => {
+    const tail = new Uint8Array(16)
+    const view = new DataView(tail.buffer)
+    view.setUint32(0, 16)
+    tail.set([0x6d, 0x66, 0x72, 0x6f], 4)
+    view.setUint32(12, 652)
+    expect(mfraSizeFromTail(tail)).toBe(652)
+  })
+  it('is null for a file that does not end with one', () => {
+    expect(mfraSizeFromTail(new Uint8Array(16))).toBeNull()
+    expect(mfraSizeFromTail(new Uint8Array(4))).toBeNull()
   })
 })

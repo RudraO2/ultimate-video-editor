@@ -19,6 +19,7 @@ import { downloadFont, inspectFontFile } from './fontFiles'
 import { mediaTypeOf } from '../shared/media'
 import { grant } from './media'
 import { downloadModel } from './modelFiles'
+import { isHelperContents } from './windows'
 
 // The MCP server that lets agent apps drive the editor. It runs here, in the
 // main process, on 127.0.0.1 with a bearer token. The project lives in the
@@ -86,7 +87,7 @@ const pending = new Map<string, (result: McpToolResult) => void>()
 let callSeq = 0
 
 function editorWindow(): BrowserWindow | undefined {
-  return BrowserWindow.getAllWindows()[0]
+  return BrowserWindow.getAllWindows().find((w) => !isHelperContents(w.webContents))
 }
 
 function waitForTools(): Promise<McpTool[] | null> {
@@ -264,8 +265,12 @@ export async function startAgentServer(): Promise<void> {
   ipcMain.on('agent:result', (_event, id: string, result: McpToolResult) => pending.get(id)?.(result))
   ipcMain.handle('agent:status', () => status())
   app.on('web-contents-created', (_event, contents) => {
-    contents.on('did-start-loading', () => forgetRenderer('The editor window reloaded during this call.'))
-    contents.on('render-process-gone', () => forgetRenderer('The editor window stopped during this call.'))
+    contents.on('did-start-loading', () => {
+      if (!isHelperContents(contents)) forgetRenderer('The editor window reloaded during this call.')
+    })
+    contents.on('render-process-gone', () => {
+      if (!isHelperContents(contents)) forgetRenderer('The editor window stopped during this call.')
+    })
   })
 
   try {

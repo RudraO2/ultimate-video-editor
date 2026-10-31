@@ -18,6 +18,7 @@ import {
 } from '../shared/opencode'
 import { mcpEndpoint, skillFiles } from './agent'
 import { sarvamKey } from './sarvam'
+import { isHelperContents } from './windows'
 
 /** The env var OpenCode reads the Sarvam key from (its Sarvam provider). */
 const SARVAM_KEY_ENV = 'UVE_SARVAM_CHAT_KEY'
@@ -65,7 +66,7 @@ const questions = new Map<string, (optionId: string | null) => void>()
 let questionSeq = 0
 
 function editorWindow(): BrowserWindow | undefined {
-  return BrowserWindow.getAllWindows()[0]
+  return BrowserWindow.getAllWindows().find((w) => !isHelperContents(w.webContents))
 }
 
 function setStatus(patch: Partial<OpenCodeStatus>): OpenCodeStatus {

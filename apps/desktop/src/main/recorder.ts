@@ -3,7 +3,7 @@ import { existsSync, promises as fs } from 'node:fs'
 import { basename, join } from 'node:path'
 import type { Readable, Writable } from 'node:stream'
 import { app, BrowserWindow, desktopCapturer, type Display, ipcMain, screen } from 'electron'
-import {
+import { mfraSizeFromTail,
   CURSOR_SAMPLE_INTERVAL_MS,
   captureHelperConfig,
   countClicks,
@@ -21,6 +21,7 @@ import {
   recordingFileName,
 } from '../shared/recording'
 import { grant } from './media'
+import { helperContents } from './windows'
 
 // Screen recording: OpenScreen's two Windows helpers (wgc-capture records the
 // screen, cursor-sampler follows the mouse) run as child processes. This module
@@ -218,6 +219,7 @@ function openHud(display: Display, startedAt: number): BrowserWindow {
     hasShadow: false,
     webPreferences: { sandbox: true, contextIsolation: true, nodeIntegration: false, backgroundThrottling: false },
   })
+  helperContents.add(win.webContents)
   win.setAlwaysOnTop(true, 'screen-saver')
   // The capture leaves this window out of the video.
   win.setContentProtection(true)
@@ -465,6 +467,35 @@ async function start(raw: unknown): Promise<StartOutcome> {
   }
 }
 
+/**
+ * Cuts the fragment index (`mfra`) off the end of the helper's fragmented MP4.
+ * Media Foundation stamps its entries with nominal frame times, and mediabunny
+ * places fragments by them: a 14.25 s recording read as 15.04 s, and its frames
+ * drifted 5 % late. Without the index every reader walks the fragments' own
+ * sample durations, the true timing (ffprobe and Chromium agree). Returns the new size.
+ */
+async function dropFragmentIndex(path: string, size: number): Promise<number> {
+  try {
+    const file = await fs.open(path, 'r+')
+    try {
+      const tail = Buffer.alloc(16)
+      await file.read(tail, 0, 16, size - 16)
+      const index = mfraSizeFromTail(tail)
+      if (index === null || index > size) return size
+      const head = Buffer.alloc(8)
+      await file.read(head, 0, 8, size - index)
+      if (head.toString('latin1', 4, 8) !== 'mfra') return size
+      await file.truncate(size - index)
+      return size - index
+    } finally {
+      await file.close()
+    }
+  } catch (error) {
+    console.warn('[recorder] fragment index kept:', error)
+    return size
+  }
+}
+
 function stopRecording(): Promise<RecordingOutcome> {
   const live = session
   if (!live) return Promise.resolve(fail('No recording is running.'))
@@ -502,6 +533,7 @@ async function finish(live: Session): Promise<RecordingOutcome> {
     } catch {
       size = 0
     }
+    if (size > 0) size = await dropFragmentIndex(path, size)
     if (size === 0) {
       outcome = fail('The recording could not be saved.', 'Try again, and check that the Videos folder has free space.')
     } else {
