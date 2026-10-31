@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/png/logo-256.png" width="104" height="104" alt="Ultimate Video Editor logo">
+
 # Ultimate Video Editor
 
 **A real desktop motion editor that an AI agent can drive end to end — and that you can still finish by hand.**
@@ -539,6 +541,7 @@ the honest list of what the agent could not do.
 | `docs/` | `PLAN.md` (roadmap), `core-api.md` (the command API), `HANDOFF.md`, `HISTORY.md`, `pitch.md` |
 | `docs/benchmarks/` | The briefs, the runner, and `results.md` — every agent run with its gaps |
 | `docs/research/` | Clean-room notes on AtomCut and the asset inventory |
+| `assets/` | The logo and every generated size — app icons (`.icns`, `.ico`), Apple full-bleed squares, favicons, maskable PWA icons, and the palette ([`assets/README.md`](assets/README.md)) |
 
 ## Status and roadmap
 
