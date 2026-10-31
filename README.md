@@ -10,8 +10,10 @@
 [![TypeScript](https://img.shields.io/badge/code-TypeScript-3178C6)](packages)
 [![MCP](https://img.shields.io/badge/agents-MCP%20%C2%B7%20128%20tools-7C3AED)](#drive-it-from-an-agent)
 [![Sarvam](https://img.shields.io/badge/voice-Sarvam%20AI-FF5A1F)](#voice-and-indian-languages)
+[![CI](https://github.com/RudraO2/ultimate-video-editor/actions/workflows/ci.yml/badge.svg)](https://github.com/RudraO2/ultimate-video-editor/actions/workflows/ci.yml)
 [![Tests](https://img.shields.io/badge/tests-~1%2C400%20unit-brightgreen)](#tests-and-quality)
-[![Licence](https://img.shields.io/badge/licence-MIT-blue)](THIRD_PARTY_NOTICES.md)
+[![Licence](https://img.shields.io/badge/licence-MIT-blue)](LICENSE)
+[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
 [Features](#features) • [Quick Start](#quick-start) • [Drive it from an agent](#drive-it-from-an-agent) • [Architecture](#architecture) • [Tech Stack](#tech-stack) • [Benchmarks](#what-agents-actually-build) • [Team](#team)
 
@@ -558,7 +560,7 @@ the honest list of what the agent could not do.
 
 ## Research and licences
 
-Ultimate Video Editor is MIT-licensed. Ported code keeps its own notice — see
+Ultimate Video Editor is [MIT-licensed](LICENSE). Ported code keeps its own notice — see
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) (three.js, planck.js, opentype.js, mediabunny,
 QuickJS, OpenScreen's capture helpers, Phosphor icons, and the asset libraries with their CC0 / MIT
 terms).
@@ -568,9 +570,19 @@ our own words. No AtomCut code or assets are used.
 
 ## Contributing
 
-Contributions are welcome. Open an issue for a bug or a feature idea, or send a pull request —
-please describe what changed and why in the description. Run `pnpm test` and `pnpm typecheck` before
-you do.
+Contributions are very welcome — code, docs, a better recipe in the skill, or just a good bug
+report. [`CONTRIBUTING.md`](CONTRIBUTING.md) has the setup, the rules that keep the editor coherent
+(every edit is a command, one action is one undo step, a failure leaves no trace), how to add a
+command so it becomes an agent tool, and the acceptance criteria a change has to meet.
+
+| | |
+|---|---|
+| **Report something** | [Open an issue](https://github.com/RudraO2/ultimate-video-editor/issues/new/choose) — bug, feature, a tool that confused an agent, or a docs fix |
+| **Send a change** | Fork, branch off `main`, `pnpm test && pnpm typecheck`, then open a PR with the template filled in |
+| **Agent problems count** | A bad error hint or a misleading skill section breaks every agent the same way. Those reports are as valuable as crash reports |
+| **Code of Conduct** | [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — Contributor Covenant 2.1 |
+| **Security** | Never in a public issue: [`SECURITY.md`](SECURITY.md) |
+| **Help and FAQs** | [`SUPPORT.md`](SUPPORT.md) · what leaves your machine: [`PRIVACY.md`](PRIVACY.md) |
 
 ## Team
 

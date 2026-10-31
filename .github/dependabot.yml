@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      types:
+        patterns: ["@types/*"]
+      dev-tooling:
+        patterns: ["vite", "vitest", "electron-vite", "typescript", "tailwindcss", "@tailwindcss/*", "@vitejs/*"]
+    ignore:
+      # Pinned on purpose — see CLAUDE.md and THIRD_PARTY_NOTICES.md.
+      # mediabunny is pinned exactly (MPL-2.0, unmodified); three and its types must move together.
+      - dependency-name: mediabunny
+      - dependency-name: three
+      - dependency-name: "@types/three"
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"

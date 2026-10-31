@@ -1,0 +1,15 @@
+# Every pull request gets a maintainer review.
+*                       @RudraO2 @aryan-techie
+
+# The document model and the command registry decide what every agent can do.
+/packages/core/         @RudraO2
+/packages/mcp/          @RudraO2
+
+# What agents are taught, and how their work is judged.
+/skill/                 @RudraO2 @aryan-techie
+/docs/benchmarks/       @RudraO2 @aryan-techie
+
+# Community health, CI and brand.
+/.github/               @RudraO2 @aryan-techie
+/assets/                @aryan-techie
+/README.md              @aryan-techie

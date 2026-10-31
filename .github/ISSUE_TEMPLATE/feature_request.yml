@@ -1,0 +1,100 @@
+name: Feature request
+description: Propose something the editor should be able to do
+title: "[feature]: "
+labels: ["enhancement", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Features here land twice: as something a person can do by hand, and as a command that
+        becomes an agent tool automatically. Describing both sides makes a proposal much easier to
+        accept.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The edit you are trying to make
+      description: What you want in the finished video, and why it is hard or impossible today.
+      placeholder: >
+        I want a word to wipe on behind a moving mask. Today I have to fake it with a group and
+        keyed opacity, which breaks when the text re-wraps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: by-hand
+    attributes:
+      label: How it would work by hand
+      description: Which panel, which control, what the user drags or types.
+    validations:
+      required: true
+
+  - type: textarea
+    id: as-tool
+    attributes:
+      label: How it would work as a tool
+      description: The call an agent would make, roughly. Name, inputs, what it returns.
+      placeholder: |
+        mask_wipe { layerId, from: "left", durationMs: 600, easing: "ease-out" }
+      render: json
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: >
+        How we will know it is done. Be concrete — these become the checklist on the PR.
+      value: |
+        - [ ] Works by hand in the inspector, and as a command/tool with the same result
+        - [ ] One user action is one undo step; undo restores the previous state exactly
+        - [ ] A bad input fails with an error and a hint that names the fix, and changes nothing
+        - [ ] Preview and export agree frame for frame
+        - [ ] Unit tests cover the success path and one failure path
+        - [ ] Documented in `docs/core-api.md`, and in `skill/` if agents should use it
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do instead today
+      description: The workaround, and why it isn't good enough.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      multiple: true
+      options:
+        - Timeline / editing
+        - Text and type
+        - Animation and motion
+        - Effects and transitions
+        - 3D worlds
+        - Physics or characters
+        - Sound and mix
+        - Voice and languages
+        - Footage analysis and cutting
+        - Screen recording
+        - Export
+        - Assets (sounds, stickers, icons, fonts)
+        - Agent tools or the skill
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: A clip, a screenshot, or how another tool does it. Describe the behaviour — don't paste another app's code.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I searched the existing issues and the roadmap in `docs/PLAN.md`.
+          required: true
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/RudraO2/ultimate-video-editor/blob/main/CODE_OF_CONDUCT.md).
+          required: true

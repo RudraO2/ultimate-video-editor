@@ -1,0 +1,114 @@
+name: Bug report
+description: Something in the editor behaves wrongly, crashes, or renders incorrectly
+title: "[bug]: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. If this is a **security** problem, don't file it here — open a
+        [private advisory](https://github.com/RudraO2/ultimate-video-editor/security/advisories/new).
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, and what the editor did instead.
+      placeholder: |
+        I dragged the right edge of a video clip to trim it. The clip jumped back to its
+        original length as soon as I let go.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Smallest sequence that shows it. A `.uve` project or a sample file helps a lot.
+      placeholder: |
+        1. New project
+        2. Import any MP4 and drop it on the timeline
+        3. Drag the clip's right edge left by about a second
+        4. Let go
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where it happens
+      multiple: true
+      options:
+        - Timeline / editing
+        - Inspector / properties
+        - Animation, keyframes or motion paths
+        - Effects or transitions
+        - 3D worlds
+        - Physics or characters
+        - Sound, mix or captions
+        - Voice / translation (Sarvam)
+        - Footage analysis or cutting
+        - Screen recording
+        - Export
+        - Projects (open / save)
+        - Library, fonts, icons or stickers
+        - Agent chat or MCP tools
+        - Something else
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit or version
+      description: Output of `git rev-parse --short HEAD`.
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: OS and GPU
+      placeholder: "Windows 11 23H2, Intel UHD 770 + RTX 3050"
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node and pnpm version
+      placeholder: "node 22.14.0, pnpm 10.11.0"
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: >
+        Anything red in the dev-tools console or in the `pnpm dev` terminal. The editor also keeps
+        recent warnings and errors — an agent can read them with `app_console`.
+      render: shell
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots, a recording, or the project file
+      description: Drag files in here. A 5-second screen recording usually beats three paragraphs.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I searched the existing issues and this isn't a duplicate.
+          required: true
+        - label: I'm on a recent `main` (or I said which commit above).
+          required: true
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/RudraO2/ultimate-video-editor/blob/main/CODE_OF_CONDUCT.md).
+          required: true

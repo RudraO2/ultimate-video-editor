@@ -1,0 +1,50 @@
+name: Docs or skill fix
+description: Something in the README, the API docs, or the agent skill is wrong, missing or confusing
+title: "[docs]: "
+labels: ["documentation"]
+body:
+  - type: dropdown
+    id: where
+    attributes:
+      label: Which document
+      options:
+        - README.md
+        - CONTRIBUTING.md
+        - docs/core-api.md
+        - docs/PLAN.md or docs/HISTORY.md
+        - docs/benchmarks/
+        - skill/SKILL.md or skill/references/
+        - assets/README.md
+        - Something else
+    validations:
+      required: true
+
+  - type: input
+    id: section
+    attributes:
+      label: Section or line
+      placeholder: "README ▸ Drive it from an agent, the Codex snippet"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong
+      description: Quote the sentence if you can.
+    validations:
+      required: true
+
+  - type: textarea
+    id: fix
+    attributes:
+      label: What it should say
+      description: A suggested wording is very welcome — and a PR even more so.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/RudraO2/ultimate-video-editor/blob/main/CODE_OF_CONDUCT.md).
+          required: true

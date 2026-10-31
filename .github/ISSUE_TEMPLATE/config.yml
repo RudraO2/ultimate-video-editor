@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: How to use the editor, and what it can do today
+    url: https://github.com/RudraO2/ultimate-video-editor#readme
+    about: The README covers the panels, the agent setup, the benchmarks and the current limits.
+  - name: The command and tool reference
+    url: https://github.com/RudraO2/ultimate-video-editor/blob/main/docs/core-api.md
+    about: Every command, what it takes, and the guarantees around undo and failures.
+  - name: What agents are taught
+    url: https://github.com/RudraO2/ultimate-video-editor/blob/main/skill/SKILL.md
+    about: The skill — the loop, recipes, sound and craft rules an agent follows.
+  - name: Report a security vulnerability
+    url: https://github.com/RudraO2/ultimate-video-editor/security/advisories/new
+    about: Private channel to the maintainers. Never file a vulnerability as a public issue.

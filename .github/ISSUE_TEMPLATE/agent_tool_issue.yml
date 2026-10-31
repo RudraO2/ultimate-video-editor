@@ -1,0 +1,103 @@
+name: Agent / MCP tool problem
+description: A tool returned a bad error, a hint didn't help, the skill misled the agent, or an agent couldn't do something it should
+title: "[agent]: "
+labels: ["agent", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        These reports matter as much as crashes. An agent only ever sees tool names, summaries,
+        input schemas, error hints and the skill — if any of those are wrong, every agent gets it
+        wrong the same way.
+
+  - type: input
+    id: harness
+    attributes:
+      label: Which agent
+      placeholder: "The in-app OpenCode chat / Claude Code / Codex / Cursor / something else"
+    validations:
+      required: true
+
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      placeholder: "opencode/glm-5.3-flash-free, claude-sonnet, …"
+
+  - type: input
+    id: tool
+    attributes:
+      label: Tool involved
+      placeholder: "keyframes_set"
+
+  - type: textarea
+    id: request
+    attributes:
+      label: What you asked for
+      description: The prompt or brief you gave the agent.
+    validations:
+      required: true
+
+  - type: textarea
+    id: call
+    attributes:
+      label: The call and the reply
+      description: The tool input the agent sent and exactly what came back.
+      render: json
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should have happened
+      description: >
+        If the error was right but unhelpful, say what hint would have got the agent unstuck —
+        that is usually the fix.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem is it
+      options:
+        - The tool rejected a reasonable input
+        - The tool accepted it but did the wrong thing
+        - The error message or hint didn't help the agent recover
+        - The tool is missing — there is no way to do this at all
+        - The skill taught the agent the wrong thing
+        - The agent could do it, but the result looks bad
+    validations:
+      required: true
+
+  - type: input
+    id: skill-version
+    attributes:
+      label: Skill version
+      description: The `version` in the front matter of `skill/SKILL.md`.
+      placeholder: "0.28.0"
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit
+      placeholder: "git rev-parse --short HEAD"
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Frames, the project file, or the transcript
+      description: Exported frames or `view_frames` output show quality problems far better than words.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you file
+      options:
+        - label: I searched the existing issues and this isn't a duplicate.
+          required: true
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/RudraO2/ultimate-video-editor/blob/main/CODE_OF_CONDUCT.md).
+          required: true

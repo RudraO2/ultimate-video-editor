@@ -1,0 +1,24 @@
+root = true
+
+# Note: `end_of_line` is deliberately unset. A few files in the repo (apps/desktop/src/renderer/src/store.ts,
+# components/Viewport.tsx) are CRLF, and normalising them would turn a one-line change into a whole-file diff.
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 110
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml,json}]
+indent_size = 2
+
+[*.py]
+indent_size = 4
+
+[Makefile]
+indent_style = tab
