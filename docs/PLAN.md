@@ -286,7 +286,9 @@ Chunks, one chat each (plans per group are written in `docs/HANDOFF.md` as each 
 
 **M2 outside agents done 2026-10-31:** Claude Code (headless `claude -p`) and Codex (`codex exec`) each imported a talking head, titled it and cut its pauses through the stdio shim, seen live, one undo step each; the Connect dialog and README now recommend the shim (it survives a moved port; Codex needs `default_tools_approval_mode = "approve"`); agents cannot undo each other's steps. Next: B1 (screen recording).
 
-**B1 screen recording done 2026-10-31:** a display or a window recorded from inside the editor with OpenScreen's Windows helpers (system sound, microphone, webcam picture-in-picture, the real cursor drawn by Windows), by hand (Record button, both modes) and as `screen_record` (chat: "record my screen for 20 seconds"); the clip lands at the playhead, the cursor telemetry beside it as `<video>.cursor.json`. Next: B2 (auto-zoom).
+**B1 screen recording done 2026-10-31:** a display or a window recorded from inside the editor with OpenScreen's Windows helpers (system sound, microphone, webcam picture-in-picture, the real cursor drawn by Windows), by hand (Record button, both modes) and as `screen_record` (chat: "record my screen for 20 seconds"); the clip lands at the playhead, the cursor telemetry beside it as `<video>.cursor.json`.
+
+**Phase B done 2026-10-31 (B2 to B4 with B1, owner's call: quick, bare minimum):** auto-zoom on clicks as editable keys (`media_auto_zoom`, OpenScreen's planner), the frame look (`screen_frame`: padding, rounded corners, shadow, gradient background), skill 0.28.0. Next: demos.
 
 **F1 footage done 2026-10-30:** a person drops their own footage and asks the chat to cut it; the agent reads it once (words in any Indian language or English, a speech gate per file, shots), tightens it with a reason per cut (pauses with breathing room, fillers per language, false starts, retakes), and lays B-roll inside the sentences it shows, by hand (Inspector ▸ Footage) and as tools. Next: phase B (B1 screen recording).
 

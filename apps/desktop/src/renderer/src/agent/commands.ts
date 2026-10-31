@@ -33,6 +33,7 @@ import { mediaRemoveBackground } from './cutoutCommands'
 import { FORCE_KINDS, physicsBake, physicsInspect } from './physicsCommands'
 import { stickersList, stickersUse } from './stickerCommands'
 import { mediaAutoZoom } from './autoZoomCommand'
+import { screenFrame } from './frameCommand'
 import { compLocalize } from './localizeCommand'
 import { mediaAnalyze, mediaRemovePauses, mediaSearch, timelinePlaceBroll } from './footageCommands'
 import { generateSpeech, mediaTranscribe, sarvamUsage, textTranslate, voicesList } from './voiceCommands'
@@ -385,7 +386,7 @@ export const fontsList = defineCommand({
   },
 })
 
-export const DESKTOP_COMMANDS = [catalogList, catalogGet, sessionSet, appConsole, soundsList, soundsUse, fontsList, iconsList, iconsUse, stickersList, stickersUse, mediaRemoveBackground, physicsInspect, physicsBake, voicesList, generateSpeech, mediaTranscribe, textTranslate, sarvamUsage, compLocalize, mediaAnalyze, mediaRemovePauses, mediaSearch, timelinePlaceBroll, mediaAutoZoom] as const
+export const DESKTOP_COMMANDS = [catalogList, catalogGet, sessionSet, appConsole, soundsList, soundsUse, fontsList, iconsList, iconsUse, stickersList, stickersUse, mediaRemoveBackground, physicsInspect, physicsBake, voicesList, generateSpeech, mediaTranscribe, textTranslate, sarvamUsage, compLocalize, mediaAnalyze, mediaRemovePauses, mediaSearch, timelinePlaceBroll, mediaAutoZoom, screenFrame] as const
 
 /** Adds the desktop commands to the session's registry, once. */
 export function registerDesktopCommands(registry: CommandRegistry = session.registry): void {

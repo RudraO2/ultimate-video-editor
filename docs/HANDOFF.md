@@ -1,42 +1,36 @@
 # Handoff
 
-Updated 2026-10-31 (after B1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
+Updated 2026-10-31 (after phase B). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step B2 (auto-zoom on clicks)
+## Next task: step D1 (demos)
 
-B2 is one chat: it writes its own plan (lettered sub-steps B2a, B2b, … under a new "Plan of B2" here), then does them all, saving a "B2 progress" note here after each and committing and pushing to `main` after each.
+Phase B is done (B1 to B4 in one chat). D1 is one chat: it writes its own plan (D1a, D1b, … under a new "Plan of D1" here), then does it, saving a "D1 progress" note here after each sub-step and committing and pushing to `main` after each.
 
 Paste this into a new chat:
 
 ```
 Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
 never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
-"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B steps). Search docs/HISTORY.md only
-when a detail is needed (B1 for the recorder, the cursor sidecar and its timing; A5/A6 for keyframes).
+"Next task" and "Last chunk". Search docs/HISTORY.md only when a detail is needed (B1 and "B2, B3, B4"
+for screen recording, auto-zoom and the frame look; F1 for cutting footage; Q9 for the craft rules).
 
-Do ONE step only: B2, auto-zoom, whole, in this chat. Goal: a screen recording gets zooms on its
-clicks and where the cursor dwells, as ordinary editable keyframes on the clip (scale and position,
-eased in and out, held while the action lasts, merged when clicks are close), by hand (a button on a
-video clip that has a `<video>.cursor.json` beside it, both modes) and as an agent tool; the chat's
-"zoom in on my clicks" goes through it. Read the sidecar written by B1 (OpenScreen's layout:
-samples with cx/cy fractions, interactionType click/mouseup, surface). Research first: how
-getopenscreen/openscreen (MIT) plans its auto-zooms from cursor telemetry (src/ and crates/; its
-zoom depth, duration, easing, follow-cursor rules); port the logic with its MIT notice, keep it the
-bare minimum (owner's rule). Note from B1: a maximised window's sampler bounds include the 11 px
-invisible frame; correct for it. First write the lettered sub-steps (B2a, B2b, ...) under a new
-"Plan of B2" in docs/HANDOFF.md, start at once and run through every sub-step without stopping (no
-plan mode, no waiting for approval). Build everything first and test once at the end; usage is
-limited. After each sub-step: tests and type checks pass, update the "B2 progress" note, commit and
-push to main (owner is the only author; no AI attribution). Delegate bounded pieces to Sonnet
-subagents on separate files; the main chat verifies. Main-process changes and new files under skill/
-need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user environment). At the end,
-record a short clip with a few clicks (the Record button or screen_record), auto-zoom it by hand and
-once through OpenCode, export it and look at the frames; then follow the end-of-step rule at the top
-of docs/HANDOFF.md, update docs/PLAN.md and the Status in CLAUDE.md in one or two lines (details go
-to docs/HISTORY.md), commit and push, and end your reply with the prompt for the next step (B3).
+Phase B is done; the owner now makes demos. Step D1: three short demo videos made in the editor,
+each by asking OpenCode in the Easy-mode chat (start pnpm dev with SARVAM_API_KEY set from the user
+environment), checked by eye from exported frames, saved in ~/Videos/UVE demos/:
+1. A product walkthrough of the editor itself: "record my screen for 30 seconds" while the owner
+   (or a scripted cursor) uses the editor, then auto-zoom on the clicks, the frame look, a title,
+   captions if there is speech, a music bed, export.
+2. A talking-head cut: the owner's own clip, pauses cut, Devanagari captions, B-roll.
+3. A 20 s motion piece from a one-line brief (skill recipes), sound pass included.
+Before each demo, plan it in docs/HANDOFF.md under "Plan of D1" (D1a, D1b, ...) and run through
+without stopping. Fix only what blocks a demo (smallest change, test it); note anything else in
+"D1 progress" for later. After each sub-step: tests and type checks pass, commit and push to main
+(owner is the only author; no AI attribution). At the end follow the end-of-step rule at the top of
+docs/HANDOFF.md, update docs/PLAN.md and the Status in CLAUDE.md in one or two lines, commit and push,
+and end your reply with the prompt for the next step.
 ```
 
-## Last chunk: B1, screen recording (2026-10-31)
+## Last chunk: phase B, screen recording to the frame look (2026-10-31)
 
 Details in `docs/HISTORY.md` ▸ B1.
 
@@ -57,6 +51,7 @@ Source: getopenscreen/openscreen (MIT, commit f789451 of 2026-10-31), where Open
 - B1c done: Record button under Export on the right rail (both modes; pulses red while recording, click stops), `RecordDialog` (sources with thumbnails, computer sound, microphone, webcam), `recording/recorder.ts` imports each finished recording at the playhead (an empty comp takes its size).
 - B1d done: `screen_record` host tool (`durationMs` required, `source` by name or id via `matchSource`, `systemAudio`, `microphone`, `webcam`, `place`, `library`), skill 0.27.0 "Screen recordings". Tests 1425, type checks pass. Next: B1e (live check by hand and through OpenCode, docs).
 - B1e done: live checks by hand (14.2 s display, 892 cursor samples, 1 click, cursor in the video where the sidecar says, Stop bar left out), `screen_record` over MCP on a window, and OpenCode in Easy mode ("record my screen for 6 seconds", clip placed). Two fixes found on the way: the fragment index (`mfra`) cut off each recording (mediabunny read the file 5 % long), and the agent relay no longer takes the Stop bar for the editor reloading. Docs: README, PLAN, HISTORY, CLAUDE.md.
+- B2 to B4 done in the same chat (owner: finish quickly, bare minimum): `media_auto_zoom` (OpenScreen's click planner ported, MIT; keys on the clip; Record dialog "Zoom on clicks" on by default, Inspector ▸ Footage buttons, `screen_record {autoZoom}`), `screen_frame` (rounded card in a mask group with a fixed layout box, shadow, gradient background), skill 0.28.0. Checked: a 12 s `screen_record` with two scripted clicks got one 1.8x zoom; `screen_frame` aurora; the export shows the card, the zoom inside it and back to wide. Tests 1437. Details in `docs/HISTORY.md` ▸ "B2, B3, B4".
 
 ## Plan of Phase Q
 
