@@ -1,82 +1,53 @@
 # Handoff
 
-Updated 2026-10-30 (after F1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
+Updated 2026-10-31 (after M2). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step M2 (outside agents drive the editor over MCP, end to end)
+## Next task: step B1 (phase B starts: screen recording)
 
-Goal: Claude Code and Codex added the way the Connect dialog and README say, real edits from both, checked in the app. Sub-steps:
+B1 is one chat: it writes phase B's numbered steps into `docs/PLAN.md` (if missing), then its own plan (lettered sub-steps B1a, B1b, … under a new "Plan of B1" here), then does them all, saving a "B1 progress" note here after each and committing and pushing to `main` after each.
 
-- M2a: why port 7428 was busy on 2026-10-31 (the server came up on 57431); make the setup survive a moved port: recommend the stdio shim (reads url and token from `~/.uve/mcp.json` on each start) in the dialog and README, or make the port stable. Small and safe.
-- M2b: Claude Code: add at user scope as the dialog says, `claude mcp list` shows it connected, headless `claude -p ... --allowedTools "mcp__uve__*"`: import the repo-root WhatsApp clip, add a title, cut the pauses; CDP screenshot; undo works.
-- M2c: Codex: current MCP config format, add to `~/.codex/config.toml`, `codex exec` with the same task, confirm in the app.
-- M2d: checks: AtomCut input shapes, readable tool errors, Claude Code and in-app OpenCode don't undo each other's steps, editor closed (shim answers `uve_status`).
-- M2e: fix only what breaks (tests, type checks, push after each fix); docs (dialog, README, HANDOFF "Last chunk", PLAN, CLAUDE.md Status, drop "adding server to Claude Code" from "Still to check by hand"); push; next chat's prompt.
+Paste this into a new chat:
 
-### M2 progress
+```
+Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
+never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
+"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B) and key decision 5 (OpenScreen
+is reused in Phase B). Search docs/HISTORY.md only when a detail is needed (M1 for the modes and
+chat; A4 for media import).
+
+Phase B (OpenScreen features) starts now. First, if docs/PLAN.md has no numbered phase B steps, write
+them there (B1, B2, … each one chat: recorder and capture helpers, cursor telemetry and auto-zoom as
+editable zoom keyframes, background/padding/rounded corners/shadow as layer properties, agent tools
+and skill). Then do ONE step only: B1, screen recording, whole, in this chat. Goal: record the screen
+(a display or a window, with system audio and the mic, optional webcam) from inside the editor, by
+hand and as an agent tool; the recording lands in the project as a clip (the file stays on disk, as
+every media file), with its cursor positions and clicks kept beside it for B2's auto-zoom. Research
+first: OpenScreen (MIT) on GitHub, its native capture helpers (Windows Graphics Capture), cursor
+telemetry and file layout; what Electron's desktopCapturer gives on Windows 11 with the Intel GPU
+only; keep OpenScreen's MIT notice for anything ported. It must work in both Easy and Advanced modes
+and from the chat ("record my screen for 20 seconds"). First write the lettered sub-steps (B1a, B1b,
+...) under a new "Plan of B1" in docs/HANDOFF.md, start at once and run through every sub-step
+without stopping (no plan mode, no waiting for approval). Owner's rule: build everything first and
+test once at the end; usage is limited. After each sub-step: tests and type checks pass, update the
+"B1 progress" note, commit and push to main (owner is the only author; no AI attribution). Delegate
+bounded pieces to Sonnet subagents on separate files; the main chat verifies. Main-process changes
+and new files under skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user
+environment). At the end, record a short clip in the running app by hand and once through OpenCode;
+then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in
+CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end your reply
+with the prompt for the next step (B2).
+```
+
+
+## Last chunk: M2, outside agents drive the editor over MCP (2026-10-31)
+
+Plan: M2a port and recommended setup, M2b Claude Code, M2c Codex, M2d checks (undo across agents, AtomCut shapes, errors, editor closed), M2e docs. Details in `docs/HISTORY.md` ▸ M2. Progress log:
 
 - M2a done: why 7428 was busy: the editor has no single-instance lock, so a second copy (a second `pnpm dev`, or an Electron that outlived a stopped `pnpm dev`, see CLAUDE.md) holds 7428; the newer copy falls back to a free port and rewrites `~/.uve/mcp.json`. HTTP entries saved with :7428 then point at the other copy or at nothing. Fix: the Connect dialog and README now recommend the stdio shim for every app that starts programs (Claude Code, Codex, Gemini CLI, OpenCode `type: local`, Cursor, VS Code, Claude Desktop); it reads url and token from `~/.uve/mcp.json` each start. HTTP stays under "Any other". No single-instance lock added (an orphaned dev Electron would then swallow new launches).
 - M2b done: `claude mcp add -s user uve -- node "%APPDATA%\@uve\desktop\uve-mcp.mjs"` (the dialog's command; dev builds' user data is `@uve\desktop`), `claude mcp get uve` shows Connected. Headless `claude -p ... --allowedTools "mcp__uve__*" --model sonnet` (Claude Code 2.1.316): imported the 41.7 s clip into a 1080x1920 comp, title "AI Slop on LinkedIn", pauses cut (balanced) to 36.6 s, in 51 s and 30 turns, no fix needed. Seen live over CDP; one undo ("Agent · claude-code") put the empty project back.
 - M2c done: Codex CLI 0.164.0. `codex mcp add uve -- node "<shim>"` adds it, but Codex then asks before every MCP call, and `codex exec` refuses them all ("MCP tool call requires approval, but approval policy is never"). Fix: `default_tools_approval_mode = "approve"` in `[mcp_servers.uve]` (Codex's `AppToolApproval`: auto, prompt, writes, approve); the dialog's Codex entry and README now give the whole `config.toml` table. The owner's configured model `gpt-6.1-sol` is refused for a ChatGPT login, so runs used `-m gpt-5.6-terra` (config untouched; backup of config.toml in the session scratchpad). `codex exec` did the same task in 100 s: 480x854 comp, title "LinkedIn's AI Slop", pauses cut to 29.4 s; seen live; one undo step "Agent · codex-mcp-client". On the way it guessed shapes (`media_import {path}`, `media_analyze {mediaId}`, `catalog_list {category}`, `layer_set {fontSize}`, `view_frames {startMs, endMs}`); each error named the right field or pointed at `api_describe`, and it recovered at once.
 - M2d done, nothing broke: (1) Undo across agents, both ways, real apps: OpenCode in the app added a layer (7 s, step "Agent · opencode"); headless Claude Code's `history_undo` answered "The newest undo step is "Agent · opencode", which is not yours, so it stays. Fix forward instead."; then Claude Code added a layer and OpenCode's `history_undo` got the same refusal; both layers stayed. (2) AtomCut shapes through the shim (scratchpad `m2/shim-check.mjs`): `keyframes_set {property, keys: [{at, value, easing}]}`, position `arc`, `layer_set {ids: [..] | id, values, mode, atMs}`, `timeline_trim {endMs}`, `view_frames {frameId, fromMs, toMs, count, detail}`, `view_render {frameId, atMs}` all OK. (3) Errors read well: unknown layer, unknown property (lists the animatable ones), bad enum, missing file (shim resolves a relative `localPath` against the agent's folder), unknown tool. (4) Editor closed (scratchpad `m2/offline-check.mjs`, `UVE_MCP_CONNECTION` at a dead port): initialize answers with the offline instructions, `tools/list` is `uve_status` only, other calls fail with "open the editor"; when the file names a live server the shim connects, sends `tools/list_changed` and lists 135 tools. Headless Claude Code with the editor "closed" told the user to open it. Note: editing `apps/desktop/src/shared/*` fully reloads the renderer (clears the in-memory project), like core edits.
-
-## Done: step H1 (hackathon: Sarvam everywhere, one purposeful demo, the pitch)
-
-Owner's call (2026-10-30): no new features before Ship Happens (2026-10-31). The track is "04. Culture Coded | Sarvam: Multilingual AI, voice tech, regional languages, accessibility, and technology built around culture and communities." B1 (screen recording) is deferred; its prompt is in `docs/handoff-archive.md` ▸ "B1 prompt (deferred)".
-
-Purpose (agreed): a voice-first video studio for people who speak but do not type English. They talk to it in their own language; it cuts their footage, captions it in their script and releases it in other Indian languages in their own voice. Hearing (Saaras), the agent's model (on Sarvam's API) and the voice (Bulbul, cloning) are all Sarvam.
-
-Checked live on 2026-10-30 (session scratchpad `f1/probe.py`):
-- `POST https://api.sarvam.ai/v2/chat/completions` serves `glm5.3-flash`, the model OpenCode already uses. It accepts `Authorization: Bearer <key>` and tool calls work. (`/v1` takes only `sarvam-105b`, which spent 400 reasoning tokens to answer "ready": too slow for the agent.)
-- `saaras:v4` speech to text works, including `mode: codemix` (Hinglish). Timestamps are still per phrase.
-- `bulbul:v4-flash` text to speech works (default speaker; 200+ persona voices per the docs).
-- Instant voice cloning (beta) works: `POST /voices/clone` (multipart: text, language_code, `ref_audio` up to 15 s and 10 MB, or a saved `voice_id` from `POST /voices/create`), answer `{audio_b64, audio_duration}`. It clones across languages. A 14-word Hindi line came back 2.7 s long: listen before relying on it.
-- Batch speech to text (up to 2 h, diarization up to 20 speakers, ₹0.59 a minute) was not tried.
-
-### H1 progress (2026-10-30, night)
-
-- H1a done, checked live: OpenCode's Sarvam provider (`sarvam/glm5.3-flash`, base `https://api.sarvam.ai/v2`, key in env `UVE_SARVAM_CHAT_KEY` only for OpenCode). It is the default when a Sarvam key is set and no model was picked before, and a new chat keeps the picked model. A Hindi request made a real edit in 9 s, and the footer reads "Sarvam (India)/GLM 5.3 Flash on Sarvam". The owner's saved model is now Sarvam's.
-- H1b done: Saaras v4 for all speech to text (codemix for the chat mic; verbatim for footage); `BULBUL_V4_FLASH_SPEAKERS` (224, taken from the API's own error message) and `v4SpeakerFor` (a narrator of the language); `voices_list` gives `v4Voices`.
-- H1c done, checked live: `generate_speech {voice: "clone", reference, referenceStartMs?}` and `comp_localize {ownVoice}`. The main process calls `POST /voices/clone` (≤ 1,000 characters, a 12 s reference picked from the take's richest speech window, cached, ₹2 per 1,000). A Hindi line in the cloned voice came back 6.8 s long; the 2.7 s probe was a shell encoding problem. Skill 0.26.0 has two lines (own voice, v4 voices).
-- H1e done: `docs/pitch.md` (one line, the 3-minute talk track, numbers, judge questions, run sheet).
-- H1d done (2026-10-31, the owner's 41.7 s Hinglish clip, request typed): fixed on the path (each commit pushed) the comp taking a phone clip's shape, captions and `comp_localize` over a cut talking head (all pieces, cloned voice on its own track, video muted, phrase captions remade in the same look), cloned voice pace (sent and cached), Devanagari captions for Hinglish heard as English, string flags from the model, the agent asking to read its own long tool results, caption line height and shadow; clean runs took 47 s cold and 28 s cached, ₹3.40; backup pair in `~/Videos/UVE demo/`. After a Gemini review of the backup: the cut keeps "so"/"right" where they are grammar (so much, all right, right now), and filmed speech is translated modern-colloquial ("இன்னைக்கு இவ்ளோதான்"); backup re-exported from run 11 (38 s). Left: the cloned voice's flat delivery (Sarvam's beta cloning). Not tried: the mic itself. Not built: a consent line in the Voice tab and a by-hand "my voice" button.
-
-Paste this into a new chat (the morning of 2026-10-31):
-
-```
-Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY docs/HANDOFF.md
-"Next task" (with "H1 progress") and docs/pitch.md. H1a-c and H1e are done; do H1d only: the demo
-rehearsal. Start pnpm dev with SARVAM_API_KEY set from the user environment (and
-UVE_REMOTE_DEBUG_PORT=9222 so you can watch over CDP). The owner gives a real Hinglish talking-head
-clip. Run the pitch's demo in Easy mode exactly as docs/pitch.md says (mic, Hindi request: cut,
-Devanagari captions, a Tamil version in the owner's own voice), time each run, and fix only bugs on
-this path, small and safe (the hackathon is today). After each fix: tests and type checks pass,
-commit and push to main (owner is the only author). Put the real numbers into docs/pitch.md. Help
-the owner export the best run as the backup video. Then update "H1 progress", PLAN.md and the
-CLAUDE.md Status in one line each, commit and push.
-```
-
-## Side task T1: Cream light theme in the app (2026-10-31)
-
-Owner approved `docs/design/theme-proposals/theme-f-cream.html` as the app's light theme ("apply this as light theme"). The dark theme stays as a choice. Sub-steps:
-
-- T1a: theme switch (`uve.theme`, light by default, View menu ▸ Light theme / Dark theme, `html[data-theme]`), Cream tokens and the light finish (radii, 12 % tint, sentence-case headers, solid red Play and Export, red rail and tool icons) in `styles.css`.
-- T1b: wire the new tokens: `accent-ink` (text on solid red), `danger`/`warn` (red-*/amber-* classes), `clip-caption` (caption clips), kind tag at 75 %, canvas colours read from CSS variables instead of hard-coded dark ones.
-- T1c: Phosphor icons (MIT) in place of lucide-react, through one adapter module, both themes.
-- T1d: tests, type checks, build, check light and dark in the running app, docs (README, PLAN, CLAUDE.md), push.
-
-### T1 progress
-
-- T1a done: `theme.ts` (`readTheme`, `applyTheme`, `cssColor`), store `theme`/`setTheme`, applied before first paint in `main.tsx`, View menu ▸ Light theme / Dark theme, Cream tokens and finish under `html[data-theme="light"]` in `styles.css`, new tokens `accent-ink`, `danger`, `warn`, `clip-caption` in both themes, `tool-palette` class on the viewport tools.
-- T1b done: red-*/amber-*/emerald-* classes now `danger`/`warn`/`ok`, text on solid red `text-accent-ink`, caption layers (text with `caption`) get `clip-caption` in `TimelineClip.tsx`, kind tag `text-ink/75`, viewport selection and pen outline read `cssColor('accent')`, Keyframes and Curves take deeper curve colours in light (`LIGHT_COLORS`), selected keys and node wires use `var(--color-accent)`.
-- T1c done: `@phosphor-icons/react` 2.1.10 (MIT) replaces lucide-react (removed); `icons.tsx` exports the 116 icons under their old names (`fill` set → fill weight), `IconComponent` replaces `LucideIcon`; notice in `THIRD_PARTY_NOTICES.md`. Tests (1401), type checks and build pass.
-- T1d done: checked in the app (light and dark, Advanced, Curves, Export dialog, caption clip colour); docs updated (CLAUDE.md, README, PLAN, HISTORY ▸ T1). T1 complete.
-
-## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
-
-- Done as six sub-steps (plan and progress log in `docs/handoff-archive.md` ▸ "M1 last chunk, F1 plan and progress"); files and names in `docs/HISTORY.md` ▸ F1.
-- Built: format 19 (`media.footage`, comp `markers`); `core/src/footage.ts` (gate, speech spans, shots, fillers per language, tighten plan, word fitting, search, B-roll placement); commands `media.analyze`, `media.remove_pauses`, `media.search`, `timeline.place_broll`, `media.footage`, `media.describe_shots`, `timeline.markers`, host tool `media_inspect`; Sarvam STT verbatim mode; Inspector ▸ Footage; markers on the ruler; skill 0.25.0 (recipe 12).
-- Test: 79 s talking head (pauses, um/uh/hmm, false starts, a retake) cut to 59.3 s in 185 ms after a 3–7 s analysis; OpenCode in Easy mode with the chat example did analyse, inspect, plan, cut, two cutaways, frames check in 101 s (cut visible after about 45 s); undo restores.
-- Loose ends: word times are estimates (a word can drift across a pause, so a retake cut may leave a stray word); Saaras wrote one English piece in Devanagari; long files decoded whole; no by-hand B-roll or search UI; markers do not ripple; `media_import` does not lengthen the comp.
+- M2e done: tests (1401), type checks and build pass; the Connect dialog checked in the app (Codex tab shows the `config.toml` table); docs updated (README, PLAN, HISTORY, CLAUDE.md).
 
 ## Plan of Phase Q
 
@@ -103,7 +74,7 @@ Deferred until after phase Q and the Sarvam work: Phase B chunk B1 (its prompt) 
 
 ## How the MCP works, end to end
 
-1. An agent app (Claude Code, Codex, Gemini CLI, OpenCode, Cursor and so on) connects to `http://127.0.0.1:7428/mcp` with the bearer token from `~/.uve/mcp.json`. Apps limited to stdio run the `uve-mcp.mjs` shim instead.
+1. An agent app (Claude Code, Codex, Gemini CLI, OpenCode, Cursor and so on) starts the `uve-mcp.mjs` stdio shim (recommended since M2), which relays to `http://127.0.0.1:7428/mcp` (or the port the editor fell back to) with the bearer token, both read from `~/.uve/mcp.json` on each start. Apps that only take HTTP connect to that URL with the token.
 2. At connect, the app lists the tools and reads the skill (`uve://skill/SKILL.md`, from `skill/`). The skill teaches the loop: orient, plan, build in batches, look at renders, refine, report.
 3. Each tool call goes from the main process (`apps/desktop/src/main/agent.ts`) over IPC to the renderer (`renderer/src/agent/host.ts`). The renderer runs it through `session.call`, the same commands the UI uses, so the user sees every change live.
 4. Results come back as JSON text, or as images for `view_render` and `view_frames`. Those images are drawn exactly as the export draws.

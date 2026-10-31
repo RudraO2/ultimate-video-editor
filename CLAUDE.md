@@ -49,7 +49,8 @@ Everything must also work by hand.
 - **F1 done (2026-10-30):** footage read once (`media_analyze`: Sarvam verbatim words fitted to a per-file speech gate, shots), `media_remove_pauses` (reasons, generous/balanced/tight, markers, `variant`), `media_search`, `timeline_place_broll`, `media_inspect`, Inspector ▸ Footage; format 19; skill 0.25.0. OpenCode cut a 79 s talking head to 59 s with B-roll in 101 s. Details in `docs/HISTORY.md` ▸ F1.
 - **H1 (hackathon) done (2026-10-30, 31):** OpenCode runs on Sarvam's API (`sarvam/glm5.3-flash`), Saaras v4 (codemix mic), Bulbul v4 Flash voices, own-voice cloning (`generate_speech {voice: "clone"}`, `comp_localize {ownVoice}`), skill 0.26.0, `docs/pitch.md`. **H1d done (2026-10-31):** demo rehearsed on the owner's clip (cut, Devanagari captions, Tamil in own voice: 47 s cold, 28 s cached, ₹3.40), fixes on that path, backup videos in `~/Videos/UVE demo/`; next B1.
 - **T1 done (2026-10-31):** own look: Cream light theme (default; View menu ▸ Light theme / Dark theme, `uve.theme`, `theme.ts`), the dark theme kept; Phosphor icons through `icons.tsx` (lucide-react removed); new tokens `accent-ink`, `danger`, `warn`, `clip-caption`. Details in `docs/HISTORY.md` ▸ T1.
-- **Still to check by hand:** real Export save dialog (Ctrl+E, each format's filter, PNG sequence folder dialog) and "Show in folder"; project Save/Open dialogs and native close warning (CDP can't drive); adding server to Claude Code with `claude mcp add`.
+- **M2 done (2026-10-31):** Claude Code and Codex drive editor over MCP through stdio shim (dialog and README recommend it: survives moved port; Codex needs `default_tools_approval_mode = "approve"`); real edits from both, one undo step each, agents can't undo each other. Details in `docs/HISTORY.md` ▸ M2.
+- **Still to check by hand:** real Export save dialog (Ctrl+E, each format's filter, PNG sequence folder dialog) and "Show in folder"; project Save/Open dialogs and native close warning (CDP can't drive).
 - **Git:** private repo `github.com/RudraO2/ultimate-video-editor`, branch `main` (first push 2026-10-30).
 
 ## Gotchas (learnt the hard way; details in `docs/HISTORY.md` and `docs/handoff-archive.md` ▸ Notes)
@@ -64,7 +65,7 @@ Everything must also work by hand.
 - Scratch canvases must not request `willReadFrequently` (CPU canvases, ~5× slower).
 - Script host calls resolve as microtasks: `runScript` yields to the event loop every 12 ms, else timers, Stop and painting starve.
 - Zustand selectors must return stable values (`.filter` inside one re-renders forever).
-- Main-process changes and new files under `skill/` need restart of `pnpm dev`; core or engine edit fully reloads renderer, clears in-memory project.
+- Main-process changes and new files under `skill/` need restart of `pnpm dev`; core, engine or `apps/desktop/src/shared` edit fully reloads renderer, clears in-memory project.
 - Some files CRLF (`store.ts`, `Viewport.tsx`): use Edit tool, not sed or node string replaces.
 - Everything must run on Intel UHD with NVIDIA card disabled; toggling card while app runs needs restart.
 
