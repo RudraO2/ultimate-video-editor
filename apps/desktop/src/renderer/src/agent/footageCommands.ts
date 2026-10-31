@@ -112,7 +112,7 @@ async function readFootage(media: MediaAsset, shots: boolean, samples: Float32Ar
  * exactly where the voice is. Each stretch of voice gets the words that fit
  * it, and they are aligned inside it.
  */
-function retimeWords(samples: Float32Array, words: readonly Word[], spans: readonly Span[]): Word[] {
+export function retimeWords(samples: Float32Array, words: readonly Word[], spans: readonly Span[]): Word[] {
   const owner = fitWordsToSpans(
     words.map((w) => ({ text: w.text, weight: wordWeight(w.text), nearMs: w.startMs, heardMs: w.endMs - w.startMs })),
     spans,

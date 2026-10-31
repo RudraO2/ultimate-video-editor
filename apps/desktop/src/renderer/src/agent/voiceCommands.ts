@@ -7,6 +7,7 @@ import { mediaInput } from '../media/import'
 import { probeMedia } from '../media/probe'
 import { loadFont } from '../library/fonts'
 import { useEditor } from '../store'
+import { retimeWords } from './footageCommands'
 
 // Voices in Indian languages (Sarvam: Bulbul speaks, Saaras listens, Sarvam
 // Translate translates). Each phrase is its own take, so the timeline gets its
@@ -358,6 +359,15 @@ export function takePieces(comp: Comp, layerId: string): (TakePiece & { id: stri
   return layers.filter((l): l is typeof layer => (l.kind === 'audio' || l.kind === 'video') && l.mediaId === layer.mediaId)
 }
 
+/** Common Hindi words as they are written in Latin letters (Hinglish). */
+const HINDI_IN_LATIN = new Set(['hai', 'hain', 'ke', 'ka', 'ki', 'ko', 'se', 'aur', 'bhi', 'nahi', 'nahin', 'kya', 'kar', 'karte', 'karna', 'raha', 'rahe', 'rahi', 'sab', 'koi', 'yeh', 'ye', 'woh', 'wo', 'matlab', 'jaise', 'bahut', 'zyada', 'mein', 'hum', 'aap', 'tum', 'tha', 'thi', 'ho', 'hota', 'kuch', 'gaye', 'abhi', 'accha', 'acha', 'upar', 'aaj', 'aajkal', 'lekin', 'kyunki'])
+
+/** Whether a transcript in Latin letters is mostly Hindi spoken with English (one word in eight or more is Hindi). */
+export function soundsHindi(text: string): boolean {
+  const words = text.toLowerCase().match(/[a-z]+/g) ?? []
+  return words.length > 0 && words.filter((w) => HINDI_IN_LATIN.has(w)).length / words.length >= 0.125
+}
+
 /** Words grouped into caption lines: a new line after a phrase-ending mark, a pause of gapMs, or maxWords words. */
 export function captionChunks<W extends { text: string; startMs: number; endMs: number }>(words: readonly W[], maxWords = 7, gapMs = 300): W[][] {
   const chunks: W[][] = []
@@ -444,10 +454,13 @@ export const mediaTranscribe = defineCommand({
     // A verbatim transcript is for cutting (every filler, Hindi in Latin letters): captions hear the take again as clean text,
     // in codemix for an Indian language, so Hindi reads in Devanagari and English words stay English.
     const verbatim = media.speech?.provider?.endsWith(':verbatim') ?? false
-    if (captions && verbatim && text === undefined && !force) {
-      const spoken = media.speech?.language ?? language
-      language ??= spoken ?? undefined
-      mode = spoken && !spoken.startsWith('en') ? 'codemix' : 'transcribe'
+    const recaption = captions && verbatim && text === undefined && !force
+    if (recaption) {
+      // Hinglish is often heard as English: its Hindi words in Latin letters say otherwise.
+      const spoken = media.speech?.language ?? null
+      const indian = language && !language.startsWith('en') ? language : spoken && !spoken.startsWith('en') ? spoken : soundsHindi(media.speech?.text ?? '') ? 'hi-IN' : null
+      language = indian ?? language ?? spoken ?? undefined
+      mode = indian ? 'codemix' : 'transcribe'
     }
     let speech = media.speech && !force && text === undefined && !(captions && verbatim) ? media.speech : null
     let phrases: { text: string; startMs: number; endMs: number }[] | undefined
@@ -462,15 +475,18 @@ export const mediaTranscribe = defineCommand({
         phrases = heard.phrases
         costInr = heard.costInr
         // Words inside each phrase are aligned to that phrase's stretch of the audio.
-        const words = heard.phrases.flatMap((p) => {
+        let words = heard.phrases.flatMap((p) => {
           const from = Math.floor((p.startMs / 1000) * DECODE_RATE)
           const to = Math.min(samples.length, Math.ceil((p.endMs / 1000) * DECODE_RATE))
           return alignWords(samples.subarray(from, to), DECODE_RATE, splitWords(p.text)).map((w) => ({ ...w, startMs: w.startMs + p.startMs, endMs: w.endMs + p.startMs }))
         })
+        // Fitted to the speech gate like the words the cut was made from, so captions keep to the cut.
+        const gate = media.footage?.gate ? media.footage.speech : []
+        if (recaption && gate.length > 0) words = retimeWords(samples, words, gate)
         const span = speechSpan(samples, DECODE_RATE)
         speech = {
           text: heard.text,
-          language: heard.language ?? requireLanguage(language, heard.text),
+          language: (recaption ? language : undefined) ?? heard.language ?? requireLanguage(language, heard.text),
           voice: null,
           provider: mode === 'verbatim' ? 'sarvam:saaras:v4:verbatim' : `sarvam:saaras:v4${mode === 'codemix' ? ':codemix' : ''}`,
           startMs: span?.startMs ?? 0,

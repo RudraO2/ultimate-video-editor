@@ -4,7 +4,7 @@ vi.mock('../store', () => ({ useEditor: { getState: () => ({}) } }))
 vi.mock('../media/probe', () => ({ probeMedia: vi.fn() }))
 vi.mock('../media/import', () => ({ mediaInput: vi.fn() }))
 
-const { balanceLines, languageOfText } = await import('./voiceCommands')
+const { balanceLines, languageOfText, soundsHindi } = await import('./voiceCommands')
 
 describe('balanceLines', () => {
   it('breaks a translated title into as many lines as the original, about equally long', () => {
@@ -29,5 +29,13 @@ describe('captionChunks', () => {
     const chunks = captionChunks([w('Thirty', 0), w('hours.', 200), w('Noise', 400), w('gone', 600), w('now', 1200)])
     expect(chunks.map((c) => c.map((x) => x.text).join(' '))).toEqual(['Thirty hours.', 'Noise gone', 'now'])
     expect(captionChunks(Array.from({ length: 9 }, (_, i) => w('w' + i, i * 200))).map((c) => c.length)).toEqual([7, 2])
+  })
+})
+
+describe('soundsHindi', () => {
+  it('tells Hinglish in Latin letters from English', () => {
+    expect(soundsHindi('As you all guys know that LinkedIn ke upar bahut zyada AI slop chal raha hai. Matlab jaise LinkedIn sab use karte hain')).toBe(true)
+    expect(soundsHindi('So this video is just for testing purposes of this ultimate video editor and right now we are in a hackathon')).toBe(false)
+    expect(soundsHindi('')).toBe(false)
   })
 })
