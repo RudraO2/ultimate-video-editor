@@ -39,6 +39,20 @@ with the prompt for the next step (B2).
 ```
 
 
+### Plan of B1
+
+Source: getopenscreen/openscreen (MIT, commit f789451 of 2026-10-31), where OpenScreen continues (the siddharthvaddem repo is archived). Owner: bare minimum features, the cursor recorded exactly as it looks and moves.
+
+- **B1a helpers:** vendor OpenScreen's `wgc-capture` source (only what `wgc-capture.exe` and `cursor-sampler.exe` need) into `apps/desktop/native/wgc-capture/` with its MIT notice; `scripts/build-wgc.mjs` builds it with VS Build Tools (fresh C++/WinRT headers from the system's own metadata, a small SDK-compat header); prebuilt exes in `apps/desktop/native/bin/win32-x64/`.
+- **B1b main process:** `shared/recording.ts` (types, options, file names, cursor sample normalisation ported from OpenScreen, tests); `main/recorder.ts` (sources from `desktopCapturer` and `screen`, start: editor minimised for a display, helper and sampler spawned, a small HUD with time and Stop that is kept out of the capture; stop: `stop` on stdin, sidecar `<video>.cursor.json` written, file granted, editor restored; auto-stop after `durationMs`); preload `window.uve.recorder`.
+- **B1c by hand:** a Record button on the right rail under Export (both modes) opens a small dialog: source (displays and windows with thumbnails), system audio, microphone, webcam; the finished recording is imported and placed at the playhead (an empty comp takes its size).
+- **B1d agents:** `screen_record` tool (source by name or default the main display, durationMs, audio switches, place), skill note; the chat's "record my screen for 20 seconds" goes through it.
+- **B1e check and docs:** tests, type checks, build; record by hand and through OpenCode in the running app; HISTORY, PLAN, CLAUDE.md, README.
+
+### B1 progress
+
+- B1a done: OpenScreen's helpers vendored in `apps/desktop/native/wgc-capture/` (MIT notice, README), `apps/desktop/scripts/build-wgc.mjs` builds them with VS 2019 Build Tools (C++/WinRT 2.0.210806.1 generated from the system's metadata; newer generators crash cl 14.29; `src/sdk_compat.h` for SDK 19041), prebuilt `wgc-capture.exe` (572 KB) and `cursor-sampler.exe` (300 KB) in `native/bin/win32-x64/`. Smoke test: 1920x1080 30 fps H.264 + AAC system sound, fragmented MP4, cursor drawn by Windows (`cursor-capture applied`).
+
 ## Last chunk: M2, outside agents drive the editor over MCP (2026-10-31)
 
 Plan: M2a port and recommended setup, M2b Claude Code, M2c Codex, M2d checks (undo across agents, AtomCut shapes, errors, editor closed), M2e docs. Details in `docs/HISTORY.md` ▸ M2. Progress log:

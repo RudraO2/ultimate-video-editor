@@ -11,3 +11,6 @@ Thumbs.db
 
 # Reference videos kept beside the repo (third-party, never committed)
 /*.mp4
+
+# Native helper build output (prebuilt copies are in apps/desktop/native/bin)
+apps/desktop/native/wgc-capture/build/

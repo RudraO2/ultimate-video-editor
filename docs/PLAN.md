@@ -296,6 +296,12 @@ After phase Q: Sarvam (voice, timing from silences per scene take, localisation 
   - Port the recorder and its native capture helpers, cursor telemetry and auto-zoom.
   - Recordings become clips with editable zoom keyframes.
   - Background, padding, rounded corners and shadow become layer properties.
+  - Source: [getopenscreen/openscreen](https://github.com/getopenscreen/openscreen) (MIT), where OpenScreen continues; the first repository (siddharthvaddem/openscreen) was archived after v1.5.0 and points there. Owner (2026-10-31): bare minimum features, cursor exactly as on screen.
+  - Steps, one chat each:
+    1. **B1 screen recording:** OpenScreen's Windows helpers (`wgc-capture.exe`: Windows Graphics Capture, system audio, mic, webcam picture-in-picture, Media Foundation H.264; `cursor-sampler.exe`: cursor positions, shapes and clicks) built from its source and shipped prebuilt; a display or a window, by hand (Record button, both modes) and as the `screen_record` tool (chat: "record my screen for 20 seconds"); the clip lands in the project, the cursor telemetry beside the file as `<video>.cursor.json` (OpenScreen's layout). The real cursor is recorded by Windows itself, so its shapes and animations are exact.
+    2. **B2 auto-zoom:** zoom keyframes on the clip from clicks and cursor dwell, editable like any keyframes, as a command and a button.
+    3. **B3 the frame look:** background, padding, rounded corners and shadow as layer properties, with presets.
+    4. **B4 agents:** skill recipe for a polished screen recording (record, cut pauses, zoom, frame, export), checked through OpenCode.
 - **Phase C – Harness inside the app.**
   - The ACP host with OpenCode bundled, an agent chat panel, and the terminal fallback.
 - **Phase D – Voice and library.**
