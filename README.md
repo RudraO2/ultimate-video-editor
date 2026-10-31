@@ -21,8 +21,6 @@
 
 </div>
 
-![A neon logo reveal built in a 3D world by an agent from a one-line brief, with no human step](docs/benchmarks/results/2026-10-28-a7n/11-neon-logo.jpg)
-
 Ultimate Video Editor (UVE) is a document-driven motion and video editor — multi-track timeline,
 keyframes on every property, effects, kinetic type, 3D worlds, physics, a real mixer — where
 **every single thing the UI can do is also a command**, and every command is automatically an
