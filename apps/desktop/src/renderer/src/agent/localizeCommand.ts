@@ -33,13 +33,13 @@ interface VoiceTake {
 /** Fields of a caption that are its words and timing, not its look. */
 const NOT_LOOK = new Set(['id', 'name', 'kind', 'text', 'ranges', 'startMs', 'durationMs', 'animations', 'caption'])
 
-/** layer.patch ops that give another caption this caption's look: type, box, place, effects, entrance, word states. */
+/** layer.patch ops that give another caption this caption's look: type, box, place, effects, entrance, word states (copies: the project's own objects are frozen). */
 function lookOf(layer: Layer): { op: 'set'; path: string; value: unknown }[] {
   const ops = Object.entries(layer)
     .filter(([key]) => !NOT_LOOK.has(key))
-    .map(([path, value]) => ({ op: 'set' as const, path, value }))
+    .map(([path, value]) => ({ op: 'set' as const, path, value: structuredClone(value) }))
   if (layer.kind === 'text' && layer.caption) {
-    for (const [key, value] of Object.entries(layer.caption)) if (key !== 'cues') ops.push({ op: 'set', path: `caption.${key}`, value })
+    for (const [key, value] of Object.entries(layer.caption)) if (key !== 'cues') ops.push({ op: 'set', path: `caption.${key}`, value: structuredClone(value) })
   }
   return ops
 }
