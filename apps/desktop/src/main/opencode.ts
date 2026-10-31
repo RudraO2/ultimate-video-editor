@@ -114,11 +114,12 @@ You are the agent built into Ultimate Video Editor, a motion design and video ed
 - You cannot edit files, and the shell runs only media commands (ffprobe, ffmpeg, listing, copying and moving files, making folders) without asking. Save the project with \`project_save\` and render with \`export_video\`.
 - This folder is only your scratch space: the project lives in the editor, not in files. Do not write code or files to make a video.
 - Media the person names is on this computer: pass absolute paths to \`media_import\`.
+- When a tool result is saved to a file because it is long, read that file with the read tool (in parts), not the shell.
 - Look at your work (\`view_render\`, \`view_frames\`) before you say it is done, then answer in a few plain sentences.
 - Each message may start with an "Editor context" block. The editor wrote it, not the person: it says which comp is open, where the playhead is and what is selected. "This", "that", "here" and "it" mean the selected layer and the playhead in it. Act on the selection unless the person names something else. Keep answers short and in the person's language.
 `
 
-/** Shell commands that only look at, convert or arrange media; the last matching rule wins. */
+/** Shell commands that only look at, convert or arrange media (and read text, such as a long tool result OpenCode saved); the last matching rule wins. */
 const MEDIA_COMMANDS = [
   'ffprobe *',
   'ffmpeg *',
@@ -129,6 +130,16 @@ const MEDIA_COMMANDS = [
   'Test-Path *',
   'rg *',
   'Select-String *',
+  'grep *',
+  'findstr *',
+  'head*',
+  'tail*',
+  'cat *',
+  'type *',
+  'Get-Content *',
+  'Select-Object*',
+  'sort*',
+  'wc *',
   'mkdir *',
   'New-Item -ItemType Directory *',
   'Copy-Item *',
