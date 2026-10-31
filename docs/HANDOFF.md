@@ -1,45 +1,46 @@
 # Handoff
 
-Updated 2026-10-31 (after M2). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
+Updated 2026-10-31 (after B1). Read only "Next task" at the start of a chat. A chat does one whole plan step (Q1, Q2 and so on), never split across chats. Each chat first plans its step itself: it writes the step's lettered sub-steps (Q2a, Q2b, Q2c) in order, then starts work at once and does all of them without stopping (no plan mode, no waiting for approval). During a step, keep a short "<step> progress" note under "Next task" after each sub-step. At the end of a step, put its progress in a short "Last chunk" note here (move the previous one to `docs/handoff-archive.md`) and replace "Next task" with the next step's paste-ready prompt. History: `docs/HISTORY.md` (what each step built) and `docs/handoff-archive.md` (progress logs, old plans, notes from past chats: testing recipes, CDP driving, facts per chunk).
 
-## Next task: step B1 (phase B starts: screen recording)
+## Next task: step B2 (auto-zoom on clicks)
 
-B1 is one chat: it writes phase B's numbered steps into `docs/PLAN.md` (if missing), then its own plan (lettered sub-steps B1a, B1b, … under a new "Plan of B1" here), then does them all, saving a "B1 progress" note here after each and committing and pushing to `main` after each.
+B2 is one chat: it writes its own plan (lettered sub-steps B2a, B2b, … under a new "Plan of B2" here), then does them all, saving a "B2 progress" note here after each and committing and pushing to `main` after each.
 
 Paste this into a new chat:
 
 ```
 Continue the Ultimate Video Editor project. CLAUDE.md is already loaded. Read ONLY these sections,
 never whole files (Grep the heading for its line, then Read with offset/limit): docs/HANDOFF.md
-"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B) and key decision 5 (OpenScreen
-is reused in Phase B). Search docs/HISTORY.md only when a detail is needed (M1 for the modes and
-chat; A4 for media import).
+"Next task" and "Last chunk"; docs/PLAN.md "Later phases" (Phase B steps). Search docs/HISTORY.md only
+when a detail is needed (B1 for the recorder, the cursor sidecar and its timing; A5/A6 for keyframes).
 
-Phase B (OpenScreen features) starts now. First, if docs/PLAN.md has no numbered phase B steps, write
-them there (B1, B2, … each one chat: recorder and capture helpers, cursor telemetry and auto-zoom as
-editable zoom keyframes, background/padding/rounded corners/shadow as layer properties, agent tools
-and skill). Then do ONE step only: B1, screen recording, whole, in this chat. Goal: record the screen
-(a display or a window, with system audio and the mic, optional webcam) from inside the editor, by
-hand and as an agent tool; the recording lands in the project as a clip (the file stays on disk, as
-every media file), with its cursor positions and clicks kept beside it for B2's auto-zoom. Research
-first: OpenScreen (MIT) on GitHub, its native capture helpers (Windows Graphics Capture), cursor
-telemetry and file layout; what Electron's desktopCapturer gives on Windows 11 with the Intel GPU
-only; keep OpenScreen's MIT notice for anything ported. It must work in both Easy and Advanced modes
-and from the chat ("record my screen for 20 seconds"). First write the lettered sub-steps (B1a, B1b,
-...) under a new "Plan of B1" in docs/HANDOFF.md, start at once and run through every sub-step
-without stopping (no plan mode, no waiting for approval). Owner's rule: build everything first and
-test once at the end; usage is limited. After each sub-step: tests and type checks pass, update the
-"B1 progress" note, commit and push to main (owner is the only author; no AI attribution). Delegate
-bounded pieces to Sonnet subagents on separate files; the main chat verifies. Main-process changes
-and new files under skill/ need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user
-environment). At the end, record a short clip in the running app by hand and once through OpenCode;
-then follow the end-of-step rule at the top of docs/HANDOFF.md, update docs/PLAN.md and the Status in
-CLAUDE.md in one or two lines (details go to docs/HISTORY.md), commit and push, and end your reply
-with the prompt for the next step (B2).
+Do ONE step only: B2, auto-zoom, whole, in this chat. Goal: a screen recording gets zooms on its
+clicks and where the cursor dwells, as ordinary editable keyframes on the clip (scale and position,
+eased in and out, held while the action lasts, merged when clicks are close), by hand (a button on a
+video clip that has a `<video>.cursor.json` beside it, both modes) and as an agent tool; the chat's
+"zoom in on my clicks" goes through it. Read the sidecar written by B1 (OpenScreen's layout:
+samples with cx/cy fractions, interactionType click/mouseup, surface). Research first: how
+getopenscreen/openscreen (MIT) plans its auto-zooms from cursor telemetry (src/ and crates/; its
+zoom depth, duration, easing, follow-cursor rules); port the logic with its MIT notice, keep it the
+bare minimum (owner's rule). Note from B1: a maximised window's sampler bounds include the 11 px
+invisible frame; correct for it. First write the lettered sub-steps (B2a, B2b, ...) under a new
+"Plan of B2" in docs/HANDOFF.md, start at once and run through every sub-step without stopping (no
+plan mode, no waiting for approval). Build everything first and test once at the end; usage is
+limited. After each sub-step: tests and type checks pass, update the "B2 progress" note, commit and
+push to main (owner is the only author; no AI attribution). Delegate bounded pieces to Sonnet
+subagents on separate files; the main chat verifies. Main-process changes and new files under skill/
+need a restart of pnpm dev (start it with SARVAM_API_KEY set from the user environment). At the end,
+record a short clip with a few clicks (the Record button or screen_record), auto-zoom it by hand and
+once through OpenCode, export it and look at the frames; then follow the end-of-step rule at the top
+of docs/HANDOFF.md, update docs/PLAN.md and the Status in CLAUDE.md in one or two lines (details go
+to docs/HISTORY.md), commit and push, and end your reply with the prompt for the next step (B3).
 ```
 
+## Last chunk: B1, screen recording (2026-10-31)
 
-### Plan of B1
+Details in `docs/HISTORY.md` ▸ B1.
+
+### Plan
 
 Source: getopenscreen/openscreen (MIT, commit f789451 of 2026-10-31), where OpenScreen continues (the siddharthvaddem repo is archived). Owner: bare minimum features, the cursor recorded exactly as it looks and moves.
 
@@ -49,22 +50,13 @@ Source: getopenscreen/openscreen (MIT, commit f789451 of 2026-10-31), where Open
 - **B1d agents:** `screen_record` tool (source by name or default the main display, durationMs, audio switches, place), skill note; the chat's "record my screen for 20 seconds" goes through it.
 - **B1e check and docs:** tests, type checks, build; record by hand and through OpenCode in the running app; HISTORY, PLAN, CLAUDE.md, README.
 
-### B1 progress
+### Progress
 
 - B1a done: OpenScreen's helpers vendored in `apps/desktop/native/wgc-capture/` (MIT notice, README), `apps/desktop/scripts/build-wgc.mjs` builds them with VS 2019 Build Tools (C++/WinRT 2.0.210806.1 generated from the system's metadata; newer generators crash cl 14.29; `src/sdk_compat.h` for SDK 19041), prebuilt `wgc-capture.exe` (572 KB) and `cursor-sampler.exe` (300 KB) in `native/bin/win32-x64/`. Smoke test: 1920x1080 30 fps H.264 + AAC system sound, fragmented MP4, cursor drawn by Windows (`cursor-capture applied`).
 - B1b done: `shared/recording.ts` (contract, OpenScreen's sample normalisation, `CursorCollector`, helper config; 19 tests), `main/recorder.ts` (`recorder:sources|start|stop|state`, events `recorder:state` and `recorder:finished`; editor minimised for a display; sampler then helper; HUD with timer and Stop kept out of the capture by `setContentProtection`; sidecar on stop; stop on quit), preload `window.uve.recorder`.
 - B1c done: Record button under Export on the right rail (both modes; pulses red while recording, click stops), `RecordDialog` (sources with thumbnails, computer sound, microphone, webcam), `recording/recorder.ts` imports each finished recording at the playhead (an empty comp takes its size).
 - B1d done: `screen_record` host tool (`durationMs` required, `source` by name or id via `matchSource`, `systemAudio`, `microphone`, `webcam`, `place`, `library`), skill 0.27.0 "Screen recordings". Tests 1425, type checks pass. Next: B1e (live check by hand and through OpenCode, docs).
-
-## Last chunk: M2, outside agents drive the editor over MCP (2026-10-31)
-
-Plan: M2a port and recommended setup, M2b Claude Code, M2c Codex, M2d checks (undo across agents, AtomCut shapes, errors, editor closed), M2e docs. Details in `docs/HISTORY.md` ▸ M2. Progress log:
-
-- M2a done: why 7428 was busy: the editor has no single-instance lock, so a second copy (a second `pnpm dev`, or an Electron that outlived a stopped `pnpm dev`, see CLAUDE.md) holds 7428; the newer copy falls back to a free port and rewrites `~/.uve/mcp.json`. HTTP entries saved with :7428 then point at the other copy or at nothing. Fix: the Connect dialog and README now recommend the stdio shim for every app that starts programs (Claude Code, Codex, Gemini CLI, OpenCode `type: local`, Cursor, VS Code, Claude Desktop); it reads url and token from `~/.uve/mcp.json` each start. HTTP stays under "Any other". No single-instance lock added (an orphaned dev Electron would then swallow new launches).
-- M2b done: `claude mcp add -s user uve -- node "%APPDATA%\@uve\desktop\uve-mcp.mjs"` (the dialog's command; dev builds' user data is `@uve\desktop`), `claude mcp get uve` shows Connected. Headless `claude -p ... --allowedTools "mcp__uve__*" --model sonnet` (Claude Code 2.1.316): imported the 41.7 s clip into a 1080x1920 comp, title "AI Slop on LinkedIn", pauses cut (balanced) to 36.6 s, in 51 s and 30 turns, no fix needed. Seen live over CDP; one undo ("Agent · claude-code") put the empty project back.
-- M2c done: Codex CLI 0.164.0. `codex mcp add uve -- node "<shim>"` adds it, but Codex then asks before every MCP call, and `codex exec` refuses them all ("MCP tool call requires approval, but approval policy is never"). Fix: `default_tools_approval_mode = "approve"` in `[mcp_servers.uve]` (Codex's `AppToolApproval`: auto, prompt, writes, approve); the dialog's Codex entry and README now give the whole `config.toml` table. The owner's configured model `gpt-6.1-sol` is refused for a ChatGPT login, so runs used `-m gpt-5.6-terra` (config untouched; backup of config.toml in the session scratchpad). `codex exec` did the same task in 100 s: 480x854 comp, title "LinkedIn's AI Slop", pauses cut to 29.4 s; seen live; one undo step "Agent · codex-mcp-client". On the way it guessed shapes (`media_import {path}`, `media_analyze {mediaId}`, `catalog_list {category}`, `layer_set {fontSize}`, `view_frames {startMs, endMs}`); each error named the right field or pointed at `api_describe`, and it recovered at once.
-- M2d done, nothing broke: (1) Undo across agents, both ways, real apps: OpenCode in the app added a layer (7 s, step "Agent · opencode"); headless Claude Code's `history_undo` answered "The newest undo step is "Agent · opencode", which is not yours, so it stays. Fix forward instead."; then Claude Code added a layer and OpenCode's `history_undo` got the same refusal; both layers stayed. (2) AtomCut shapes through the shim (scratchpad `m2/shim-check.mjs`): `keyframes_set {property, keys: [{at, value, easing}]}`, position `arc`, `layer_set {ids: [..] | id, values, mode, atMs}`, `timeline_trim {endMs}`, `view_frames {frameId, fromMs, toMs, count, detail}`, `view_render {frameId, atMs}` all OK. (3) Errors read well: unknown layer, unknown property (lists the animatable ones), bad enum, missing file (shim resolves a relative `localPath` against the agent's folder), unknown tool. (4) Editor closed (scratchpad `m2/offline-check.mjs`, `UVE_MCP_CONNECTION` at a dead port): initialize answers with the offline instructions, `tools/list` is `uve_status` only, other calls fail with "open the editor"; when the file names a live server the shim connects, sends `tools/list_changed` and lists 135 tools. Headless Claude Code with the editor "closed" told the user to open it. Note: editing `apps/desktop/src/shared/*` fully reloads the renderer (clears the in-memory project), like core edits.
-- M2e done: tests (1401), type checks and build pass; the Connect dialog checked in the app (Codex tab shows the `config.toml` table); docs updated (README, PLAN, HISTORY, CLAUDE.md).
+- B1e done: live checks by hand (14.2 s display, 892 cursor samples, 1 click, cursor in the video where the sidecar says, Stop bar left out), `screen_record` over MCP on a window, and OpenCode in Easy mode ("record my screen for 6 seconds", clip placed). Two fixes found on the way: the fragment index (`mfra`) cut off each recording (mediabunny read the file 5 % long), and the agent relay no longer takes the Stop bar for the editor reloading. Docs: README, PLAN, HISTORY, CLAUDE.md.
 
 ## Plan of Phase Q
 
