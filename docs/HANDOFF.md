@@ -15,6 +15,7 @@ Goal: Claude Code and Codex added the way the Connect dialog and README say, rea
 ### M2 progress
 
 - M2a done: why 7428 was busy: the editor has no single-instance lock, so a second copy (a second `pnpm dev`, or an Electron that outlived a stopped `pnpm dev`, see CLAUDE.md) holds 7428; the newer copy falls back to a free port and rewrites `~/.uve/mcp.json`. HTTP entries saved with :7428 then point at the other copy or at nothing. Fix: the Connect dialog and README now recommend the stdio shim for every app that starts programs (Claude Code, Codex, Gemini CLI, OpenCode `type: local`, Cursor, VS Code, Claude Desktop); it reads url and token from `~/.uve/mcp.json` each start. HTTP stays under "Any other". No single-instance lock added (an orphaned dev Electron would then swallow new launches).
+- M2b done: `claude mcp add -s user uve -- node "%APPDATA%\@uve\desktop\uve-mcp.mjs"` (the dialog's command; dev builds' user data is `@uve\desktop`), `claude mcp get uve` shows Connected. Headless `claude -p ... --allowedTools "mcp__uve__*" --model sonnet` (Claude Code 2.1.316): imported the 41.7 s clip into a 1080x1920 comp, title "AI Slop on LinkedIn", pauses cut (balanced) to 36.6 s, in 51 s and 30 turns, no fix needed. Seen live over CDP; one undo ("Agent · claude-code") put the empty project back.
 
 ## Done: step H1 (hackathon: Sarvam everywhere, one purposeful demo, the pitch)
 
