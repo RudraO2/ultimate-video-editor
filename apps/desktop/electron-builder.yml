@@ -57,6 +57,8 @@ linux:
   category: AudioVideo
   # The package name is @uve/desktop, which is not a valid file name.
   executableName: ultimate-video-editor
+  # deb needs a maintainer with an address; the GitHub noreply one keeps it out of spam lists.
+  maintainer: Aryan Techie <76107940+Aryan-Techie@users.noreply.github.com>
   synopsis: Desktop motion and video editor driven by hand and by AI agents over MCP
   target:
     - target: AppImage
