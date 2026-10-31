@@ -424,6 +424,8 @@ export async function captionTake(audioLayerId: string, speech: SpeechInfo, call
       transform: { x: 0, y: Math.round(comp.height * 0.32) },
       style: { fontSize: Math.round(Math.min(comp.width, comp.height) / 16), fontWeight: 700, align: 'center', lineHeight: CAPTION_LINE_HEIGHT },
       maxWidth: Math.round(comp.width * 0.84),
+      // A soft shadow keeps white words readable over light footage.
+      effects: [{ type: 'shadow' }],
     })
     if (!created.ok) throw new CommandError(created.error, created.hint)
     const made = created.value as { id: string; trackId?: string }
