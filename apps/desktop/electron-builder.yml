@@ -55,6 +55,8 @@ nsis:
 linux:
   icon: build/icon.png
   category: AudioVideo
+  # The package name is @uve/desktop, which is not a valid file name.
+  executableName: ultimate-video-editor
   synopsis: Desktop motion and video editor driven by hand and by AI agents over MCP
   target:
     - target: AppImage
