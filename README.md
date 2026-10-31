@@ -86,8 +86,9 @@ through **OpenCode running inside the app**, so a non-technical user never leave
 ## Features
 
 - **Agent-native, not agent-bolted-on.** Every registry command becomes an MCP tool automatically,
-  under AtomCut-style names (`layer_set`, `keyframes_set`, `api_batch`…). Tools also accept
-  AtomCut's input shapes, so an agent trained on AtomCut works here unchanged.
+  under plain, guessable names (`layer_set`, `keyframes_set`, `api_batch`…). Each tool also accepts
+  more than one spelling of the same input, so an agent that writes a reasonable shape gets an
+  answer instead of a rejection.
 - **Kinetic type with real per-unit motion.** 44 animation presets applied per letter, word or line,
   with stagger, delay, humanize, easing and a timing bar — not one layer per word.
 - **The full 2D stack.** Text boxes with auto width/height and wrap, gradients and multiple fills and
@@ -426,11 +427,12 @@ Every brief ends in an exported file **with no human step**.
   <img src="docs/benchmarks/results/2026-10-29-q4/03-kinetic-type.jpg" width="49%" alt="Kinetic type built by an agent: on-beat words, varied entrances, colour flashes">
 </p>
 
-The hardest one: AtomCut's 130.6 s launch video, rebuilt shot by shot in four acts and judged at 16
-matched shot times. All 16 beats landed on their word — the mascot, the typed word with a caret, the
-draw-on and rain, letters tumbling as drops land on their outlines, the extruded word on a mirror
-floor, the cloud that grows bones and blinks by itself, word-by-word captions throughout, voice 8.4
-dB over a ducked bed (AtomCut's: 9.6). Cost of building: 307 turns, 45 minutes of agent time, $9.43.
+The hardest one: the 130.6 s launch film of a commercial motion-design tool, taken as the quality
+bar and rebuilt shot by shot in four acts, then judged against it at 16 matched shot times. All 16
+beats landed on their word — the mascot, the typed word with a caret, the draw-on and rain, letters
+tumbling as drops land on their outlines, the extruded word on a mirror floor, the cloud that grows
+bones and blinks by itself, word-by-word captions throughout, voice 8.4 dB over a ducked bed (the
+reference: 9.6). Cost of building: 307 turns, 45 minutes of agent time, $9.43.
 The honest gaps are written down too: flatter character shading, type about 70 % of the reference
 size, a shallower extrusion, and no Lottie export.
 
@@ -555,7 +557,7 @@ the honest list of what the agent could not do.
 | `skill/` | The agent skill — the loop, recipes, storytelling, sound, voice, review, and the default design system |
 | `docs/` | `PLAN.md` (roadmap), `core-api.md` (the command API), `HANDOFF.md`, `HISTORY.md`, `pitch.md` |
 | `docs/benchmarks/` | The briefs, the runner, and `results.md` — every agent run with its gaps |
-| `docs/research/` | Clean-room notes on AtomCut and the asset inventory |
+| `docs/research/` | Clean-room behaviour notes on the reference editor, and the asset inventory |
 | `assets/` | The logo and every generated size — app icons (`.icns`, `.ico`), Apple full-bleed squares, favicons, maskable PWA icons, and the palette ([`assets/README.md`](assets/README.md)) |
 
 ## Status and roadmap
@@ -568,8 +570,8 @@ the honest list of what the agent could not do.
 - **Sarvam, OpenCode and modes: done.** Voice, translation, own-voice localization, footage cutting,
   the in-app agent, Easy/Advanced modes.
 - **Phase B — screen recording: done.** Capture, auto-zoom on clicks, the frame look, agent tools.
-- **Next:** demo films, then colour grading, flipbook frames, Lottie export, and closing the
-  remaining parity gaps listed in [`docs/atomcut-parity.md`](docs/atomcut-parity.md).
+- **Next:** demo films, then colour grading, flipbook frames, Lottie export, and the remaining
+  feature-parity gaps tracked in `docs/`.
 
 ## Research and licences
 
@@ -578,8 +580,9 @@ Ultimate Video Editor is [MIT-licensed](LICENSE). Ported code keeps its own noti
 QuickJS, OpenScreen's capture helpers, Phosphor icons, and the asset libraries with their CC0 / MIT
 terms).
 
-The notes in `docs/research/` about AtomCut are **clean-room**: they describe behaviour and design in
-our own words. No AtomCut code or assets are used.
+The research notes in `docs/research/` are **clean-room**: where an existing editor was studied as a
+quality bar, its behaviour and design are described in our own words. No third-party code, shaders,
+prompts or assets are copied into this project.
 
 ## Contributing
 
