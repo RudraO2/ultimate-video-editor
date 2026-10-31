@@ -40,7 +40,7 @@ CLAUDE.md Status in one line each, commit and push.
 
 ## Side task: own colours and icons (2026-10-31)
 
-One proposal in `docs/design/theme-proposals/theme-d-white.html`: Apple-like white with red icons and accents, rounder corners, Phosphor icons; a static copy of today's Easy and Advanced screens. The first round (Graphite, Chai, Kesar Night) was turned down and removed. Waiting for the owner's approval; the app is untouched. How to apply: that folder's `README.md` ▸ "Applying it".
+Two proposals in `docs/design/theme-proposals/`: `theme-d-white.html` (Apple-like white with red icons and accents, rounder corners, Phosphor icons) and `theme-e-glass.html` (the same with frosted-glass panels and mist-to-blush gradients from the owner's reference mock-up); each is a static copy of today's Easy and Advanced screens. The first round (Graphite, Chai, Kesar Night) was turned down and removed. Waiting for the owner's approval; the app is untouched. How to apply: that folder's `README.md` ▸ "Applying it".
 
 ## Last chunk: F1, footage understanding and auto-cutting (2026-10-30)
 
